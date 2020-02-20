@@ -1,0 +1,13 @@
+libgdk-pixbuf2.0-dev
+libssl-dev
+libgtk2.0-dev
+gnuradio-dev
+libxml2
+libxml2-dev
+bison
+flex
+cmake
+git
+libaio-dev
+libboost-all-dev
+swig
