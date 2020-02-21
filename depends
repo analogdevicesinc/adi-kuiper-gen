@@ -17,3 +17,6 @@ file
 git
 lsmod:kmod
 bc
+bison
+flex
+libssl
