@@ -4,10 +4,11 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get -y update && \
     apt-get -y install \
-        git vim parted \
-        quilt coreutils qemu-user-static debootstrap zerofree zip dosfstools \
-        bsdtar libcap2-bin rsync grep udev xz-utils curl xxd file kmod bc\
-    && rm -rf /var/lib/apt/lists/*
+	git vim parted \
+	quilt coreutils qemu-user-static debootstrap zerofree zip dosfstools \
+	bsdtar libcap2-bin rsync grep udev xz-utils curl xxd file kmod bc \
+	bison flex libssl-dev  build-essential libgtk-3-dev gcc-arm-linux-gnueabihf \
+	&& rm -rf /var/lib/apt/lists/*
 
 COPY . /pi-gen/
 
