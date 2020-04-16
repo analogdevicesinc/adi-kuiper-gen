@@ -1,0 +1,14 @@
+[Unit]
+Description=VNC Server for X11
+Wants=display-manager.service
+After=display-manager.service
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/x11vnc -nap -wait 50 -noxdamage -rfbauth /home/analog/.vnc/passwd -display :0 -forever -bg
+Restart=on-failure
+RestartSec=10
+User=analog
+
+[Install]
+WantedBy=multi-user.target
