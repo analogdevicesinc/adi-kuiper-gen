@@ -11,6 +11,8 @@ install -m 644 files/console-setup   	"${ROOTFS_DIR}/etc/default/"
 
 install -m 755 files/rc.local		"${ROOTFS_DIR}/etc/"
 
+install -m 644 files/iiod.service	"${ROOTFS_DIR}/lib/systemd/system/"
+
 on_chroot << EOF
 systemctl disable hwclock.sh
 systemctl disable nfs-common
@@ -21,6 +23,7 @@ else
 	systemctl disable ssh
 fi
 systemctl enable regenerate_ssh_host_keys
+systemctl enable iiod
 EOF
 
 if [ "${USE_QEMU}" = "1" ]; then
