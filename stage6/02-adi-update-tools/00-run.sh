@@ -9,10 +9,5 @@ chmod +x adi_update_tools.sh
 
 popd
 
-pushd /usr/local/src/libiio/build/bindings/python
-python setup.py install
-
-popd
-
 rm -rf linux_image_ADI-scripts
 EOF
