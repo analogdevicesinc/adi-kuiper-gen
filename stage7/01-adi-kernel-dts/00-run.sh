@@ -34,6 +34,7 @@ build_linux $DEFCONFIG_PI3 $KERNEL_IMG_PI3
 build_linux $DEFCONFIG_PI4 $KERNEL_IMG_PI4
 
 cp -f $WORK_DIR/$LINUX_DIR/arch/$ARCH/boot/dts/overlays/*.dtb* $STAGE_WORK_DIR/rootfs/boot/overlays
+cp -f $WORK_DIR/$LINUX_DIR/arch/$ARCH/boot/dts/bcm27*.dtb $STAGE_WORK_DIR/rootfs/boot
 
 echo "Kernel build finished."
 
