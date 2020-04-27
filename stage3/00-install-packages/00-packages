@@ -13,3 +13,4 @@ fonts-droid-fallback
 fonts-liberation2
 obconf
 arandr
+libgtk-3-dev
