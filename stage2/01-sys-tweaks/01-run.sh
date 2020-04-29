@@ -17,6 +17,8 @@ install -m 644 files/x11vnc.service	"${ROOTFS_DIR}/lib/systemd/system/"
 install -d				"${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.vnc"
 install -m 644 files/passwd		"${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.vnc/"
 
+install -m 644 "${ROOTFS_DIR}/usr/share/doc/avahi-daemon/examples/ssh.service" "${ROOTFS_DIR}/etc/avahi/services/"
+
 on_chroot << EOF
 systemctl disable hwclock.sh
 systemctl disable nfs-common
