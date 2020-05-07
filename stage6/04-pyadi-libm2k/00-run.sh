@@ -2,7 +2,8 @@
 
 on_chroot << EOF
 
-pip install pyadi-iio
+pip3 install pyadi-iio
+echo "export PYTHONPATH=\"${PYTHONPATH}:/lib/python3.7/site-packages\"" >> /home/analog/.bashrc
 
 git clone https://github.com/analogdevicesinc/libm2k.git
 pushd libm2k
