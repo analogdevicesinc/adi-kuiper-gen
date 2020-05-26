@@ -22,15 +22,27 @@ ROOT_MARGIN="$(echo "($ROOT_SIZE * 0.2 + 200 * 1024 * 1024) / 1" | bc)"
 
 BOOT_PART_START=$((ALIGN))
 BOOT_PART_SIZE=$(((BOOT_SIZE + ALIGN - 1) / ALIGN * ALIGN))
-ROOT_PART_START=$((BOOT_PART_START + BOOT_PART_SIZE))
+BOOTLOADER_PART_START=$((BOOT_PART_START + BOOT_PART_SIZE))
+BOOTLOADER_PART_SIZE=$(((1 + ALIGN  - 1) / ALIGN * ALIGN))
+ROOT_PART_START=$((BOOTLOADER_PART_START + BOOTLOADER_PART_SIZE))
 ROOT_PART_SIZE=$(((ROOT_SIZE + ROOT_MARGIN + ALIGN  - 1) / ALIGN * ALIGN))
-IMG_SIZE=$((BOOT_PART_START + BOOT_PART_SIZE + ROOT_PART_SIZE))
+IMG_SIZE=$((BOOT_PART_START + BOOT_PART_SIZE + ROOT_PART_SIZE + BOOTLOADER_PART_SIZE))
 
 truncate -s "${IMG_SIZE}" "${IMG_FILE}"
 
 parted --script "${IMG_FILE}" mklabel msdos
 parted --script "${IMG_FILE}" unit B mkpart primary fat32 "${BOOT_PART_START}" "$((BOOT_PART_START + BOOT_PART_SIZE - 1))"
 parted --script "${IMG_FILE}" unit B mkpart primary ext4 "${ROOT_PART_START}" "$((ROOT_PART_START + ROOT_PART_SIZE - 1))"
+parted --script "${IMG_FILE}" unit B mkpart primary ext4 "${BOOTLOADER_PART_START}" "$((BOOTLOADER_PART_START + BOOTLOADER_PART_SIZE - 1))"
+
+#Change partition 3 type to unknown to be used with Altera/Intel FPGAs
+sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | fdisk ${IMG_FILE}
+	t	#change partition type
+	3	#partition number
+	a2	#partition format
+	w	#write partition table
+	q	#quit
+EOF
 
 PARTED_OUT=$(parted -sm "${IMG_FILE}" unit b print)
 BOOT_OFFSET=$(echo "$PARTED_OUT" | grep -e '^1:' | cut -d':' -f 2 | tr -d B)
