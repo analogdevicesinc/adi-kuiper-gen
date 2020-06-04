@@ -11,4 +11,7 @@ sed -i 's+start-here+/usr/share/raspberrypi-artwork/launch.png+g' /etc/xdg/lxpan
 sed -i 's+@xscreensaver -no-splash+#@xscreensaver -no-splash+g' /etc/xdg/lxsession/LXDE-pi/autostart
 echo "@xset s off" >> /etc/xdg/lxsession/LXDE-pi/autostart
 echo "@xset -dpms" >> /etc/xdg/lxsession/LXDE-pi/autostart
+
+#mark raspberrypi-ui-mods to hold
+apt-mark hold raspberrypi-ui-mods
 EOF
