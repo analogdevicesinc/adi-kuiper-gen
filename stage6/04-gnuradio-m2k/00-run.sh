@@ -208,7 +208,7 @@ build_griio
 build_grm2k
 build_grscopy
 build_libsigrokdecode
-build_qwt
-build_qwtpolar
+#build_qwt
+#build_qwtpolar
 
 EOF
