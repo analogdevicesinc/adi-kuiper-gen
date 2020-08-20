@@ -163,12 +163,8 @@ build_qwt() {
 	pushd "qwt"
 
 	# Fix prefix
-	sed -i "s+\/usr\/local\/qwt-.*+\/usr\/local+g" qwtconfig.pri
-
-	# Disable components that we won't build
-	sed -i "s/^QWT_CONFIG\\s*+=\\s*QwtMathML$/#/g" qwtconfig.pri
-	sed -i "s/^QWT_CONFIG\\s*+=\\s*QwtDesigner$/#/g" qwtconfig.pri
-	sed -i "s/^QWT_CONFIG\\s*+=\\s*QwtExamples$/#/g" qwtconfig.pri
+	wget https://raw.githubusercontent.com/analogdevicesinc/scopy/use-qwt-patches/CI/appveyor/patches/qwt-qwtconfig-pri-build.patch
+	patch -p1 < qwt-qwtconfig-pri-build.patch
 
 	qmake qwt.pro
 	make $JOBS
@@ -191,9 +187,8 @@ build_qwtpolar() {
 	pushd qwtpolar-1.1.1
 	curl -o qwtpolar-qwt-6.1-compat.patch https://raw.githubusercontent.com/analogdevicesinc/scopy-flatpak/master/qwtpolar-qwt-6.1-compat.patch
 	patch -p1 < qwtpolar-qwt-6.1-compat.patch
-	sed -i 's/\/usr\/local\/qwtpolar-.*/\/usr\/local/g' qwtpolarconfig.pri
-	sed -i 's/QWT_POLAR_CONFIG     += QwtPolarExamples/ /g' qwtpolarconfig.pri
-	sed -i 's/QWT_POLAR_CONFIG     += QwtPolarDesigner/ /g' qwtpolarconfig.pri
+	wget https://raw.githubusercontent.com/analogdevicesinc/scopy/use-qwt-patches/CI/appveyor/patches/qwtpolar-qwtpolarconfig-pri-build.patch
+	patch -p1 < qwtpolar-qwtpolarconfig-pri-build.patch
 	qmake qwtpolar.pro
 	make $JOBS
 	make install
