@@ -30,7 +30,6 @@ doxygen
 libfftw3-dev
 libsdl1.2-dev
 libgsl-dev
-libqwt-qt5-dev
 libqt5opengl5-dev
 liblog4cpp5-dev
 libzmq3-dev
