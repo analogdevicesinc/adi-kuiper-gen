@@ -9,7 +9,7 @@ rm -f "${IMG_FILE}"
 rm -rf "${ROOTFS_DIR}"
 mkdir -p "${ROOTFS_DIR}"
 
-BOOT_SIZE="$((256 * 1024 * 1024))"
+BOOT_SIZE="$((1024 * 1024 * 1024))"
 ROOT_SIZE=$(du --apparent-size -s "${EXPORT_ROOTFS_DIR}" --exclude var/cache/apt/archives --exclude boot --block-size=1 | cut -f 1)
 
 # All partition sizes and starts will be aligned to this size
