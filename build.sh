@@ -184,6 +184,7 @@ export GIT_HASH=${GIT_HASH:-"$(git rev-parse HEAD)"}
 export CLEAN
 export IMG_NAME
 export APT_PROXY
+export EXTRA_BOOT
 
 export STAGE
 export STAGE_DIR
