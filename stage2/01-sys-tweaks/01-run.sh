@@ -18,6 +18,8 @@ install -d				"${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.vnc"
 install -m 644 files/passwd		"${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.vnc/"
 
 install -m 644 "${ROOTFS_DIR}/usr/share/doc/avahi-daemon/examples/ssh.service" "${ROOTFS_DIR}/etc/avahi/services/"
+#Enable root login for ssh
+sed -i 's/.*PermitRootLogin.*/PermitRootLogin yes/g' "${ROOTFS_DIR}/etc/ssh/sshd_config"
 
 on_chroot << EOF
 systemctl disable hwclock.sh
