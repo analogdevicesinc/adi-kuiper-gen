@@ -68,3 +68,5 @@ libmatio-dev
 liborc-0.4-dev
 qtdeclarative5-dev
 locate
+libzmq3-dev
+gnuplot
