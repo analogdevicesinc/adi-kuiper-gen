@@ -42,11 +42,7 @@ build_gnuradio() {
 	pushd gnuradio/build
 	git checkout maint-3.8
 
-	cmake -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3 \
-		-DENABLE_INTERNAL_VOLK=OFF -DENABLE_GR_ZEROMQ=OFF \
-		-DENABLE_GR_WAVELET=OFF -DENABLE_GR_VOCODER=OFF \
-		-DENABLE_GR_VIDEO_SDL=OFF -DENABLE_GR_TRELLIS=OFF \
-		-DENABLE_GR_DTV=OFF -DENABLE_GR_FEC=OFF ../
+	cmake -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3 -DENABLE_INTERNAL_VOLK=OFF ../ 
 	make ${JOBS}
 	make install
 
