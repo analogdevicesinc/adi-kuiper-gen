@@ -11,7 +11,6 @@ install -m 644 files/console-setup   	"${ROOTFS_DIR}/etc/default/"
 
 install -m 755 files/rc.local		"${ROOTFS_DIR}/etc/"
 
-install -m 644 files/iiod.service	"${ROOTFS_DIR}/lib/systemd/system/"
 install -m 644 files/x11vnc.service	"${ROOTFS_DIR}/lib/systemd/system/"
 
 install -d				"${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.vnc"
@@ -31,7 +30,6 @@ else
 	systemctl disable ssh
 fi
 systemctl enable regenerate_ssh_host_keys
-systemctl enable iiod
 systemctl enable x11vnc
 EOF
 
