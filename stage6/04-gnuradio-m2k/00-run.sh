@@ -20,7 +20,7 @@ on_chroot << EOF
 build_gnuradio() {
 
 	[ -d "volk" ] || {
-		git clone https://github.com/gnuradio/volk.git
+		git clone --recursive https://github.com/gnuradio/volk.git
 		mkdir -p volk/build
 	}
 
@@ -47,6 +47,9 @@ build_gnuradio() {
 	make install
 
 	popd 1> /dev/null
+
+	rm -rf volk/
+	rm -rf gnuradio/
 }
 
 build_libm2k() {
@@ -71,6 +74,8 @@ build_libm2k() {
 	make ${JOBS} install
 
 	popd 1> /dev/null
+
+	rm -rf libm2k/
 }
 
 build_griio() {
@@ -89,6 +94,8 @@ build_griio() {
 	make $JOBS install
 
 	popd 1> /dev/null
+
+	rm -rf gr-iio/
 }
 
 build_grm2k() {
@@ -107,6 +114,8 @@ build_grm2k() {
 	make $JOBS install
 
 	popd 1> /dev/null
+
+	rm -rf gr-m2k/
 }
 
 build_grscopy() {
@@ -125,6 +134,8 @@ build_grscopy() {
 	make $JOBS install
 
 	popd 1> /dev/null
+
+	rm -rf gr-scopy/
 }
 
 
@@ -147,6 +158,8 @@ build_libsigrokdecode() {
 
 	popd 1> /dev/null
 	popd 1> /dev/null
+
+	rm -rf libsigrokdecode/
 }
 
 build_qwt() {
@@ -167,6 +180,8 @@ build_qwt() {
 	make install
 
 	popd 1> /dev/null
+
+	rm -rf qwt/
 }
 
 build_qwtpolar() {
@@ -191,6 +206,8 @@ build_qwtpolar() {
 
 	popd 1> /dev/null
 	popd 1> /dev/null
+
+	rm -rf qwtpolar/
 }
 
 build_gnuradio
