@@ -185,6 +185,7 @@ export CLEAN
 export IMG_NAME
 export APT_PROXY
 export EXTRA_BOOT
+export EXTRA_BOOT_DIR_DEPTH="${EXTRA_BOOT_DIR_DEPTH:-3}"
 
 export STAGE
 export STAGE_DIR
