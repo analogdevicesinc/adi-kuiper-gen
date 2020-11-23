@@ -12,9 +12,10 @@ QWT_BRANCH=qwt-6.1-multiaxes
 QWTPOLAR_BRANCH=master
 LIBSIGROK_BRANCH=master
 LIBSIGROKDECODE_BRANCH=master
+SCOPY_BRANCH=master
 
 ARCH=arm
-JOBS=-j4
+JOBS=-j${NUM_JOBS}
 
 on_chroot << EOF
 build_gnuradio() {
@@ -210,6 +211,28 @@ build_qwtpolar() {
 	rm -rf qwtpolar/
 }
 
+build_scopy() {
+	echo "### Building scopy - branch $SCOPY_BRANCH"
+
+	[ -d "scopy" ] || {
+		git clone https://github.com/analogdevicesinc/scopy.git -b "${SCOPY_BRANCH}" "scopy"
+	}
+
+	pushd "scopy"
+
+	mkdir -p build
+	pushd build
+	cmake -DWITH_DOC=OFF ..
+	make $JOBS
+	make install
+
+	popd 1> /dev/null
+	popd 1> /dev/null
+
+	rm -rf scopy/
+	ldconfig
+}
+
 build_gnuradio
 build_libm2k
 build_griio
@@ -218,5 +241,6 @@ build_grscopy
 build_libsigrokdecode
 build_qwt
 build_qwtpolar
+build_scopy
 
 EOF
