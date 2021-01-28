@@ -69,7 +69,7 @@ build_libm2k() {
 		-DENABLE_CSHARP=OFF\
 		-DENABLE_EXAMPLES=ON\
 		-DENABLE_TOOLS=ON\
-		-DINSTALL_UDEV_RULES=OFF ../
+		-DINSTALL_UDEV_RULES=ON ../
 
 	make $JOBS
 	make ${JOBS} install
