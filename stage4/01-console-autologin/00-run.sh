@@ -9,4 +9,6 @@ on_chroot << EOF
 	systemctl enable serial-getty@ttyS0.service
 	sed -i '1s/^/auth sufficient pam_listfile.so item=tty sense=allow file=\/etc\/securetty onerr=fail apply=root\n/' "/etc/pam.d/login"
 
+	echo "ttyPS0" >> /etc/securetty
+
 EOF
