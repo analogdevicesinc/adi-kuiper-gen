@@ -9,6 +9,7 @@ KERNEL_IMG_PI3=kernel7.img
 KERNEL_IMG_PI4=kernel7l.img
 SCRIPTS_DIR=wiki-scripts
 LINUX_DIR="${1:-linux-adi}"
+BRANCH=rpi-5.4.y
 
 build_linux() {
 
@@ -18,7 +19,7 @@ build_linux() {
 		git clone https://github.com/analogdevicesinc/wiki-scripts.git "$SCRIPTS_DIR"
 	}
 	export DEFCONFIG=$1
-	source $SCRIPTS_DIR/linux/build_rpi_kernel_image.sh $LINUX_DIR "" "arm-linux-gnueabihf-"
+	source $SCRIPTS_DIR/linux/build_rpi_kernel_image.sh $LINUX_DIR "" "arm-linux-gnueabihf-" $BRANCH
 	cp -f zImage $STAGE_WORK_DIR/rootfs/boot/$2
 
 	pushd "$LINUX_DIR"
