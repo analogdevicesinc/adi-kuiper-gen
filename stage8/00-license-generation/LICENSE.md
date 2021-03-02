@@ -1,5 +1,5 @@
 # Analog Device Kuiper Linux
-Analog Device Kuiper Linux [ADI-Kuiper](https://wiki.analog.com/resources/tools-software/linux-software/adi-kuiper_images "ADI-Kuiper Wiki Page")
+Analog Devices Kuiper Linux [ADI-Kuiper](https://wiki.analog.com/resources/tools-software/linux-software/adi-kuiper_images "ADI-Kuiper Wiki Page")
 
 The Analog Devices Kuiper Linux is an [aggregation](https://www.gnu.org/licenses/old-licenses/gpl-2.0-faq.en.html#MereAggregation "GPL FAQ") of components, computer programs and documents which communicate thought standard kernel/userspace ABIs, pipes, sockets and command-line arguments.
 These separate and unique programs are created by a range of individuals, teams and companies.
