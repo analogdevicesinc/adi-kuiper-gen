@@ -214,13 +214,31 @@ html_header "${TARGET} Legal Information"
 
 html_h1 "Legal Information"
 
-convert_md2html LICENSE >> ${FILE}
+convert_md2html LICENSE.md >> ${FILE}
 
 echo "<div class=\"boxed\">" >> ${FILE}
 html_h2 "Written Offer"
 
 echo "<p>As described above, the Image included in the ${TARGET} contains copyrighted software that is released and distributed under many licenses, including the GPL.
 A copy of the licenses are included in this file (below)." >> ${FILE}
+
+echo "You may obtain the complete Corresponding Source code from us for a period of three years after our last shipment of this product, which will be no earlier than " >> ${FILE}
+date --date="3 years 6 months" +"%d%b%Y" >> ${FILE}
+echo ", by sending a money order or check for \$15 (USD) to:</p>
+<pre>
+Analog Devices Inc.
+Systems Development Group
+GPL Compliance
+Attention: Robin Getz
+1 Analog Way
+Wilmington, Massachusetts
+01887
+USA
+</pre>
+<p>Please write “<i>source for the ${TARGET}</i>” in the memo line of your payment.
+Since the source does not fit on a DVD-RW, it will be delivered on a USB Thumb drive (hense the higher cost than just DVD or CD).</p>
+<p><b>You will also find a the source on-line, and are encouraged to obtain it for zero cost, at the project web sites.</b></p>
+</div>" >> ${FILE}
 
 html_h2 "NO WARRANTY"
 
@@ -243,7 +261,7 @@ echo "<th>Location</th>" >> ${FILE}
 echo "</tr>" >> ${FILE}
 echo "</thead>" >> ${FILE}
 echo "<tbody>" >> ${FILE}
-package_table_items $((var++)) Linux "4.19" "GPLv2" "https://github.com/analogdevicesinc/linux"
+package_table_items $((var++)) Linux "5.4" "GPLv2" "https://github.com/analogdevicesinc/linux"
 
 dpkg -l | awk '/ii/ { print $2 " " $3 }' | while read -r line
 do
