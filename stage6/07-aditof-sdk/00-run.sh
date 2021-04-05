@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-ADITOF_SDK_BRANCH=v2.0.0 # this branch will be bumped for new releases
+ADITOF_SDK_BRANCH=v2.0.0-busy-server-fix # this branch will be bumped for new releases
 
 on_chroot << EOF
 
