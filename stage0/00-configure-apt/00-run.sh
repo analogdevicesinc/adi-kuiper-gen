@@ -12,6 +12,8 @@ fi
 
 on_chroot apt-key add - < files/raspberrypi.gpg.key
 on_chroot << EOF
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 04EE7237B7D453EC
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 648ACFD622F3D138
 apt-get update
 apt-get dist-upgrade -y
 EOF
