@@ -25,7 +25,6 @@ python3-click-plugins
 python3-zmq
 python3-scipy
 python3-cheetah
-python3-lxml
 doxygen
 libfftw3-dev
 libsdl1.2-dev
