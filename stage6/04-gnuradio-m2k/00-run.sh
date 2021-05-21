@@ -12,7 +12,10 @@ QWT_BRANCH=qwt-6.1-multiaxes
 QWTPOLAR_BRANCH=master
 LIBSIGROK_BRANCH=master
 LIBSIGROKDECODE_BRANCH=master
-SCOPY_BRANCH=kuiper
+
+SCOPY_RELEASE=v1.3.0-rc2
+SCOPY_ARCHIVE=scopy-${SCOPY_RELEASE}-Linux-arm.flatpak.zip
+SCOPY=https://github.com/analogdevicesinc/scopy/releases/download/${SCOPY_RELEASE}/${SCOPY_ARCHIVE}
 
 ARCH=arm
 JOBS=-j${NUM_JOBS}
@@ -119,27 +122,6 @@ build_grm2k() {
 	rm -rf gr-m2k/
 }
 
-build_grscopy() {
-	echo "### Building gr-scopy - branch $GRSCOPY_BRANCH"
-
-	[ -d "gr-scopy" ] || {
-		git clone https://github.com/analogdevicesinc/gr-scopy.git -b "${GRSCOPY_BRANCH}" "gr-scopy"
-		mkdir "gr-scopy/build-${ARCH}"
-	}
-
-	pushd "gr-scopy/build-${ARCH}"
-
-	cmake ${CMAKE_OPTS} ../
-
-	make $JOBS
-	make $JOBS install
-
-	popd 1> /dev/null
-
-	rm -rf gr-scopy/
-}
-
-
 build_libsigrokdecode() {
 	echo "### Building libsigrokdecode - branch $LIBSIGROKDECODE_BRANCH"
 
@@ -163,84 +145,21 @@ build_libsigrokdecode() {
 	rm -rf libsigrokdecode/
 }
 
-build_qwt() {
-	echo "### Building qwt - branch $QWT_BRANCH"
+install_scopy() {
+     [ -f "Scopy.flatpak" ] || {
+          wget ${SCOPY}
+          unzip ${SCOPY_ARCHIVE}
+     }
 
-	[ -d "qwt" ] || {
-		git clone https://github.com/osakared/qwt.git -b "${QWT_BRANCH}" "qwt"
-	}
-
-	pushd "qwt"
-
-	# Fix prefix
-	wget https://raw.githubusercontent.com/analogdevicesinc/scopy/use-qwt-patches/CI/appveyor/patches/qwt-qwtconfig-pri-build.patch
-	patch -p1 < qwt-qwtconfig-pri-build.patch
-
-	qmake qwt.pro
-	make $JOBS
-	make install
-
-	popd 1> /dev/null
-
-	rm -rf qwt/
+     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+     flatpak install Scopy.flatpak --assumeyes
 }
 
-build_qwtpolar() {
-	echo "### Building qwtpolar - branch $QWTPOLAR_BRANCH"
-
-	[ -d "qwtpolar" ] || {
-		mkdir -p "qwtpolar"
-	}
-	pushd "qwtpolar"
-
-	wget https://downloads.sourceforge.net/project/qwtpolar/qwtpolar/1.1.1/qwtpolar-1.1.1.tar.bz2
-	tar -xf qwtpolar-1.1.1.tar.bz2
-
-	pushd qwtpolar-1.1.1
-	curl -o qwtpolar-qwt-6.1-compat.patch https://raw.githubusercontent.com/analogdevicesinc/scopy-flatpak/master/qwtpolar-qwt-6.1-compat.patch
-	patch -p1 < qwtpolar-qwt-6.1-compat.patch
-	wget https://raw.githubusercontent.com/analogdevicesinc/scopy/use-qwt-patches/CI/appveyor/patches/qwtpolar-qwtpolarconfig-pri-build.patch
-	patch -p1 < qwtpolar-qwtpolarconfig-pri-build.patch
-	qmake qwtpolar.pro
-	make $JOBS
-	make install
-
-	popd 1> /dev/null
-	popd 1> /dev/null
-
-	rm -rf qwtpolar/
-}
-
-build_scopy() {
-	echo "### Building scopy - branch $SCOPY_BRANCH"
-
-	[ -d "scopy" ] || {
-		git clone https://github.com/analogdevicesinc/scopy.git -b "${SCOPY_BRANCH}" "scopy"
-	}
-
-	pushd "scopy"
-
-	mkdir -p build
-	pushd build
-	cmake -DWITH_DOC=OFF ..
-	make $JOBS
-	make install
-
-	popd 1> /dev/null
-	popd 1> /dev/null
-
-	rm -rf scopy/
-	ldconfig
-}
-
+install_scopy
 build_gnuradio
 build_libm2k
 build_griio
 build_grm2k
-build_grscopy
 build_libsigrokdecode
-build_qwt
-build_qwtpolar
-build_scopy
 
 EOF
