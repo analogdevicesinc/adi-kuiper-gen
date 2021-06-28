@@ -12,9 +12,7 @@ sed -i 's+@xscreensaver -no-splash+#@xscreensaver -no-splash+g' /etc/xdg/lxsessi
 echo "@xset s off" >> /etc/xdg/lxsession/LXDE-pi/autostart
 echo "@xset -dpms" >> /etc/xdg/lxsession/LXDE-pi/autostart
 
-[ -f "/usr/share/X11/xorg.conf.d/99-fbturbo.conf" ] || {
-	rm /usr/share/X11/xorg.conf.d/99-fbturbo.conf
-}
+rm -f /usr/share/X11/xorg.conf.d/99-fbturbo.conf
 
 #mark raspberrypi-ui-mods to hold
 apt-mark hold raspberrypi-ui-mods
