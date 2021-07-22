@@ -85,3 +85,5 @@ libusb-1.0
 htpdate
 libopencv-dev
 vim
+dialog
+ckermit
