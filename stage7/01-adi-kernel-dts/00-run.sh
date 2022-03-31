@@ -26,7 +26,7 @@ pushd "$WORK_DIR"
 
 [ -d "$SCRIPTS_DIR" ] || {
 	git clone https://github.com/analogdevicesinc/wiki-scripts.git "$SCRIPTS_DIR"
-	sed -i "s/make \$DEFCONFIG/make \$DEFCONFIG\necho \"\$(cat \$STAGE_DIR\/01-adi-kernel-dts\/kuiper_defconfig)\" >> \.config\nyes \"\" \| make oldconfig/g" $SCRIPTS_DIR/linux/build_*
+	sed -i "s/make \$DEFCONFIG/make \$DEFCONFIG\necho \"\$(cat \$STAGE_DIR\/01-adi-kernel-dts\/files\/kuiper_defconfig)\" >> \.config\nyes \"\" \| make oldconfig/g" $SCRIPTS_DIR/linux/build_*
 }
 
 [ -d $LINUX ] || {
