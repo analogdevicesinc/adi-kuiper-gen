@@ -1,5 +1,5 @@
 #!/bin/bash -e
-if [ -n ${EXTRA_BOOT} ]; then
+if [[ ! -z ${EXTRA_BOOT} ]]; then
 	wget -r -q --show-progress -nH --cut-dirs=5 -np -R "index.html*" "-l inf" "${EXTRA_BOOT}" -P "${STAGE_WORK_DIR}/rootfs/boot"
 else
 	rm -f latest_boot_partition.tar.gz
@@ -7,3 +7,5 @@ else
 	tar xfv latest_boot_partition.tar.gz -C $STAGE_WORK_DIR/rootfs/boot
 	rm -f latest_boot_partition.tar.gz
 fi
+
+cp -r $WORK_DIR/boot_partition/*-common $STAGE_WORK_DIR/rootfs/boot
