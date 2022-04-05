@@ -248,6 +248,7 @@ export CLEAN
 export IMG_NAME
 export APT_PROXY
 export EXTRA_BOOT
+export RPI_BOOT
 
 export STAGE
 export STAGE_DIR
