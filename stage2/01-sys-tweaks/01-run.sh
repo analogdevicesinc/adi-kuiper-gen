@@ -72,4 +72,13 @@ on_chroot << EOF
 setupcon --force --save-only -v
 EOF
 
+on_chroot << EOF
+#mark on hold packages that update boot files, modules, firmware, eeprom etc
+sudo apt-mark hold libraspberrypi-bin libraspberrypi-dev libraspberrypi-doc libraspberrypi0
+sudo apt-mark hold raspberrypi-bootloader raspberrypi-kernel raspberrypi-kernel-headers
+
+#disable automatic update of eeprom
+systemctl mask rpi-eeprom-update
+EOF
+
 rm -f "${ROOTFS_DIR}/etc/ssh/"ssh_host_*_key*
