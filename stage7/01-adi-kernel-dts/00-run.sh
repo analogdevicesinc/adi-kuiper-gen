@@ -10,12 +10,12 @@ if [[ ! -z ${RPI_BOOT} ]]; then
 	rm -rf "${STAGE_WORK_DIR}/rootfs/boot/rpi_modules.tar.gz"
 else
 	rm -f rpi_latest_boot.tar.gz
-	wget https://swdownloads.analog.com/cse/linux_rpi/rpi-5.10.y/rpi_latest_boot.tar.gz
+	wget https://swdownloads.analog.com/cse/linux_rpi/${RPI_BOOT_FILES_BRANCH}/rpi_latest_boot.tar.gz
 	tar -xvf rpi_latest_boot.tar.gz -C ${STAGE_WORK_DIR}/rootfs/boot --no-same-owner
 	rm -f rpi_latest_boot.tar.gz
 
 	rm -f rpi_modules.tar.gz
-	wget https://swdownloads.analog.com/cse/linux_rpi/rpi-5.10.y/rpi_modules.tar.gz
+	wget https://swdownloads.analog.com/cse/linux_rpi/${RPI_BOOT_FILES_BRANCH}/rpi_modules.tar.gz
 	tar -xvf rpi_modules.tar.gz -C ${STAGE_WORK_DIR}/rootfs/lib/modules --no-same-owner
 	rm -f rpi_modules.tar.gz
 fi

@@ -250,6 +250,7 @@ export APT_PROXY
 export EXTRA_BOOT
 export RPI_BOOT
 export BOOT_FILES_RELEASE=${BOOT_FILES_RELEASE:-"master"}
+export RPI_BOOT_FILES_BRANCH=${RPI_BOOT_FILES_BRANCH:-"rpi-5.10.y"}
 
 export STAGE
 export STAGE_DIR
