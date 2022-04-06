@@ -85,3 +85,4 @@ vim
 dialog
 ckermit
 software-properties-common
+xserver-xorg-video-dummy
