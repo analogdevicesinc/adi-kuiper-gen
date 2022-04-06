@@ -249,6 +249,7 @@ export IMG_NAME
 export APT_PROXY
 export EXTRA_BOOT
 export RPI_BOOT
+export BOOT_FILES_RELEASE=${BOOT_FILES_RELEASE:-"master"}
 
 export STAGE
 export STAGE_DIR
