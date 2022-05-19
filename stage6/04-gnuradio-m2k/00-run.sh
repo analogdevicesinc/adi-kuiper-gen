@@ -104,29 +104,6 @@ build_grm2k() {
 	rm -rf gr-m2k/
 }
 
-build_libsigrokdecode() {
-	echo "### Building libsigrokdecode - branch $LIBSIGROKDECODE_BRANCH"
-
-	[ -d "libsigrokdecode" ] || {
-		git clone https://github.com/sigrokproject/libsigrokdecode.git -b "${LIBSIGROKDECODE_BRANCH}" "libsigrokdecode"
-		mkdir -p "libsigrokdecode/build-${ARCH}"
-	}
-
-	pushd "libsigrokdecode"
-
-	./autogen.sh
-	pushd "build-${ARCH}"
-
-	../configure --disable-all-drivers --enable-bindings --enable-cxx
-	make $JOBS install
-	DESTDIR=${STAGE_WORK_DIR} make $JOBS install
-
-	popd 1> /dev/null
-	popd 1> /dev/null
-
-	rm -rf libsigrokdecode/
-}
-
 install_scopy() {
 	[ -f "Scopy.flatpak" ] || {
 		wget ${SCOPY}
@@ -157,6 +134,5 @@ build_gnuradio
 build_libm2k
 build_griio
 build_grm2k
-build_libsigrokdecode
 
 EOF
