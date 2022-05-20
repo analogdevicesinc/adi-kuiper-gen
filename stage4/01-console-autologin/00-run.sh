@@ -12,6 +12,7 @@ on_chroot << EOF
 	sed -i '1s/^/auth sufficient pam_listfile.so item=tty sense=allow file=\/etc\/securetty onerr=fail apply=root\n/' "/etc/pam.d/login"
 
 	echo "ttyPS0" >> /etc/securetty
+	echo "ttyS0" >> /etc/securetty
 	echo "ttyGS0" >> /etc/securetty
 	echo "ttyGS1" >> /etc/securetty
 
