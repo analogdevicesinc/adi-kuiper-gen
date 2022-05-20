@@ -82,6 +82,10 @@ build_griio() {
 	popd 1> /dev/null
 
 	rm -rf gr-iio/
+
+	# Update gnu-radio-grc.desktop
+	sed -i 's/Exec=/Exec=env PYTHONPATH=\/usr\/local\/lib\/python3\/dist-packages:\/lib\/python3.9\/site-packages /g' "/usr/share/applications/gnuradio-grc.desktop"
+
 }
 
 build_grm2k() {
@@ -123,5 +127,5 @@ build_gnuradio
 build_libm2k
 build_griio
 build_grm2k
-
+ldconfig
 EOF
