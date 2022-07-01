@@ -5,7 +5,7 @@ GRIIO_BRANCH=upgrade-3.8
 GRM2K_BRANCH=master
 LIBSIGROKDECODE_BRANCH=master
 
-SCOPY_RELEASE=v1.3.0
+SCOPY_RELEASE="v1.4.0"
 SCOPY_ARCHIVE=scopy-${SCOPY_RELEASE}-Linux-arm.flatpak.zip
 SCOPY=https://github.com/analogdevicesinc/scopy/releases/download/${SCOPY_RELEASE}/${SCOPY_ARCHIVE}
 
