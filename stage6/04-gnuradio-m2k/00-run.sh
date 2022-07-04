@@ -6,7 +6,7 @@ GRM2K_BRANCH=master
 LIBSIGROKDECODE_BRANCH=master
 
 SCOPY_RELEASE="v1.4.0"
-SCOPY_ARCHIVE=scopy-${SCOPY_RELEASE}-Linux-arm.flatpak.zip
+SCOPY_ARCHIVE=Scopy-${SCOPY_RELEASE}-Linux-arm.zip
 SCOPY=https://github.com/analogdevicesinc/scopy/releases/download/${SCOPY_RELEASE}/${SCOPY_ARCHIVE}
 
 ARCH=arm
