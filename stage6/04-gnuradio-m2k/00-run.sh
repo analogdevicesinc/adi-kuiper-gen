@@ -1,8 +1,8 @@
 #!/bin/bash -e
 
 LIBM2K_BRANCH=master
-GRIIO_BRANCH=upgrade-3.8
-GRM2K_BRANCH=master
+GRIIO_BRANCH="upgrade-3.8"
+GRM2K_BRANCH="maint-3.8"
 LIBSIGROKDECODE_BRANCH=master
 
 SCOPY_RELEASE="v1.4.0"
