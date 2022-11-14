@@ -261,7 +261,15 @@ echo "<th>Location</th>" >> ${FILE}
 echo "</tr>" >> ${FILE}
 echo "</thead>" >> ${FILE}
 echo "<tbody>" >> ${FILE}
-package_table_items $((var++)) Linux "5.4" "GPLv2" "https://github.com/analogdevicesinc/linux"
+package_table_items $((var++)) "Linux" "5.10" "GPLv2" "https://github.com/analogdevicesinc/linux"
+package_table_items $((var++)) "HDL"   " "    "GPL/LGPL/BSD" "https://github.com/analogdevicesinc/hdl"
+package_table_items $((var++)) "HDL Testbenches" " " "GPL" "https://github.com/analogdevicesinc/testbenches"
+package_table_items $((var++)) "LibIIO" " " "LGPL-2.1/GPL-2.0" "https://github.com/analogdevicesinc/libiio"
+package_table_items $((var++)) "IIO Oscilloscope" " " "GPL-2.0" "https://github.com/analogdevicesinc/iio-oscilloscope"
+package_table_items $((var++)) "Scopy" " " "GPL-3.0" "https://github.com/analogdevicesinc/scopy"
+package_table_items $((var++)) "libad9361-iio" " " "GPL-2.0" "https://github.com/analogdevicesinc/libad9361-iio"
+package_table_items $((var++)) "libad9166-iio" " " "GPL-2.0" "https://github.com/analogdevicesinc/libad9166-iio"
+package_table_items $((var++)) "fru-tools" " " "GPL-2.0" "https://github.com/analogdevicesinc/fru-tools"
 
 dpkg -l | awk '/ii/ { print $2 " " $3 }' | while read -r line
 do
