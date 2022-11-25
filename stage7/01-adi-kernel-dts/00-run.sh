@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+rm -rf ${STAGE_WORK_DIR}/rootfs/boot/kernel*.img ${STAGE_WORK_DIR}/rootfs/boot/bcm*.dtb ${STAGE_WORK_DIR}/rootfs/boot/overlays
+rm -rf ${STAGE_WORK_DIR}/rootfs/lib/modules/*
+
 if [[ ! -z ${RPI_BOOT} ]]; then
 	wget -r -q --show-progress -nH --cut-dirs=5 -np -R "index.html*" "-l inf" "${RPI_BOOT}" -P "${STAGE_WORK_DIR}/rootfs/boot"
 	tar -xvf "${STAGE_WORK_DIR}/rootfs/boot/rpi_modules.tar.gz" -C "${STAGE_WORK_DIR}/rootfs/lib/modules" --no-same-owner
