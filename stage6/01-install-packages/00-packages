@@ -11,6 +11,8 @@ swig
 g++
 libboost-all-dev
 libgmp-dev
+jupyter
+python3-matplotlib
 python3-numpy
 python3-mako
 python3-sphinx
