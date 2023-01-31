@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-rm -rf ${STAGE_WORK_DIR}/rootfs/boot/kernel*.img ${STAGE_WORK_DIR}/rootfs/boot/bcm*.dtb ${STAGE_WORK_DIR}/rootfs/boot/overlays
+rm -rf ${STAGE_WORK_DIR}/rootfs/boot/kernel*.img ${STAGE_WORK_DIR}/rootfs/boot/bcm*.dtb ${STAGE_WORK_DIR}/rootfs/boot/overlays/*.dtbo
 rm -rf ${STAGE_WORK_DIR}/rootfs/lib/modules/*
 
 if [[ ! -z ${RPI_BOOT} ]]; then
