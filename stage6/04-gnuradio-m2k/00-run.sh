@@ -114,8 +114,6 @@ install_scopy() {
 		unzip ${SCOPY_ARCHIVE}
 		flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 		flatpak install Scopy.flatpak --assumeyes
-		mkdir -p /usr/local/share/scopy
-		wget https://raw.githubusercontent.com/analogdevicesinc/scopy/86ddd9dce67b2d90e7e52801d6bf730859153c4f/resources/icon_big.svg -O /var/lib/flatpak/exports/share/icons/org.adi.Scopy.svg
 		rm -rf ${SCOPY_ARCHIVE}
 	}
 	echo "alias scopy='flatpak run org.adi.Scopy'" >> /root/.bashrc
