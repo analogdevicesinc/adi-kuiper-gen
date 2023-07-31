@@ -82,7 +82,7 @@ The following environment variables are supported:
    The release version to build images against. Valid values are jessie, stretch,
    buster, bullseye, and testing.
 
- * `APT_PROXY` (Default: unset)
+ * 
 
    If you require the use of an apt proxy, set it here.  This proxy setting
    will not be included in the image, making it safe to use an `apt-cacher` or
