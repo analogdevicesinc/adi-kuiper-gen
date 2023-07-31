@@ -1,0 +1,12 @@
+# This is the default code owner for next_stable branch. 
+#
+# Since we want to keep 'next_stable' branch in a good shape, commits that 
+# are not tested, affect the build and/or tests, or do not add any release 
+# specific bug fix (but feature implementation instead) won't be allowed 
+# during release stabilization (release cycle).
+# 
+# All PR's to 'next_stable' branch will require approval from code owners.
+#
+# Above list will be extended with a developer from each team (repository
+# owner) responsible with keeping next_stable branch stable.
+*       stefan.raus@analog.com
