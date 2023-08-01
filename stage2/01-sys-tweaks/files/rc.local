@@ -17,7 +17,6 @@ if [ "$_IP" ]; then
   printf "My IP address is %s\n" "$_IP"
 fi
 
-raspi-config nonint do_expand_rootfs
 sed -i '20,22d' /etc/rc.local
 
 exit 0

@@ -1,0 +1,30 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          extend-rootfs-once
+# Required-Start:
+# Required-Stop:
+# Default-Start: 3
+# Default-Stop:
+# Short-Description: Resize the root filesystem to fill partition
+# Description:
+### END INIT INFO
+
+PART_START="$(parted /dev/mmcblk0 -ms unit s p | grep "^2" | cut -f 2 -d: | sed 's/[^0-9]*//g')"
+[ "$PART_START" ] || return 1
+
+fdisk /dev/mmcblk0 <<EOF
+p
+d
+2
+n
+p
+2
+$((PART_START))
+
+p
+w
+EOF
+
+sudo resize2fs /dev/mmcblk0p2
+
+rm /etc/init.d/extend-rootfs-once
