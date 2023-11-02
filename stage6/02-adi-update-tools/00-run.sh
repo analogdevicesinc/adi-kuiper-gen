@@ -9,10 +9,11 @@ on_chroot << EOF
 
 
 [ -d "linux_image_ADI-scripts" ] || {
-	git clone https://github.com/analogdevicesinc/linux_image_ADI-scripts
+	git clone https://github.com/analogdevicesinc/linux_image_ADI-scripts -b main
 }
 
 pushd linux_image_ADI-scripts
+git checkout main
 chmod +x adi_update_tools.sh
 ./adi_update_tools.sh dev
 
