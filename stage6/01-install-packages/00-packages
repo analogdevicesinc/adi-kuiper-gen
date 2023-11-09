@@ -82,6 +82,7 @@ xterm
 libusb-1.0
 htpdate
 libopencv-dev
+libopenblas-dev
 vim
 dialog
 ckermit
