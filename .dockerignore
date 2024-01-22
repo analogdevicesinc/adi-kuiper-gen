@@ -1,5 +1,4 @@
 output/
-work/
-deploy/
+kuiper-volume/
 apt-cacher-ng/
 .git/objects/*
