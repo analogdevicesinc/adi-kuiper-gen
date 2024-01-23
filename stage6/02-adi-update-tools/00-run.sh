@@ -11,15 +11,13 @@ on_chroot << EOF
 
    rm -rf gtkdatabox-1.0.0.tar.gz
 
-[ -d "linux_image_ADI-scripts" ] || {
+   [ -d "linux_image_ADI-scripts" ] || {
 	git clone https://github.com/analogdevicesinc/linux_image_ADI-scripts -b main
-}
+   }
 
-pushd linux_image_ADI-scripts
-git checkout main
-chmod +x adi_update_tools.sh
-./adi_update_tools.sh 2022_R2
-
-popd
+   pushd linux_image_ADI-scripts
+   chmod +x adi_update_tools.sh
+   ./adi_update_tools.sh 2022_R2
+   popd
 
 EOF
