@@ -3,10 +3,13 @@
 on_chroot << EOF
    wget https://downloads.sourceforge.net/project/gtkdatabox/gtkdatabox-1/gtkdatabox-1.0.0.tar.gz
    tar xvf gtkdatabox-1.0.0.tar.gz
-   cd gtkdatabox-1.0.0
+
+   pushd gtkdatabox-1.0.0
    ./configure
    make install
+   popd
 
+   rm -rf gtkdatabox-1.0.0.tar.gz
 
 [ -d "linux_image_ADI-scripts" ] || {
 	git clone https://github.com/analogdevicesinc/linux_image_ADI-scripts -b main
