@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-LIBM2K_BRANCH="next_stable"
+LIBM2K_BRANCH="v0.8.0"
 GRIIO_BRANCH="upgrade-3.8" # let this to 'upgrade-3.8' since GNU Radio is 3.8.2
 GRM2K_BRANCH="maint-3.8" # let this to 'maint-3.8' since GNU Radio installed in Kuiper is 3.8.2
 LIBSIGROKDECODE_BRANCH="master"
