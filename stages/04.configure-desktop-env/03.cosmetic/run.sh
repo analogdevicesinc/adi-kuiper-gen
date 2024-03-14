@@ -23,6 +23,12 @@ chroot "${BUILD_DIR}" << EOF
 
 	# Disable screen saver
 	sed -i '/exec xfce4-session/i    xset s off -dpms' /etc/xdg/xfce4/xinitrc
+	
+	# Change menu name
+	sed -i "s/Name=Science/Name=Analog Devices Tools/g" /usr/share/desktop-directories/xfce-science.directory
+	
+	# Exclude 'Development' category from 'Science' menu
+	sed -i '/<Category>Science/{n;n;s/^/<Exclude><Category>Development<\/Category><\/Exclude>\n/}' /etc/xdg/menus/xfce-applications.menu
 EOF
 
 else
