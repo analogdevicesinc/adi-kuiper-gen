@@ -17,7 +17,7 @@ export LOG_FILE="kuiper-volume/build.log"
 export GITHUB_ANALOG_DEVICES="https://github.com/analogdevicesinc"
 export ADI_REPOS="ADI_repos_git_info.txt"
 export TARGET_ARCHITECTURE=${TARGET_ARCHITECTURE:-armhf}
-export BUILD_DIR=${TARGET_ARCH}_rootfs
+export BUILD_DIR=${TARGET_ARCHITECTURE}_rootfs
 export IMG_FILE="image_"$(date +%Y-%m-%d)"-ADI-Kuiper-Linux-$TARGET_ARCHITECTURE.img" 
 export NUM_JOBS=${NUM_JOBS:-$(nproc)}
 
