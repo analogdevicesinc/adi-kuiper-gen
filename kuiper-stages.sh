@@ -60,6 +60,8 @@ export BRANCH_GRM2K=${BRANCH_GRM2K:-main}
 export RELEASE_XILINX_INTEL_BOOT_FILES=${RELEASE_XILINX_INTEL_BOOT_FILES:-2022_r2}
 export BRANCH_RPI_BOOT_FILES=${BRANCH_RPI_BOOT_FILES:-rpi-6.1.y}
 
+export USE_ADI_REPO_RPI_BOOT=${USE_ADI_REPO_RPI_BOOT:-n}
+
 # Check if architecture is supported
 if [[ ! ${TARGET_ARCHITECTURE} = armhf && ! ${TARGET_ARCHITECTURE} = arm64 ]]; then
 	echo "Unsupported architecture ${TARGET_ARCHITECTURE}"

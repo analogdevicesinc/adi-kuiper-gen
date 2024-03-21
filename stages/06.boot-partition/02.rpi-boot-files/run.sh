@@ -16,8 +16,17 @@ if [ "${CONFIG_RPI_BOOT_FILES}" = y ]; then
 	mkdir -p "${BUILD_DIR}"/lib/modules
 	echo "Download Raspberry Pi boot files"
 
-	# Check if RPI boot files should be downloaded from Artifactory of Software downloads
-	if [[ ! -z ${ARTIFACTORY_RPI} ]]; then
+	# Check if RPI boot files should be downloaded from ADI repository, Artifactory or Software downloads
+	if [ "${USE_ADI_REPO_RPI_BOOT}" == y ]; then
+		# extract the RPI branch (exclude "rpi-")
+		rpi_package_branch=$(cut -d'-' -f2 <<< ${BRANCH_RPI_BOOT_FILES})
+		
+		# install package from adi-repo
+chroot "${BUILD_DIR}" << EOF
+		apt-get install adi-rpi-boot-${rpi_package_branch}
+EOF
+
+	elif [[ ! -z ${ARTIFACTORY_RPI} ]]; then
 		wget -r -q --progress=bar:force:noscroll -nH --cut-dirs=5 -np -R "index.html*" "-l inf" ${ARTIFACTORY_RPI} -P "${BUILD_DIR}/boot"
 		tar -xf "${BUILD_DIR}/boot/rpi_modules.tar.gz" -C "${BUILD_DIR}/lib/modules" --no-same-owner
 		rm -rf "${BUILD_DIR}/boot/rpi_modules.tar.gz"
