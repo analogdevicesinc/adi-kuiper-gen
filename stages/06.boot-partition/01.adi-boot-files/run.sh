@@ -14,8 +14,17 @@ XILINX_INTEL_PROPERTIES="latest_boot.txt"
 if [ "${CONFIG_XILINX_INTEL_BOOT_FILES}" = y ]; then
 	echo "Download Xilinx and Intel boot files"
 
-	# Check if Xilinx and Intel boot files should be downloaded from Artifactory of Software downloads
-	if [[ ! -z ${ARTIFACTORY_XILINX_INTEL} ]]; then
+	# Check if Xilinx and Intel boot files should be downloaded from ADI repository, Artifactory or Software downloads
+	if [ "${USE_ADI_REPO_CARRIERS_BOOT}" == y ]; then
+		# extract the carriers release
+		carriers_package_release=${RELEASE_XILINX_INTEL_BOOT_FILES/_/.}
+		
+		# install package from adi-repo
+chroot "${BUILD_DIR}" << EOF
+		apt-get install adi-carriers-boot-${carriers_package_release}
+EOF
+
+	elif [[ ! -z ${ARTIFACTORY_XILINX_INTEL} ]]; then
 		wget -r -q --progress=bar:force:noscroll -nH --cut-dirs=5 -np -R "index.html*" "-l inf" ${ARTIFACTORY_XILINX_INTEL} -P "${BUILD_DIR}/boot"
 	else
 		# Get Xilinx and Intel boot files
