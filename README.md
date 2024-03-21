@@ -188,6 +188,10 @@ The following environment variables are supported:
 * `BRANCH_RPI_BOOT_FILES` (Default: rpi-6.1.y)
 
    The branch for the Raspberry PI boot files.
+
+* `USE_ADI_REPO_RPI_BOOT` (Default: y)
+
+   Installs ADI Raspberry PI boot files package from the ADI repository, corresponding to the configured branch.
  
 * `CONFIG_XILINX_INTEL_BOOT_FILES` (Default: n)
 
@@ -196,6 +200,10 @@ The following environment variables are supported:
 * `RELEASE_XILINX_INTEL_BOOT_FILES` (Default: 2022_r2)
 
    The release version of the boot files for Xilinx and Intel.
+
+* `USE_ADI_REPO_CARRIERS_BOOT` (Default: y)
+
+   Installs carriers boot files package from the ADI repository, corresponding to the configured release.
  
 * `EXPORT_SOURCES` (Default: n)
 
@@ -329,8 +337,9 @@ maintenance and customization.
    - **01.bootstrap**
    - **02.set-locale-and-timezone**
    - **03.system-users-and-autologin**
-   - **06.boot-partition** - substages **01.adi-boot-files**, **02.rpi-boot-files** (depending on 'config' file)
-   - **07.export-stage** - substages **01.extend-rootfs**, **02.adi-updates**, **04.export-image**
+   - **05.adi-tools** - substage **13.write-git-logs**
+   - **06.boot-partition** - substages **01.adi-boot-files**, **02.rpi-boot-files** (depending on 'config' file), **03.add-fstab**
+   - **07.export-stage** - substages **01.extend-rootfs**, **03.export-image**
  
  * `Kuiper with desktop environment:` 
 
@@ -342,7 +351,24 @@ maintenance and customization.
 
  * `Kuiper with exported sources:` 
 
-   - **07.export-stage** - substage **03.install-sources**
+   - **07.export-stage** - substage **02.export-sources**
+
+# ADI APT Repository
+
+ADI APT repository is a collection of Debian package files that facilitates the distribution and installation 
+of ADI software packages. The repository contains .deb packages with boot files for carriers and Raspberry Pi.
+
+Advantages of using this APT repository:
+   - **easy installation, removal and upgrade (apt install, apt remove, apt upgrade)**
+   - **easy versioning**
+   - **package manager resolves (or indicates) conflicts between packages**
+   - **apt manages dependencies for packages to be installed**
+
+Installing packages from the repository in Kuiper:
+   - **sudo apt update**
+   - **sudo apt install [*]**
+
+[*]: adi-carriers-boot-2022.r2, adi-carriers-boot-main, adi-rpi-boot-5.15.y, adi-rpi-boot-6.1.
 
 # Troubleshooting
 
