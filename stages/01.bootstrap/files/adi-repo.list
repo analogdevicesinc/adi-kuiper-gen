@@ -1,0 +1,2 @@
+deb https://swdownloads.analog.com/cse/adi-repo/debian bookworm main
+#deb-src https://swdownloads.analog.com/cse/adi-repo/debian bookworm main
