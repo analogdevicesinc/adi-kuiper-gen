@@ -214,7 +214,7 @@ You can also set the number of processors or cores you want to use for building 
 by adding the following line in the config file: NUM_JOBS=[number]. 
 By default NUM_JOBS has the value returned by '$(nproc)'.
 
-After the Kuiper is built, you can find the configuration file in '/home/analog/adi-updates' inside the image.
+After the Kuiper is built, you can find the configuration file in '/' (root).
  
 ## Build Flow
 
