@@ -204,6 +204,16 @@ The following environment variables are supported:
 * `USE_ADI_REPO_CARRIERS_BOOT` (Default: y)
 
    Installs carriers boot files package from the ADI repository, corresponding to the configured release.
+
+* `ADI_EVAL_BOARD` (Default empty)
+
+   Configure the project the Kuiper image will run. Together with the variable `CARRIER` it can be used to prepare \
+   the boot partition during build time with the required ADI project and carrier.
+
+* `CARRIER` (Default empty)
+
+   Configure the board the Kuiper image will boot on. Together with the variable `ADI_EVAL_BOARD` it can be used to prepare \
+   the boot partition during build time with the required ADI project and carrier.
  
 * `EXPORT_SOURCES` (Default: n)
 
@@ -321,8 +331,9 @@ maintenance and customization.
  - **07.export-stage** - this stage downloads sources for the ADI tools, debootstrap command 
    and all packages installed in Kuiper. The sources can be found in `kuiper-volume/sources` inside the cloned repository on you machine. 
    This stage installs the 'extend-rootfs' script that extends the rootfs partition to the dimension of the SD 
-   card. This is also the stage where the scripts for adi update tools are installed in the Kuiper image.
-   After this stage the full Kuiper image is built and exported. It can be found in `kuiper-volume/`. 
+   card. Additionally, during this stage the boot partition is prepared with the required boot files corresponding to the variables 
+   from config file: `ADI_EVAL_BOARD` and `CARRIER`, making the image ready to be booted. After this stage 
+   the full Kuiper image is built and exported. It can be found in `kuiper-volume/`. 
  
 ## Kuiper versions
 

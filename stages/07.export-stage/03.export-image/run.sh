@@ -118,6 +118,14 @@ if [ "${CONFIG_RPI_BOOT_FILES}" = y ]; then
 	sed -i "s/ROOTDEV/PARTUUID=${ROOT_PARTUUID}/" "${BUILD_DIR}/boot/cmdline.txt"
 fi
 
+# Configure setup for a specific project and board
+# Pass parameter BOOTLOADER_DEV because for Intel projects the bootloader partition needs to be written
+# The current directory is set in the parent script, so in order to find the path to the configuration script we need to do the following:
+# - get the path of the current script: BASH_SOURCE
+# - remove the name of the current script: %%/run.sh
+# - concatenate with the configuration script (because it is at the same level as the current one): /configure-setup.sh
+bash "${BASH_SOURCE%%/run.sh}"/configure-setup.sh ${BOOTLOADER_DEV}
+
 rsync -aHAXx --exclude /var/cache/apt/archives --inplace --exclude /boot "${BUILD_DIR}/" "${EXPORT_ROOTFS_DIR}/"
 rsync -rtx --inplace "${BUILD_DIR}/boot/" "${EXPORT_ROOTFS_DIR}/boot/"
 

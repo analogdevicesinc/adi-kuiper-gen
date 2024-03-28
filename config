@@ -183,6 +183,14 @@ USE_ADI_REPO_CARRIERS_BOOT=y
 #
 #
 #
+# [PREPARE BOOT FILES]*
+# Prepare boot partition with carriers boot files at build time by setting the ADI_EVAL_BOARD and the CARRIER.
+# *depends on INTEL AND XILINX BOOT FILES
+ADI_EVAL_BOARD=
+CARRIER=
+#
+#
+#
 # [SOURCES]
 # Contains sources for all packages in the rootfs.
 EXPORT_SOURCES=n

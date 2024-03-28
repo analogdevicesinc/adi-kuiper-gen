@@ -62,6 +62,8 @@ export BRANCH_RPI_BOOT_FILES=${BRANCH_RPI_BOOT_FILES:-rpi-6.1.y}
 
 export USE_ADI_REPO_RPI_BOOT=${USE_ADI_REPO_RPI_BOOT:-n}
 export USE_ADI_REPO_CARRIERS_BOOT=${USE_ADI_REPO_CARRIERS_BOOT:-n}
+export ADI_EVAL_BOARD=${ADI_EVAL_BOARD:-""}
+export CARRIER=${CARRIER:-""}
 
 # Check if architecture is supported
 if [[ ! ${TARGET_ARCHITECTURE} = armhf && ! ${TARGET_ARCHITECTURE} = arm64 ]]; then
