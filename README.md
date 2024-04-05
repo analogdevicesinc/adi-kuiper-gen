@@ -20,9 +20,10 @@ There is no support for Windows OS yet.
 You can clone the repository with:
 
 ```bash
-git clone --depth 1 https://github.com/analogdevicesinc/adi-kuiper-gen
+git clone -b staging/kuiper2.0 --depth 1 https://github.com/analogdevicesinc/adi-kuiper-gen
 ```
 
+Using `-b staging/kuiper2.0` will clone the Kuiper 2.0 branch.
 Using `--depth 1` with `git clone` will create a shallow clone, only containing
 the latest revision of the repository.
 
@@ -36,7 +37,7 @@ your build.
 ## Config
 
 Upon execution, `kuiper-stages.sh` will source the file `config` in the current
-working directory.  This bash shell fragment is intended to set needed
+working directory. This bash shell fragment is intended to set needed
 environment variables. There are variables that are set on to a default value. 
 The variables that are set to 'n' do not install aditional tools and files.
 If the tools are needed, the corresponding configuration variable should be set to 'y'. The 
@@ -46,7 +47,7 @@ The following environment variables are supported:
    
 * `TARGET_ARCHITECTURE` (Default: armhf)
 
-   The base image for Kuiper can be build on 32 bits architecture and 64 bits architecture.
+   The base image for Kuiper can be built on 32 bits architecture and 64 bits architecture.
    The default value corresponds to the 32 bits rootfs. For 64 bits you need to set the variable to 'arm64'.  
 
 * `DEBIAN_VERSION` (Default: bookworm)
@@ -95,7 +96,7 @@ The following environment variables are supported:
 
    The cmake build arguments of the library. A default value can be found in 'config'.
 
-* `BRANCH_LIBM2K` (Default: master)
+* `BRANCH_LIBM2K` (Default: main)
 
    The branch for the library.
  
@@ -179,11 +180,11 @@ The following environment variables are supported:
 
    The cmake build arguments of the library. A default value can be found in 'config'.
 
-* `BRANCH_GRM2K` (Default: master)
+* `BRANCH_GRM2K` (Default: main)
 
    The branch for the library.
 
-* `CONFIG_RPI_BOOT_FILES` (Default: n)
+* `CONFIG_RPI_BOOT_FILES` (Default: y)
 
    Selects if the image should contain boot files for Raspberry PI.
  
@@ -195,7 +196,7 @@ The following environment variables are supported:
 
    Installs ADI Raspberry PI boot files package from the ADI repository, corresponding to the configured branch.
  
-* `CONFIG_XILINX_INTEL_BOOT_FILES` (Default: n)
+* `CONFIG_XILINX_INTEL_BOOT_FILES` (Default: y)
 
    Selects if the image should contain boot files for Xilinx and Intel.
  
@@ -238,7 +239,7 @@ sudo bash build-docker.sh
 ```
 
 Your Kuiper image will be in the `kuiper-volume/` folder inside the cloned repository on you machine.
-After successful build, the image and the build container are removed if `PRESERVE_CONTAINER=n`.
+After successful build, the docker image and the build container are removed if `PRESERVE_CONTAINER=n`.
 If needed, you can remove the build container with:
 
 ```bash
@@ -250,10 +251,10 @@ it from the container to your machine with this command:
 
 ```bash
 CONTAINER_ID=$(docker inspect --format="{{.Id}}" debian_<DEBIAN_VERSION>_rootfs_container)
-sudo docker cp $CONTAINER_ID:<TARGET_ARCH>_rootfs .
+sudo docker cp $CONTAINER_ID:<TARGET_ARCHITECTURE>_rootfs .
 ```
 
-You need to replace <DEBIAN_VERSION> and <TARGET_ARCH> with the ones in the configuration file.
+You need to replace <DEBIAN_VERSION> and <TARGET_ARCHITECTURE> with the ones in the configuration file.
 
 Example:
 
@@ -264,7 +265,7 @@ sudo docker cp $CONTAINER_ID:armhf_rootfs .
 
 ### Passing arguments to Docker
 
-When the docker image is run various required command line arguments are provided.
+When the docker image is run, various required command line arguments are provided.
 For example the system mounts the `/dev` directory to the `/dev` directory within the docker container. 
 The `--name` and `--privileged` options are already set by the script and should not be redefined.
  
@@ -295,7 +296,7 @@ The following process is used to build images:
 ### Debian Stage Overview
 
 The build of Kuiper is divided up into several stages for logical clarity
-and modularity.  This causes some initial complexity, but it simplifies
+and modularity. This causes some initial complexity, but it simplifies
 maintenance and customization.
 
  - **01.bootstrap** - the primary purpose of this stage is to create a usable filesystem.
@@ -321,7 +322,7 @@ maintenance and customization.
    BOOT partition. It also configures files so that the image is bootable on RPI by default.
 
  - **07.export-stage** - this stage downloads sources for the ADI tools, debootstrap command 
-   and all packages installed in Kuiper. The sources can be found in `kuiper-volume/sources` inside the cloned repository on you machine. 
+   and all packages installed in Kuiper. The sources can be found in `kuiper-volume/sources` inside the cloned repository on your machine. 
    This stage installs the 'extend-rootfs' script that extends the rootfs partition to the dimension of the SD 
    card. This is also the stage where the scripts for adi update tools are installed in the Kuiper image.
    After this stage the full Kuiper image is built and exported. It can be found in `kuiper-volume/`. 
@@ -371,6 +372,12 @@ Installing packages from the repository in Kuiper:
    - **sudo apt install [*]**
 
 [*]: adi-carriers-boot-2022.r2, adi-carriers-boot-main, adi-rpi-boot-5.15.y, adi-rpi-boot-6.1.
+
+# RPI Repository
+
+By default, Kuiper image includes the Raspberry Pi package repository in '/etc/apt/sources.list.d/raspi.list'.
+If a package from that repository needs to be installed, the first line from 'raspi.list' should be uncommented,
+and a system update should be run: 'sudo apt update'.
 
 # Troubleshooting
 
