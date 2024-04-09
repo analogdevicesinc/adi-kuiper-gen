@@ -9,7 +9,7 @@
 repos=$(ls ${BUILD_DIR}/usr/local/src/ | tr '\n' ' ')
 
 chroot "${BUILD_DIR}" << EOF
-	echo -n "ADI repositories in Kuiper:\n\n" >> /${ADI_REPOS}
+	echo -n "ADI repositories in Kuiper ${TARGET_ARCHITECTURE}:\n\n" >> /${ADI_REPOS}
 	for r in ${repos}; do
 		cd "/usr/local/src/\${r}"
 	
