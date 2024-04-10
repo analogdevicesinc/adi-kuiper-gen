@@ -76,7 +76,11 @@ exec > >(TZ=UTC-3 ts '[%b %d %H:%M:%S]' | tee -ia "${LOG_FILE}") 2>&1
 
 echo "${LIGHT_BLUE}Building Kuiper with Debian ${DEBIAN_VERSION} for architecture ${TARGET_ARCHITECTURE}${RESET}"
 
-# Install packages considering config file
+# Install packages considering config file and the name of the files containing the packages
+# 'packages-*' installs without the recommended packages (by adding '-no-install-recommends')
+# 'packages-*-with-recommends' installs with the recommended packages
+# If a substage has both types of packages (with and without recommended packages)
+# any of them can be used in the 'if' statement and both will be installed
 install_packages() {
 chroot "${BUILD_DIR}" << EOF
 	if [ -e "${1}"/packages ]
@@ -89,9 +93,10 @@ chroot "${BUILD_DIR}" << EOF
 	then
 		xargs -a "${1}"/packages-libiio-with-recommends apt-get install -y
 		xargs -a "${1}"/packages-libiio apt-get install --no-install-recommends -y
-	elif ([ -e "${1}"/packages-pyadi-with-recommends ] && [ "${CONFIG_PYADI}" = y ])
+	elif ([ -e "${1}"/packages-pyadi ] && [ "${CONFIG_PYADI}" = y ])
 	then
 		xargs -a "${1}"/packages-pyadi-with-recommends apt-get install -y
+		xargs -a "${1}"/packages-pyadi apt-get install --no-install-recommends -y
 	elif ([ -e "${1}"/packages-iio-oscilloscope ] && [ "${CONFIG_IIO_OSCILLOSCOPE}" = y ])
 	then
 		xargs -a "${1}"/packages-iio-oscilloscope apt-get install --no-install-recommends -y
