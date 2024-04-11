@@ -326,7 +326,8 @@ maintenance and customization.
 
  - **05.adi-tools** - this stage installs the following ADI tools: libiio, pyadi, libm2k, libad9361, libad9166,
    iio-oscilloscope, iio-fm-radio, fru_tools, jesd-eye-scan-gtk, colorimeter, Scopy, Gnuradio and gr-m2k based on settings from config. 
-   A file with all the tools installed, their branches and SHAs is created in the same stage.
+   The 'linux_image_ADI-scripts' repository is cloned by default. The last substage creates a file that contains all the tools and libraries
+   installed, along their branches and SHAs.
 
  - **06.boot-partition** - this stage adds the Intel, Xilinx and Raspberry Pi boot binaries that will be in the 
    BOOT partition. It also configures files so that the image is bootable on RPI by default.
@@ -351,7 +352,7 @@ maintenance and customization.
    - **01.bootstrap**
    - **02.set-locale-and-timezone**
    - **03.system-tweaks**
-   - **05.adi-tools** - substage **13.write-git-logs**
+   - **05.adi-tools** - substages  **13.install-linux_image_ADI-scripts**, **14.write-git-logs**
    - **06.boot-partition** - substages **01.adi-boot-files**, **02.rpi-boot-files** (depending on 'config' file), **03.add-fstab**
    - **07.export-stage** - substages **01.extend-rootfs**, **03.export-image**
  
