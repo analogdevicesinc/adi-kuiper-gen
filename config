@@ -191,6 +191,16 @@ CARRIER=
 #
 #
 #
+# [EXTRA SCRIPT]
+# Customize you Kuiper image by running an extra bash script.
+# The 'EXTRA_SCRIPT' variable should have the path to the script you want to run.
+# After cloning the repository, the script should be added inside 'adi-kuiper-gen' folder.
+# The path should be relative to 'adi-kuiper-gen' folder.
+# Example: EXTRA_SCRIPT=stages/07.extra-scripts/examples/extra-script-example.sh
+EXTRA_SCRIPT=
+#
+#
+#
 # [SOURCES]
 # Contains sources for all packages in the rootfs.
 EXPORT_SOURCES=n

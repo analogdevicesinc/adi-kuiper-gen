@@ -217,6 +217,11 @@ The following environment variables are supported:
 
    Configure the board the Kuiper image will boot on. Together with the variable `ADI_EVAL_BOARD` it can be used to prepare \
    the boot partition during build time with the required ADI project and carrier.
+
+* `EXTRA_SCRIPT` (Default empty)
+
+   Customize the Kuiper image by running an extra script. The variable should be the path to the script. 
+   The script needs to be inside 'adi-kuiper-gen' directory.
  
 * `EXPORT_SOURCES` (Default: n)
 
@@ -331,7 +336,10 @@ maintenance and customization.
  - **06.boot-partition** - this stage adds the Intel, Xilinx and Raspberry Pi boot binaries that will be in the 
    BOOT partition. It also configures files so that the image is bootable on RPI by default.
 
- - **07.export-stage** - this stage downloads sources for the ADI tools, debootstrap command 
+ - **07.extra-scripts** - this stage is used to customize Kuiper image with extra scripts. It contains a script that runs
+   the extra script inside chroot. Extra script path is retrieved from EXTRA_SCRIPT variable.
+
+ - **08.export-stage** - this stage downloads sources for the ADI tools, debootstrap command 
    and all packages installed in Kuiper. The sources can be found in `kuiper-volume/sources` inside the cloned repository on your machine. 
    This stage installs the 'extend-rootfs' script that extends the rootfs partition to the dimension of the SD 
    card. Additionally, during this stage the boot partition is prepared with the required boot files corresponding to the variables 
@@ -353,7 +361,7 @@ maintenance and customization.
    - **03.system-users-and-autologin**
    - **05.adi-tools** - substage **13.write-git-logs**
    - **06.boot-partition** - substages **01.adi-boot-files**, **02.rpi-boot-files** (depending on 'config' file), **03.add-fstab**
-   - **07.export-stage** - substages **01.extend-rootfs**, **03.export-image**
+   - **08.export-stage** - substages **01.extend-rootfs**, **03.export-image**
  
  * `Kuiper with desktop environment:` 
 
@@ -365,7 +373,27 @@ maintenance and customization.
 
  * `Kuiper with exported sources:` 
 
-   - **07.export-stage** - substage **02.export-sources**
+   - **08.export-stage** - substage **02.export-sources**
+
+ * `Kuiper with custom script:`
+
+   - **07.extra-scripts**
+
+# Kuiper with custom extra scripts
+
+Kuiper has an option to run extra scripts at build time in order to customize the resulted image.
+Below are steps to add this option by using the example script provided in stage `07.extra-scripts` or a custom script.
+
+Steps to prepare Kuiper customization with the example script:
+- in the `config` file, set 'EXTRA_SCRIPT' variable to `stages/07.extra-scripts/examples/extra-script-example.sh`
+- if you need to pass `config` file parameters to the script, uncomment the line where it sources the config file in 
+`stages/07.extra-scripts/examples/extra-script-example.sh`, otherwise skip this step
+- write your commands in `stages/07.extra-scripts/examples/extra-script-example.sh`
+
+Steps to prepare Kuiper customization with custom script:
+- place the custom script inside `adi-kuiper-gen` directory
+- in the `config` file set 'EXTRA_SCRIPT' variable to be the path to the custom script; the path should
+be relative to the `adi-kuiper-gen` directory (see example in the `config` file)
 
 # ADI APT Repository
 
