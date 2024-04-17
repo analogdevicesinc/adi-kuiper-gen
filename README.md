@@ -317,7 +317,7 @@ maintenance and customization.
  - **02.set-locale-and-timezone** - this stage installs packages like locales and dialog, 
    configures locale variables and sets the timezone. At this stage mandatory packages for a system are installed.
 
- - **03.system-users-and-autologin** - this stage creates a user with sudo rights and gives the root a password.
+ - **03.system-tweaks** - this stage creates a user with sudo rights and gives the root a password.
    The username is 'analog' and the password is 'analog'. Root has the same password.
    It also sets the hostname, ensures root autologin and configures root login via ssh.
  
@@ -350,7 +350,7 @@ maintenance and customization.
    The corresponding stages are:
    - **01.bootstrap**
    - **02.set-locale-and-timezone**
-   - **03.system-users-and-autologin**
+   - **03.system-tweaks**
    - **05.adi-tools** - substage **13.write-git-logs**
    - **06.boot-partition** - substages **01.adi-boot-files**, **02.rpi-boot-files** (depending on 'config' file), **03.add-fstab**
    - **07.export-stage** - substages **01.extend-rootfs**, **03.export-image**
