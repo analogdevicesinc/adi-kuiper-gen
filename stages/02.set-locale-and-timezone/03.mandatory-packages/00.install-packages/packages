@@ -19,3 +19,4 @@ libnss-mdns
 cmake
 flatpak
 ntpsec
+usbutils
