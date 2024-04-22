@@ -11,5 +11,8 @@ chroot "${BUILD_DIR}" << EOF
 
 	# Clone linux_image_ADI-scripts
 	git clone -b kuiper2.0 ${GITHUB_ANALOG_DEVICES}/linux_image_ADI-scripts.git
+
+	# Install linux_image_ADI-scripts
+	cd linux_image_ADI-scripts && make -j $NUM_JOBS
 EOF
 
