@@ -1,6 +1,6 @@
 # kuiper-gen
 
-[![Build Status](https://dev.azure.com/AnalogDevices/OpenSource/_apis/build/status%2Fanalogdevicesinc.adi-kuiper-gen?branchName=staging%2Fkuiper2.0)](https://dev.azure.com/AnalogDevices/OpenSource/_build/latest?definitionId=53&branchName=staging%2Fkuiper2.0)
+[![Kuiper2.0](https://github.com/analogdevicesinc/adi-kuiper-gen/actions/workflows/kuiper2_0-build.yml/badge.svg?branch=staging%2Fkuiper2.0)](https://github.com/analogdevicesinc/adi-kuiper-gen/actions/workflows/kuiper2_0-build.yml)
 
 Tool used to create Debian OS images.
 
