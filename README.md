@@ -337,8 +337,8 @@ maintenance and customization.
  - **06.boot-partition** - this stage adds the Intel, Xilinx and Raspberry Pi boot binaries that will be in the 
    BOOT partition. It also configures files so that the image is bootable on RPI by default.
 
- - **07.extra-scripts** - this stage is used to customize Kuiper image with extra scripts. It contains a script that runs
-   the extra script inside chroot. Extra script path is retrieved from EXTRA_SCRIPT variable.
+ - **07.extra-tweaks** - this stage is used to customize Kuiper image with extra scripts. It contains a script that runs
+   the extra script inside chroot. Extra script path is retrieved from EXTRA_SCRIPT variable from config file.
 
  - **08.export-stage** - this stage downloads sources for the ADI tools, debootstrap command 
    and all packages installed in Kuiper. The sources can be found in `kuiper-volume/sources` inside the cloned repository on your machine. 
@@ -378,18 +378,18 @@ maintenance and customization.
 
  * `Kuiper with custom script:`
 
-   - **07.extra-scripts**
+   - **07.extra-tweaks** - substage **01.extra-scripts**
 
 # Kuiper with custom extra scripts
 
 Kuiper has an option to run extra scripts at build time in order to customize the resulted image.
-Below are steps to add this option by using the example script provided in stage `07.extra-scripts` or a custom script.
+Below are steps to add this option by using the example script provided in stage `07.extra-tweaks` or a custom script.
 
 Steps to prepare Kuiper customization with the example script:
-- in the `config` file, set 'EXTRA_SCRIPT' variable to `stages/07.extra-scripts/examples/extra-script-example.sh`
+- in the `config` file, set 'EXTRA_SCRIPT' variable to `stages/07.extra-tweaks/01.extra-scripts/examples/extra-script-example.sh`
 - if you need to pass `config` file parameters to the script, uncomment the line where it sources the config file in 
-`stages/07.extra-scripts/examples/extra-script-example.sh`, otherwise skip this step
-- write your commands in `stages/07.extra-scripts/examples/extra-script-example.sh`
+`stages/07.extra-tweaks/01.extra-scripts/examples/extra-script-example.sh`, otherwise skip this step
+- write your commands in `stages/07.extra-tweaks/01.extra-scripts/examples/extra-script-example.sh`
 
 Steps to prepare Kuiper customization with custom script:
 - place the custom script inside `adi-kuiper-gen` directory

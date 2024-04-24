@@ -196,7 +196,7 @@ CARRIER=
 # The 'EXTRA_SCRIPT' variable should have the path to the script you want to run.
 # After cloning the repository, the script should be added inside 'adi-kuiper-gen' folder.
 # The path should be relative to 'adi-kuiper-gen' folder.
-# Example: EXTRA_SCRIPT=stages/07.extra-scripts/examples/extra-script-example.sh
+# Example: EXTRA_SCRIPT=stages/07.extra-tweaks/01.extra-scripts/examples/extra-script-example.sh
 EXTRA_SCRIPT=
 #
 #
