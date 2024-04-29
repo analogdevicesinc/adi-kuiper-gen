@@ -9,13 +9,24 @@ on:
 
 jobs:
   Build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         arch: [32, 64]
         build_type: [basic, full]
-        exclude:
-          - build_type: ${{ github.event_name == 'pull_request' && 'full' }}
+        include:
+          - arch: 32
+            build_type: basic
+            os: ubuntu-latest
+          - arch: 64
+            build_type: basic
+            os: ubuntu-latest
+          - arch: 32
+            build_type: full
+            os: [self-hosted, kuiper32_full]
+          - arch: 64
+            build_type: full
+            os: ubuntu-latest
       fail-fast: false
     steps:
       - uses: actions/checkout@v3
@@ -32,8 +43,10 @@ jobs:
           echo BRANCH_NAME="$branch_name"_"$type"_"${{ matrix.arch }}" >> $GITHUB_ENV
       - name: Build image
         run: |
-          sudo apt-get update
-          sudo apt-get install -y qemu-user-static
+          if [ "${{ matrix.os }}" == "ubuntu-latest" ]; then
+            sudo apt-get update
+            sudo apt-get install -y qemu-user-static
+          fi
           ci/modify_config.sh ./config "${{ vars[format('{0}', env.BRANCH_NAME )] }}"
           sudo bash build-docker.sh
           ls kuiper-volume/*.zip >/dev/null 2>&1 && exit 0 || exit 2
