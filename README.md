@@ -218,6 +218,11 @@ The following environment variables are supported:
    Configure the board the Kuiper image will boot on. Together with the variable `ADI_EVAL_BOARD` it can be used to prepare \
    the boot partition during build time with the required ADI project and carrier.
 
+* `INSTALL_RPI_PACKAGES` (Default: n)
+
+   Install the following RaspberryPi specific packages: raspi-config, GPIO related (pigpio, python3-gpio, raspi-gpio,\
+   python3-rpi.gpio), VideoCore debugging related (vcdbg), sense-hat, sense-emu.
+
 * `EXTRA_SCRIPT` (Default empty)
 
    Customize the Kuiper image by running an extra script. The variable should be the path to the script. 
@@ -338,7 +343,7 @@ maintenance and customization.
    BOOT partition. It also configures files so that the image is bootable on RPI by default.
 
  - **07.extra-tweaks** - this stage is used to customize Kuiper image with extra scripts. It contains a script that runs
-   the extra script inside chroot. Extra script path is retrieved from EXTRA_SCRIPT variable from config file.
+   the extra script inside chroot. Extra script path is retrieved from EXTRA_SCRIPT variable from config file. In this stage the RaspberryPi specific packages are also installed if INSTALL_RPI_PACKAGES is set to 'y'.
 
  - **08.export-stage** - this stage downloads sources for the ADI tools, debootstrap command 
    and all packages installed in Kuiper. The sources can be found in `kuiper-volume/sources` inside the cloned repository on your machine. 
@@ -379,6 +384,10 @@ maintenance and customization.
  * `Kuiper with custom script:`
 
    - **07.extra-tweaks** - substage **01.extra-scripts**
+
+ * `Kuiper with specific RaspberryPi packages:`
+
+   - **07.extra-tweaks** - substage **02.install-rpi-packages**
 
 # Kuiper with custom extra scripts
 

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Sense HAT Emulator
+Comment=GUI for controlling the emulated Sense HAT
+Exec=sense_emu_gui
+Icon=/usr/local/share/sense/sense_emu_gui.svg
+Terminal=false
+Type=Application
+Categories=Development
+StartupNotify=true

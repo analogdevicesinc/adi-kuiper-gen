@@ -191,6 +191,14 @@ CARRIER=
 #
 #
 #
+# [RASPBERRY PI SPECIFIC PACKAGES]*
+# Install the following RaspberryPi specific packages: raspi-config, GPIO related (pigpio, python3-gpio, raspi-gpio, python3-rpi.gpio),
+# VideoCore debugging related (vcdbg), sense-hat, sense-emu.
+# *partially depends on DESKTOP ENVIRONMENT (only sense-hat and sense-emu packages)
+INSTALL_RPI_PACKAGES=n
+#
+#
+#
 # [EXTRA SCRIPT]
 # Customize you Kuiper image by running an extra bash script.
 # The 'EXTRA_SCRIPT' variable should have the path to the script you want to run.
