@@ -21,3 +21,5 @@ flatpak
 ntpsec
 usbutils
 device-tree-compiler
+psmisc
+tree
