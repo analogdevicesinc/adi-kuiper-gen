@@ -6,5 +6,8 @@
 # Copyright (c) 2024 Analog Devices, Inc.
 # Author: Larisa Radu <larisa.radu@analog.com>
 
-# Install mandatory packages
-# This script needs to exist even if it is empty so that the packages list is read and installed
+chroot "${BUILD_DIR}" << EOF
+	# Install xserver-xorg inside chroot
+	# Use DEBIAN_FRONTEND=noninteractive to suppress interactive prompt from keyboard-configuration package and use the default answer
+	DEBIAN_FRONTEND=noninteractive apt-get install -y xserver-xorg
+EOF
