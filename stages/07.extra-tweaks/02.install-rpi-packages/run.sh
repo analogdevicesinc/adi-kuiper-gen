@@ -8,15 +8,12 @@
 
 if [ "${INSTALL_RPI_PACKAGES}" = y ]; then
 	
-	if [ "${CONFIG_DESKTOP}" = y ]; then
-		# Copy application launcher and icon for sense_emu
-		install -d 								"${BUILD_DIR}/usr/local/share/sense"
-		install -m 644 "${BASH_SOURCE%%/run.sh}"/files/sense_emu_gui.svg 	"${BUILD_DIR}/usr/local/share/sense/"
-		install -d 								"${BUILD_DIR}/usr/local/share/applications/"
-		install -m 644 "${BASH_SOURCE%%/run.sh}"/files/sense_emu_gui.desktop 	"${BUILD_DIR}/usr/local/share/applications/"
-	else
-		echo "Sense HAT and emulator won't be installed because CONFIG_DESKTOP is set to 'n'."
-	fi
+	# Copy application launcher and icon for sense_emu
+	install -d 								"${BUILD_DIR}/usr/local/share/sense"
+	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/sense_emu_gui.svg 	"${BUILD_DIR}/usr/local/share/sense/"
+	install -d 								"${BUILD_DIR}/usr/local/share/applications/"
+	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/sense_emu_gui.desktop 	"${BUILD_DIR}/usr/local/share/applications/"
+
 	
 chroot "${BUILD_DIR}" << EOF
 	# Uncomment packages installation from raspi.list
@@ -33,11 +30,9 @@ chroot "${BUILD_DIR}" << EOF
 	# Install vcdbg (tool for debugging VideoCore)
 	apt install -y vcdbg
 		
-	if [ "${CONFIG_DESKTOP}" = y ]; then
-		# Install sense-hat and sense-emu
-		apt install -y sense-hat python3-sense-emu
-		yes | pip install sense-emu --break-system-packages
-	fi
+	# Install sense-hat and sense-emu
+	apt install -y sense-hat python3-sense-emu
+	yes | pip install sense-emu --break-system-packages
 		
 	# Comment package installation from raspi.list
 	sed -i 's/deb /#deb /' /etc/apt/sources.list.d/raspi.list

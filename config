@@ -191,10 +191,9 @@ CARRIER=
 #
 #
 #
-# [RASPBERRY PI SPECIFIC PACKAGES]*
+# [RASPBERRY PI SPECIFIC PACKAGES]
 # Install the following RaspberryPi specific packages: raspi-config, GPIO related (pigpio, python3-gpio, raspi-gpio, python3-rpi.gpio),
 # VideoCore debugging related (vcdbg), sense-hat, sense-emu.
-# *partially depends on DESKTOP ENVIRONMENT (only sense-hat and sense-emu packages)
 INSTALL_RPI_PACKAGES=n
 #
 #
