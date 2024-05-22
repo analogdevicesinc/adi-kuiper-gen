@@ -367,6 +367,7 @@ maintenance and customization.
    - **03.system-tweaks**
    - **05.adi-tools** - substages  **13.install-linux_image_ADI-scripts**, **14.write-git-logs**
    - **06.boot-partition** - substages **01.adi-boot-files**, **02.rpi-boot-files** (depending on 'config' file), **03.add-fstab**
+   - **07.extra-tweaks** - substage **03.install-rpi-wifi-firmware** (depending on 'config' file)
    - **08.export-stage** - substages **01.extend-rootfs**, **03.export-image**
  
  * `Kuiper with desktop environment:` 
