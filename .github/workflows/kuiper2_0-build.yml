@@ -56,3 +56,14 @@ jobs:
         with:
           name: ${{ env.ARTIFACT_NAME }}
           path: ${{ github.workspace }}/kuiper-volume
+
+  Trigger_workflow:
+    needs: Build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Trigger docker build
+        run: gh workflow run docker-image-build.yml --ref staging/kuiper2.0
+        env:
+          GH_TOKEN: ${{ github.token }}
