@@ -1,0 +1,72 @@
+name: docker image build
+on: workflow_dispatch
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        kuiper_artifact: [kuiper_basic_32, kuiper_basic_64]
+        include:
+            - kuiper_artifact: kuiper_basic_32
+              arch: linux/arm
+            - kuiper_artifact: kuiper_basic_64
+              arch: linux/arm64
+    steps:
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Checkout Dockerfile for image building
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            ci/Dockerfile
+          sparse-checkout-cone-mode: false
+
+      - name: Download image
+        uses: dawidd6/action-download-artifact@v5
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          workflow: kuiper2_0-build.yml
+          branch: staging/kuiper2.0
+          name: ${{ matrix.kuiper_artifact }}
+          repo: analogdevicesinc/adi-kuiper-gen
+
+      - name: Create .tar file
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-user-static
+          zip_file=$(ls *.zip)
+          unzip ${zip_file} -d .
+          img_file=$(ls *.img)
+          sudo losetup -fP ${img_file}
+          loop_device=$(losetup --list | grep "$(basename "ADI-Kuiper-Linux.*.img")" | cut -f1 -d' ')
+          mkdir rootfs
+          sudo mount "${loop_device}p2" ./rootfs
+          (
+            cd rootfs
+            sudo tar -cf ../kuiper_image.tar .
+          )
+          sudo umount ./rootfs
+          sudo losetup -d ${loop_device}
+
+      - name: Test build
+        run: |
+          docker buildx create --name armbuilder
+          docker buildx use armbuilder
+          docker buildx build --builder armbuilder -t test_kuiper_image --platform ${{ matrix.arch }} --load -f ./ci/Dockerfile .
+          ARCH_CHECK=$(docker run --platform ${{ matrix.arch }} test_kuiper_image:latest uname -a)
+          echo "$ARCH_CHECK"
+
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: aandrisa/${{ matrix.kuiper_artifact }}:latest
+          file: ci/Dockerfile
+          context: .
+          platforms: ${{ matrix.arch }}
