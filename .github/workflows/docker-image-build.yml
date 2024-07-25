@@ -4,6 +4,9 @@ on: workflow_dispatch
 jobs:
   Build:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
     strategy:
       matrix:
         kuiper_artifact: [kuiper_basic_32, kuiper_basic_64]
