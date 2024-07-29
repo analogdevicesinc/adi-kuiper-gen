@@ -23,3 +23,4 @@ usbutils
 device-tree-compiler
 psmisc
 tree
+bash-completion
