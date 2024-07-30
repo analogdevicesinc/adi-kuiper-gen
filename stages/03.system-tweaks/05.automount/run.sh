@@ -1,0 +1,15 @@
+#!/bin/bash
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# kuiper2.0 - Embedded Linux for Analog Devices Products
+#
+# Copyright (c) 2024 Analog Devices, Inc.
+# Author: Larisa Radu <larisa.radu@analog.com>
+
+# Add udiskie service
+install -m 644 "${BASH_SOURCE%%/run.sh}"/files/udiskie.service "${BUILD_DIR}/lib/systemd/system/"
+
+chroot "${BUILD_DIR}" << EOF
+	# Enable udiskie service to run automatically at every boot
+	systemctl enable udiskie
+EOF
