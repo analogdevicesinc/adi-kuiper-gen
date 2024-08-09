@@ -13,11 +13,6 @@ sed -i '$ s/deb /deb-src /' /etc/apt/sources.list
 # Comment package installation from sources.list
 sed -i 's/deb /#deb /' /etc/apt/sources.list
 
-if [ "${CONFIG_GNURADIO}" = y ]; then
-	# Uncomment sources installation from trixie.list in order to download sources for Gnuradio (in case it was set to be installed).
-	sed -i 's/#deb-src /deb-src /' /etc/apt/sources.list.d/trixie.list
-fi
-
 apt update
 cd /deb-src
 for package in $(dpkg -l | awk '/ii/ { print $2 }'); do
@@ -33,11 +28,6 @@ sed -i 's/deb-src /#deb-src /' /etc/apt/sources.list
 
 # Uncomment package installation from sources.list
 sed -i 's/#deb /deb /' /etc/apt/sources.list
-
-if [ "${CONFIG_GNURADIO}" = y ]; then
-	# Comment sources installation from trixie.list
-	sed -i 's/deb-src /#deb-src /' /etc/apt/sources.list.d/trixie.list
-fi
 
 apt update
 
