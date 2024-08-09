@@ -28,7 +28,8 @@ if [ "${EXPORT_SOURCES}" = y ]; then
 
 	######################## ADI boot sources ######################## 
 
-	if [ "${CONFIG_XILINX_INTEL_BOOT_FILES}" = y ]; then
+	# Check if Xilinx and Intel boot files were downloaded or installed via ADI APT Package Repository
+	if [[ "${CONFIG_XILINX_INTEL_BOOT_FILES}" = y && "${USE_ADI_REPO_CARRIERS_BOOT}" = n ]]; then
 		# Extract SHAs for Linux and HDL boot files in order to download the sources of the binaries from the same commit they were built.
 		LINUX_SHA=$(sed -n 9p "${BUILD_DIR}/boot/$XILINX_INTEL_PROPERTIES" |cut -d"'" -f2)
 		HDL_SHA=$(sed -n 5p "${BUILD_DIR}/boot/$XILINX_INTEL_PROPERTIES" |cut -d"'" -f2)
@@ -38,7 +39,8 @@ if [ "${EXPORT_SOURCES}" = y ]; then
 		https://github.com/analogdevicesinc/hdl/archive/${HDL_SHA}.zip
 	fi
 
-	if [ "${CONFIG_RPI_BOOT_FILES}" = y ]; then
+	# Check if RPI boot files were downloaded or installed via ADI APT Package Repository
+	if [[ "${CONFIG_RPI_BOOT_FILES}" = y && "${USE_ADI_REPO_RPI_BOOT}" = n ]]; then
 		if [[ ! -z ${ARTIFACTORY_RPI} ]]; then
 			RPI_SHA=$(sed -n 2p "${BUILD_DIR}/boot/$RPI_ARTIFACTORY_PROPERTIES" |cut -d'=' -f2)
 		else
@@ -49,7 +51,7 @@ if [ "${EXPORT_SOURCES}" = y ]; then
 	fi
 	
 
-    ######################## Debootstrap package source ########################
+    	######################## Debootstrap package source ########################
 
 	# Download debootstrap sources
 	DEBOOTSTRAP_VERSION=$(debootstrap --version | cut -d' ' -f 2)
@@ -63,7 +65,7 @@ if [ "${EXPORT_SOURCES}" = y ]; then
 	mount --bind /kuiper-volume/sources/deb-src "${BUILD_DIR}/deb-src"
 	
 chroot "${BUILD_DIR}" << EOF
-	bash stages/07.export-stage/03.export-sources/01.deb-src-chroot/run-chroot-deb.sh
+	bash stages/08.export-stage/02.export-sources/01.deb-src-chroot/run-chroot-deb.sh
 EOF
 	umount "${BUILD_DIR}/deb-src"
 	rm -r "${BUILD_DIR}/deb-src"
@@ -76,7 +78,7 @@ EOF
 		mount --bind /kuiper-volume/sources/deb-src-rpi "${BUILD_DIR}/deb-src-rpi"
 
 chroot "${BUILD_DIR}" << EOF
-		bash stages/07.export-stage/03.export-sources/01.deb-src-chroot/run-chroot-rpi.sh "${CONFIG_DESKTOP}"
+		bash stages/08.export-stage/02.export-sources/01.deb-src-chroot/run-chroot-rpi.sh "${CONFIG_DESKTOP}"
 EOF
 		umount "${BUILD_DIR}/deb-src-rpi"
 		rm -r "${BUILD_DIR}/deb-src-rpi"
