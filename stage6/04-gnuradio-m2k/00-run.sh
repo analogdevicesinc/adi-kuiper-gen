@@ -15,19 +15,6 @@ JOBS=-j${NUM_JOBS}
 on_chroot << EOF
 build_gnuradio() {
 
-	[ -d "volk" ] || {
-		git clone --recursive https://github.com/gnuradio/volk.git
-		mkdir -p volk/build
-	}
-
-	pushd volk/build
-	cmake -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3 ../
-	make ${JOBS}
-	make install
-	ldconfig
-	popd 1> /dev/null # volk/build
-	rm -rf volk/
-
 	#uncomment next lines is case you need a non-default version (default for bullseye: 3.8.2)
 	apt-get update
 	#add-apt-repository ppa:gnuradio/gnuradio-releases-3.10
