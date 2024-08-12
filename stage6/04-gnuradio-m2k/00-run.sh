@@ -15,11 +15,6 @@ JOBS=-j${NUM_JOBS}
 on_chroot << EOF
 install_gnuradio() {
 
-	#uncomment next lines is case you need a non-default version (default for bullseye: 3.8.2)
-	apt-get update
-	#add-apt-repository ppa:gnuradio/gnuradio-releases-3.10
-	#apt-get update
-
 	echo "### Installing gnuradio"
 	apt install gnuradio -y
 	ldconfig
