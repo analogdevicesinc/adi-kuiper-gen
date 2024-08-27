@@ -12,7 +12,7 @@ on_chroot << EOF
    rm -rf gtkdatabox-1.0.0.tar.gz
 
    [ -d "linux_image_ADI-scripts" ] || {
-	git clone https://github.com/analogdevicesinc/linux_image_ADI-scripts -b main
+	git clone https://github.com/analogdevicesinc/linux_image_ADI-scripts -b add_jupiter_stuff
    }
 
    pushd linux_image_ADI-scripts
