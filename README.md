@@ -258,6 +258,12 @@ To build:
 sudo bash build-docker.sh
 ```
 
+or
+
+```bash
+sudo ./build-docker.sh
+```
+
 Your Kuiper image will be in the `kuiper-volume/` folder inside the cloned repository on you machine.
 After successful build, the docker image and the build container are removed if `PRESERVE_CONTAINER=n`.
 If needed, you can remove the build container with:
