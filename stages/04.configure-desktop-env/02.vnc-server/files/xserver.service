@@ -1,0 +1,11 @@
+[Unit]
+Description=ADI X Server
+Wants=display-manager.service
+After=display-manager.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/adi-xserver.sh
+
+[Install]
+WantedBy=multi-user.target

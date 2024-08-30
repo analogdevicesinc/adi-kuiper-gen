@@ -19,6 +19,12 @@ if [ "${CONFIG_DESKTOP}" = y ]; then
 # Add x11vnc service
 install -m 644 "${BASH_SOURCE%%/run.sh}"/files/x11vnc.service "${BUILD_DIR}/lib/systemd/system/"
 
+# Add xserver service
+install -m 644 "${BASH_SOURCE%%/run.sh}"/files/xserver.service "${BUILD_DIR}/lib/systemd/system/"
+
+# Add xserver script
+install -m 755 "${BASH_SOURCE%%/run.sh}"/files/adi-xserver.sh	 "${BUILD_DIR}/usr/bin/"
+
 # Add dummy display
 #install -m 644 "${BASH_SOURCE%%/run.sh}"/files/xorg.conf	"${BUILD_DIR}/usr/share/X11/xorg.conf.d/"
 
@@ -30,10 +36,11 @@ chroot "${BUILD_DIR}" << EOF
 	chmod 644 /home/analog/.vnc/passwd
 	
 	# Allow anybody to start the X server
-	sed -i "s/#allowed_users=console/allowed_users=anybody/g" /etc/X11/Xwrapper.config
+	sed -i "s/allowed_users=console/allowed_users=anybody/g" /etc/X11/Xwrapper.config
 	
-	# Enable VNC service to run automatically at every boot
+	# Enable VNC and xserver services to run automatically at every boot
 	systemctl enable x11vnc
+	systemctl enable xserver
 EOF
 
 else
