@@ -9,9 +9,7 @@
 # Check if the system has a display output
 if dmesg | grep -q "\[drm\]"; then
 	# Remove dummy display
-	if [ -e /usr/share/X11/xorg.conf.d/xorg.conf ]; then
-		rm /usr/share/X11/xorg.conf.d/xorg.conf
-	fi
+	rm -f /usr/share/X11/xorg.conf.d/xorg.conf
 else
 	# Enable dummy display
 	enable_dummy_display.sh

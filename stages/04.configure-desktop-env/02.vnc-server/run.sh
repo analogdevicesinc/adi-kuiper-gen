@@ -6,14 +6,6 @@
 # Copyright (c) 2024 Analog Devices, Inc.
 # Author: Larisa Radu <larisa.radu@analog.com>
 
-HELP="To enable VNC on a board that has a display port, you only need to install the service. This is the default approach in the script. \
-	\nTo enable VNC on a board that doesn't have a display port, you need to install the xorg.conf file that contains a dummy display. \
-	\nYou can do this by uncommenting line 21. \
-	\nOnce you have installed the dummy display, your desktop environment might not start if you switch to a board that has a display port. \
-	\nIn order to go back to the initial configuration, you only need to delete /usr/share/X11/xorg.conf.d/xorg.conf file and reboot. \
-	\n \
-	\nThe VNC password is: analog"
-
 if [ "${CONFIG_DESKTOP}" = y ]; then
 
 # Add x11vnc service
@@ -24,9 +16,6 @@ install -m 644 "${BASH_SOURCE%%/run.sh}"/files/xserver.service "${BUILD_DIR}/lib
 
 # Add xserver script
 install -m 755 "${BASH_SOURCE%%/run.sh}"/files/adi-xserver.sh	 "${BUILD_DIR}/usr/bin/"
-
-# Add dummy display
-#install -m 644 "${BASH_SOURCE%%/run.sh}"/files/xorg.conf	"${BUILD_DIR}/usr/share/X11/xorg.conf.d/"
 
 install -d "${BUILD_DIR}/home/analog/.vnc"
 
