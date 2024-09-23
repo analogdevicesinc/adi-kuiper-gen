@@ -1,0 +1,14 @@
+[Unit]
+Description=Set usb0 interface up
+After=network-oneline.target
+
+[Service]
+Type=oneshot
+ExecStartPre=/usr/bin/sleep 5
+ExecStartPre=/usr/bin/systemctl restart dhcpcd
+ExecStartPre=/usr/bin/sleep 3
+ExecStart=/usr/sbin/ip link set usb0 up
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
