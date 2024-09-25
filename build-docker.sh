@@ -83,11 +83,11 @@ BUILD_OPTS="$(echo "${BUILD_OPTS:-}" | sed -E 's@\-c\s?([^ ]+)@-c /config@')"
 # Check the arch of the machine we're running on. If it's 64-bit, use a 32-bit base image instead
 case "$(uname -m)" in
   x86_64|aarch64)
-    BASE_IMAGE='i386/debian:11.9'
+    BASE_IMAGE='i386/debian:bullseye'
     echo "-------------- Base image 64bit case--------------"
     ;;
   *)
-    BASE_IMAGE='debian:11.9'
+    BASE_IMAGE='debian:bullseye'
     echo "-------------- Base image non-64bit case--------------"
     # another place where latest 'bullseye' is used / maybe need to change this to 11.9
     ;;
