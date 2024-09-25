@@ -87,6 +87,7 @@ case "$(uname -m)" in
     ;;
   *)
     BASE_IMAGE=debian:bullseye
+    # another place where latest 'bullseye' is used / maybe need to change this to 11.9
     ;;
 esac
 ${DOCKER} build --build-arg BASE_IMAGE=${BASE_IMAGE} -t pi-gen "${DIR}"
