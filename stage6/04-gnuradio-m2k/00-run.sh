@@ -102,10 +102,10 @@ install_scopy() {
 	echo "alias scopy='flatpak run org.adi.Scopy'" >> /home/analog/.bashrc
 }
 
-install_scopy
-install_gnuradio
-build_libm2k
-build_griio
-build_grm2k
-ldconfig
+#install_scopy
+#install_gnuradio
+#build_libm2k
+#build_griio
+#build_grm2k
+#ldconfig
 EOF
