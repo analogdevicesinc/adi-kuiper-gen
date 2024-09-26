@@ -1,7 +1,7 @@
-PRETTY_NAME="Kuiper GNU/Linux 11.2 (bullseye)"
+PRETTY_NAME="Kuiper GNU/Linux os_release (bullseye)"
 NAME="Kuiper GNU/Linux"
-VERSION_ID="11.2"
-VERSION="11.2 (bullseye)"
+VERSION_ID="os_release"
+VERSION="os_release (bullseye)"
 VERSION_CODENAME=bullseye
 ID=raspbian
 ID_LIKE=debian
