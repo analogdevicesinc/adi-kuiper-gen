@@ -261,9 +261,8 @@ echo "<th>Location</th>" >> ${FILE}
 echo "</tr>" >> ${FILE}
 echo "</thead>" >> ${FILE}
 echo "<tbody>" >> ${FILE}
-package_table_items $((var++)) "Linux" "5.10" "GPLv2" "https://github.com/analogdevicesinc/linux"
+package_table_items $((var++)) "Linux" "5.15" "GPLv2" "https://github.com/analogdevicesinc/linux"
 package_table_items $((var++)) "HDL"   " "    "GPL/LGPL/BSD" "https://github.com/analogdevicesinc/hdl"
-package_table_items $((var++)) "HDL Testbenches" " " "GPL" "https://github.com/analogdevicesinc/testbenches"
 package_table_items $((var++)) "LibIIO" " " "LGPL-2.1/GPL-2.0" "https://github.com/analogdevicesinc/libiio"
 package_table_items $((var++)) "IIO Oscilloscope" " " "GPL-2.0" "https://github.com/analogdevicesinc/iio-oscilloscope"
 package_table_items $((var++)) "Scopy" " " "GPL-3.0" "https://github.com/analogdevicesinc/scopy"
