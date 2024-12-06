@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-LIBM2K_BRANCH="v0.8.0"
+LIBM2K_BRANCH="v0.9.0"
 GRIIO_BRANCH="upgrade-3.8"
 GRM2K_BRANCH="maint-3.8"
 LIBSIGROKDECODE_BRANCH="master"
