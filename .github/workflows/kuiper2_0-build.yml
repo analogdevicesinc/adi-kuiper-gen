@@ -2,10 +2,10 @@ name: Kuiper2.0
 on:
   push:
     branches:
-      - staging/kuiper2.0
-  pull_request:
-    branches:
-      - staging/kuiper2.0
+      - costumed_image
+  # pull_request:
+  #   branches:
+  #     - staging/kuiper2.0
 
 jobs:
   Build:
@@ -13,20 +13,20 @@ jobs:
     strategy:
       matrix:
         arch: [32, 64]
-        build_type: [basic, full]
+        build_type: [costumed]
         include:
           - arch: 32
-            build_type: basic
+            build_type: costumed
             os: ubuntu-latest
           - arch: 64
-            build_type: basic
+            build_type: costumed
             os: ubuntu-latest
-          - arch: 32
-            build_type: full
-            os: [self-hosted, kuiper32_full]
-          - arch: 64
-            build_type: full
-            os: ubuntu-latest
+          # - arch: 32
+          #   build_type: full
+          #   os: [self-hosted, kuiper32_full]
+          # - arch: 64
+          #   build_type: full
+          #   os: ubuntu-latest
       fail-fast: false
     steps:
       - uses: actions/checkout@v3
@@ -57,13 +57,13 @@ jobs:
           name: ${{ env.ARTIFACT_NAME }}
           path: ${{ github.workspace }}/kuiper-volume
 
-  Trigger_workflow:
-    needs: Build
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-    steps:
-      - uses: actions/checkout@v3
-      - name: Trigger docker build
-        run: gh workflow run docker-image-build.yml --ref staging/kuiper2.0
-        env:
-          GH_TOKEN: ${{ github.token }}
+  # Trigger_workflow:
+  #   needs: Build
+  #   runs-on: ubuntu-latest
+  #   if: github.event_name == 'push'
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Trigger docker build
+  #       run: gh workflow run docker-image-build.yml --ref staging/kuiper2.0
+  #       env:
+  #         GH_TOKEN: ${{ github.token }}
