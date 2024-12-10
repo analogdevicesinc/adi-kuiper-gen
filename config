@@ -27,7 +27,7 @@ CONFIG_DESKTOP=n
 # [LIBIIO]
 # Libiio is an Analog Devices library for interfacing with Linux IIO devices.
 # Github: https://github.com/analogdevicesinc/libiio
-CONFIG_LIBIIO=n
+CONFIG_LIBIIO=y
 CONFIG_LIBIIO_CMAKE_ARGS="-DWITH_HWMON=ON \
 			-DWITH_SERIAL_BACKEND=ON \
 			-DWITH_MAN=ON \
@@ -36,7 +36,7 @@ CONFIG_LIBIIO_CMAKE_ARGS="-DWITH_HWMON=ON \
 			-DCMAKE_BUILD_TYPE=Release \
 			-DCMAKE_COLOR_MAKEFILE=OFF \
 			-Bbuild -H."
-BRANCH_LIBIIO=libiio-v0
+BRANCH_LIBIIO=2023_R2
 #
 #
 #
@@ -68,13 +68,13 @@ BRANCH_LIBM2K=main
 # Libad9166-iio: library used for userspace, which applies calibration gain and offset for a user-given frequency.
 # Github: https://github.com/analogdevicesinc/libad9166-iio
 # *depends on LIBIIO
-CONFIG_LIBAD9166_IIO=n
+CONFIG_LIBAD9166_IIO=y
 CONFIG_LIBAD9166_IIO_CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX=/usr \
 				-DCMAKE_BUILD_TYPE=Release \
 				-DCMAKE_COLOR_MAKEFILE=OFF \
 				-DPYTHON_BINDINGS=ON \
 				-Bbuild -H."
-BRANCH_LIBAD9166_IIO=libad9166-iio-v0 
+BRANCH_LIBAD9166_IIO=2023_R2
 #
 #
 #
@@ -83,12 +83,12 @@ BRANCH_LIBAD9166_IIO=libad9166-iio-v0
 # where multiple AD9361 devices are use) and can create AD9361 specific FIR filters on the fly
 # Github: https://github.com/analogdevicesinc/libad9361-iio
 # *depends on LIBIIO
-CONFIG_LIBAD9361_IIO=n
+CONFIG_LIBAD9361_IIO=y
 CONFIG_LIBAD9361_IIO_CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX=/usr \
 				-DCMAKE_BUILD_TYPE=Release \
 				-DCMAKE_COLOR_MAKEFILE=OFF \
 				-Bbuild -H."
-BRANCH_LIBAD9361_IIO=libad9361-iio-v0
+BRANCH_LIBAD9361_IIO=2023_R2
 #
 #
 #
@@ -178,8 +178,8 @@ USE_ADI_REPO_RPI_BOOT=y
 # [INTEL AND XILINX BOOT FILES]
 # Contains boot files for Intel and Xilinx.
 CONFIG_XILINX_INTEL_BOOT_FILES=y
-RELEASE_XILINX_INTEL_BOOT_FILES=2022_r2
-USE_ADI_REPO_CARRIERS_BOOT=y
+RELEASE_XILINX_INTEL_BOOT_FILES=2023_r2
+USE_ADI_REPO_CARRIERS_BOOT=n
 #
 #
 #
