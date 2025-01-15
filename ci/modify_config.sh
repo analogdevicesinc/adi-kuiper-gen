@@ -8,6 +8,7 @@
 
 # This script it takes as arguments the config file that we want to modify and a list of configurations with the new value
 # Ex: ./modify_config.sh ./config "TARGET_ARCHITECTURE=arm64 BRANCH_RPI_BOOT_FILES=rpi-5.15.y"
+
 config_file=$1
 arguments=$2
 if [ ! -f $config_file ]; then
