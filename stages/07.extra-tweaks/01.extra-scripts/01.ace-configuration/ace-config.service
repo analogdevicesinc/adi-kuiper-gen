@@ -1,9 +1,12 @@
 [Unit]
 Description=Run script for ACE setup
 After=network.target
+Before=set-usb0-up.service
 
 [Service]
 Type=oneshot
+ExecStart=/usr/bin/nmcli connection add type ethernet ifname usb0 con-name usb0
+ExecStart=/usr/bin/nmcli con modify usb0 ipv4.method link-local
 ExecStart=/usr/bin/adi-ace-config.sh
 ExecStartPost=/bin/rm /etc/systemd/system/ace-config.service
 
