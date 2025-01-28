@@ -1,11 +1,6 @@
 #!/bin/bash
-
+sed -i 's/^#\(kernel\.printk = 3 4 1 3\)/\1/' /etc/sysctl.conf
 mkdir /lib/firmware
-apt install -y dhcpcd5
-echo -e "\ninterface usb0\nrequire dhcp" >> /etc/dhcpcd.conf
-echo -e "\n[keyfile]\nunmanaged-devices=interface-name:usb0" >> /etc/NetworkManager/NetworkManager.conf
-systemctl enable dhcpcd
-
 # copy eval support files to embedded system and enable systemd-service (step 3)
 # git setup
 git clone --no-checkout --filter=blob:none https://bitbucket.analog.com/scm/pcts/misc_linux_tools.git
@@ -25,14 +20,8 @@ chmod +x /root/eval/bin/*
 sed -i 's/GT_DEFAULT_SCHEME=.*/GT_DEFAULT_SCHEME=\/usr\/local\/etc\/gt\/adi\/iio_rndis.scheme/' /etc/default/usb_gadget
 systemctl disable iiod_ffs.service
 systemctl disable dev-iio_ffs.mount
-sed -i 's/^Description=.*/Description=Start USB gadget scheme/; s/^After=.*/After=systemd-udev-settle.service/; /^Requires/d; s/^ExecStartPre=.*/ExecStartPre=\/bin\/sleep 5/' /etc/systemd/system/gt-start.service
+sed -i 's/^Description=.*/Description=Start USB gadget scheme/; s/^After=.*/After=systemd-udev-settle.service gt.service/; /^Requires/d' /etc/systemd/system/gt-start.service
 sed -i 's/^Before=.*/Before=iiod.service/' /etc/systemd/system/iiod_context_attr.service
-
-install -m 644 "${BASH_SOURCE%%/extra-ace-setup.sh}"/set-usb0-up.service /etc/systemd/system/
-systemctl enable set-usb0-up
-systemctl enable evb_overlay
-systemctl enable disable-ipv6-usb0
-rm -r ./misc_linux_tools
 
 #step 6 create a service that needs to add a session-id
 #example in 04 config-desk-env
@@ -40,6 +29,13 @@ rm -r ./misc_linux_tools
 install -m 644 "${BASH_SOURCE%%/extra-ace-setup.sh}"/ace-config.service /etc/systemd/system/
 install -m 755 "${BASH_SOURCE%%/extra-ace-setup.sh}"/adi-ace-config.sh /usr/bin/
 systemctl enable ace-config
+
+
+install -m 644 "${BASH_SOURCE%%/extra-ace-setup.sh}"/set-usb0-up.service /etc/systemd/system/
+systemctl enable set-usb0-up
+systemctl enable evb_overlay
+systemctl enable disable-ipv6-usb0
+rm -r ./misc_linux_tools
 
 # fix IIOD script for sysid (step 8)
 sed -i '/^SYSID=\$(sanitize_str/ s/head -1/tail -1/' /usr/local/bin/iiod_context.sh
