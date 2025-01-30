@@ -12,4 +12,7 @@ install -m 644 "${BASH_SOURCE%%/run.sh}"/files/udiskie.service "${BUILD_DIR}/lib
 chroot "${BUILD_DIR}" << EOF
 	# Enable udiskie service to run automatically at every boot
 	systemctl enable udiskie
+	
+	# Suppress log printing
+	sed -i 's/^#\(kernel\.printk = 3 4 1 3\)/\1/' /etc/sysctl.conf
 EOF
