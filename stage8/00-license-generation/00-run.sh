@@ -62,7 +62,6 @@ html_header () {
 	echo "<img src=\"img/ADI_Logo_AWP.png\" alt=\"Analog Devices logo\" />" >> ${FILE}
 	echo "</a>" >> ${FILE}
 	echo "<div class=\"anchor\">" >> ${FILE}
-	echo "<a href=\"./index.html\" title=\"Index\">Index</a>" >> ${FILE}
 	echo "</div>" >> ${FILE}
 
 	echo "</header>" >> ${FILE}
@@ -92,6 +91,7 @@ html_p () {
 }
 
 html_pre_file () {
+	mkdir -p "copyright/${2}"
 	echo "<pre>" >> "copyright/$2/${2}.html"
 	# get the file, but html sanitize a few things
 	find $1 -type f -exec cat {} + | sed -e "s/\o14//g" -e "s/\o302\o251/\&copy;/g" -e "s/'/\&39;/g" -e "s/</\&lt;/g" -e "s/>/\&gt;/g" >> "copyright/$2/${2}.html"
@@ -261,14 +261,63 @@ echo "<th>Location</th>" >> ${FILE}
 echo "</tr>" >> ${FILE}
 echo "</thead>" >> ${FILE}
 echo "<tbody>" >> ${FILE}
-package_table_items $((var++)) "Linux" "6.1" "GPLv2" "https://github.com/analogdevicesinc/linux"
-package_table_items $((var++)) "HDL"   " "    "GPL/LGPL/BSD" "https://github.com/analogdevicesinc/hdl"
-package_table_items $((var++)) "LibIIO" " " "LGPL-2.1/GPL-2.0" "https://github.com/analogdevicesinc/libiio"
-package_table_items $((var++)) "IIO Oscilloscope" " " "GPL-2.0" "https://github.com/analogdevicesinc/iio-oscilloscope"
-package_table_items $((var++)) "Scopy" " " "GPL-3.0" "https://github.com/analogdevicesinc/scopy"
-package_table_items $((var++)) "libad9361-iio" " " "GPL-2.0" "https://github.com/analogdevicesinc/libad9361-iio"
-package_table_items $((var++)) "libad9166-iio" " " "GPL-2.0" "https://github.com/analogdevicesinc/libad9166-iio"
-package_table_items $((var++)) "fru-tools" " " "GPL-2.0" "https://github.com/analogdevicesinc/fru-tools"
+
+package_table_items $((var++)) "linux" "6.1" "GPLv2" "https://github.com/analogdevicesinc/linux"
+wget https://raw.githubusercontent.com/analogdevicesinc/linux/main/COPYING
+html_pre_file COPYING linux
+rm COPYING
+
+package_table_items $((var++)) "hdl"   "2023_R2"    "GPL/LGPL/BSD" "https://github.com/analogdevicesinc/hdl"
+wget https://raw.githubusercontent.com/analogdevicesinc/hdl/main/LICENSE
+html_pre_file LICENSE hdl
+rm LICENSE
+
+package_table_items $((var++)) "libiio" "2023_R2" "LGPL-2.1/GPL-2.0" "https://github.com/analogdevicesinc/libiio"
+html_pre_file ${ROOTFS_DIR}/usr/local/src/libiio/COPYING.txt libiio
+
+package_table_items $((var++)) "iio-oscilloscope" "2023_R2" "GPL-2.0" "https://github.com/analogdevicesinc/iio-oscilloscope"
+html_pre_file ${ROOTFS_DIR}/usr/local/src/iio-oscilloscope/LICENSE iio-oscilloscope
+
+package_table_items $((var++)) "scopy" "v2.0.0" "GPL-3.0" "https://github.com/analogdevicesinc/scopy"
+wget https://raw.githubusercontent.com/analogdevicesinc/scopy/main/LICENSE
+html_pre_file LICENSE scopy
+rm LICENSE
+
+package_table_items $((var++)) "libad9361-iio" "2023_R2" "GPL-2.0" "https://github.com/analogdevicesinc/libad9361-iio"
+html_pre_file ${ROOTFS_DIR}/usr/local/src/libad9361-iio/LICENSE libad9361-iio
+
+package_table_items $((var++)) "libad9166-iio" "2023_R2" "GPL-2.0" "https://github.com/analogdevicesinc/libad9166-iio"
+html_pre_file ${ROOTFS_DIR}/usr/local/src/libad9166-iio/LICENSE libad9166-iio
+
+package_table_items $((var++)) "fru_tools" "2023_R2" "GPL-2.0" "https://github.com/analogdevicesinc/fru_tools"
+html_pre_file ${ROOTFS_DIR}/usr/local/src/fru_tools/license.txt fru_tools
+
+package_table_items $((var++)) "pyadi-iio" "v0.0.18" "ADI BSD" "https://github.com/analogdevicesinc/pyadi-iio"
+wget https://raw.githubusercontent.com/analogdevicesinc/pyadi-iio/main/LICENSE
+html_pre_file LICENSE pyadi-iio
+rm LICENSE
+
+package_table_items $((var++)) "libm2k" "v0.9.0" "LGPL-2.1" "https://github.com/analogdevicesinc/libm2k"
+wget https://raw.githubusercontent.com/analogdevicesinc/libm2k/main/LICENSE
+html_pre_file LICENSE libm2k
+rm LICENSE
+
+package_table_items $((var++)) "iio-fm-radio" "main" "GPL-2.0" "https://github.com/analogdevicesinc/iio-fm-radio"
+html_pre_file ${ROOTFS_DIR}/usr/local/src/iio-fm-radio/license.txt iio-fm-radio
+
+package_table_items $((var++)) "jesd-eye-scan-gtk" "2023_R2" "LGPL-2.1/GPL-2.0" "https://github.com/analogdevicesinc/jesd-eye-scan-gtk"
+html_pre_file ${ROOTFS_DIR}/usr/local/src/jesd-eye-scan-gtk/LICENSE.txt jesd-eye-scan-gtk
+
+package_table_items $((var++)) "colorimeter" "2023_R2" "LGPL-2.1/GPL-2.0" "https://github.com/analogdevicesinc/colorimeter"
+html_pre_file ${ROOTFS_DIR}/usr/local/src/colorimeter/LICENSE.txt colorimeter
+
+package_table_items $((var++)) "gr-m2k" "maint-3.8" "GPL-3.0" "https://github.com/analogdevicesinc/gr-m2k"
+wget https://raw.githubusercontent.com/analogdevicesinc/gr-m2k/main/COPYING
+html_pre_file COPYING gr-m2k
+rm COPYING
+
+package_table_items $((var++)) "linux_image_ADI-scripts" "main" "GPL-3.0" "https://github.com/analogdevicesinc/linux_image_ADI-scripts"
+html_pre_file ${ROOTFS_DIR}/usr/local/src/linux_image_ADI-scripts/LICENSE linux_image_ADI-scripts
 
 dpkg -l | awk '/ii/ { print $2 " " $3 }' | while read -r line
 do
@@ -280,8 +329,6 @@ do
         source_site=$(awk '/^Source:/ { print $2 }' "$license_file")
 
         package_table_items $((var++)) $package $version "$license" $source_site
-
-	mkdir -p "copyright/$package"
 
 	html_pre_file $license_file $package
 done
