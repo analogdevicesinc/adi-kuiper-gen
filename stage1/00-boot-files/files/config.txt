@@ -77,4 +77,7 @@ otg_mode=1
 # Run as fast as firmware / board allows
 arm_boost=1
 
+[cm5]
+dtoverlay=dwc2,dr_mode=host
+
 [all]
