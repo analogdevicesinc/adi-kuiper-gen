@@ -87,5 +87,3 @@ EOF
 else
 	echo "Sources won't be exported because EXPORT_SOURCES is set to 'n'."
 fi
-
-rm -r "${BUILD_DIR}/stages"
