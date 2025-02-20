@@ -51,11 +51,18 @@ jobs:
           sudo bash build-docker.sh
           ls kuiper-volume/*.zip >/dev/null 2>&1 && exit 0 || exit 2
       - name: Upload image
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}_image
+          path: ${{ github.workspace }}/kuiper-volume/*.zip
+      - name: Upload meta
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.ARTIFACT_NAME }}
-          path: ${{ github.workspace }}/kuiper-volume
+          name: ${{ env.ARTIFACT_NAME }}_meta
+          path: |
+            ${{ github.workspace }}/kuiper-volume
+            !${{ github.workspace }}/kuiper-volume/*.zip
 
   Trigger_workflow:
     needs: Build
