@@ -5,10 +5,10 @@ GRIIO_BRANCH="upgrade-3.8"
 GRM2K_BRANCH="maint-3.8"
 LIBSIGROKDECODE_BRANCH="master"
 
-export SCOPY1_RELEASE=v1.5.0-rc1
-export SCOPY1_ARCHIVE=Scopy-${SCOPY1_RELEASE}-Linux-armhf.AppImage.zip
-export SCOPY1_PATH=https://github.com/analogdevicesinc/scopy/releases/download/${SCOPY1_RELEASE}/${SCOPY1_ARCHIVE}
-export SCOPY1=Scopy-${SCOPY1_RELEASE}-Linux-armhf
+export SCOPY_RELEASE=v2.0.0-beta-rc2
+export SCOPY_ARCHIVE=Scopy-${SCOPY_RELEASE}-Linux-armhf-AppImage.zip
+export SCOPY_PATH=https://github.com/analogdevicesinc/scopy/releases/download/${SCOPY_RELEASE}/${SCOPY_ARCHIVE}
+export SCOPY=Scopy-${SCOPY_RELEASE}-Linux-armhf
 
 ARCH=arm
 JOBS=-j${NUM_JOBS}
@@ -99,16 +99,16 @@ build_grm2k() {
 
 install_scopy() {
 
-	# Install Scopy 1
-	wget -q ${SCOPY1_PATH}
-	unzip ${SCOPY1_ARCHIVE} && rm ${SCOPY1_ARCHIVE}
-	chmod +x ${SCOPY1}.AppImage
-	mv ${SCOPY1}.AppImage /usr/local/bin
-	
-	sed -i 's/<name>/${SCOPY1}.AppImage/g' /usr/local/share/applications/scopy.desktop
+	# Install Scopy 2
+	wget -q ${SCOPY_PATH}
+	unzip ${SCOPY_ARCHIVE} && mv ${SCOPY}/* . && rm ${SCOPY_ARCHIVE}
+	chmod +x ${SCOPY}.AppImage
+	mv ${SCOPY}.AppImage /usr/local/bin
 
-	echo "alias scopy='/usr/local/bin/${SCOPY1}.AppImage'" >> /etc/bash.bashrc
-	echo "alias Scopy='/usr/local/bin/${SCOPY1}.AppImage'" >> /etc/bash.bashrc
+	sed -i 's/<name>/${SCOPY}.AppImage/g' /usr/local/share/applications/scopy.desktop
+
+	echo "alias scopy='/usr/local/bin/${SCOPY}.AppImage'" >> /etc/bash.bashrc
+	echo "alias Scopy='/usr/local/bin/${SCOPY}.AppImage'" >> /etc/bash.bashrc
 }
 
 install_scopy
