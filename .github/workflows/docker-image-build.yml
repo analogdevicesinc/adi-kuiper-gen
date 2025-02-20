@@ -42,7 +42,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           workflow: kuiper2_0-build.yml
           branch: main
-          name: ${{ matrix.kuiper_artifact }}
+          name: ${{ matrix.kuiper_artifact }}_image
           repo: analogdevicesinc/adi-kuiper-gen
 
       - name: Create .tar file
