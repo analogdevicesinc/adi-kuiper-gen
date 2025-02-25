@@ -53,11 +53,15 @@ if [ "${EXPORT_SOURCES}" = y ]; then
 
     	######################## Debootstrap package source ########################
 
+	sed -i 's/^Types: deb$/Types: deb deb-src/' /etc/apt/sources.list.d/debian.sources
+	apt update
+
+	cd kuiper-volume/sources/debootstrap/
+
 	# Download debootstrap sources
-	DEBOOTSTRAP_VERSION=$(debootstrap --version | cut -d' ' -f 2)
-	wget -vO /kuiper-volume/sources/debootstrap/debootstrap.zip \
-	https://salsa.debian.org/installer-team/debootstrap/-/archive/debian/${DEBOOTSTRAP_VERSION}/debootstrap-debian-${DEBOOTSTRAP_VERSION}.zip
+	apt-get --download-only source debootstrap
 	
+	cd /
 	
 	######################## Debian packages sources ########################
 	
