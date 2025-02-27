@@ -5,12 +5,19 @@ GRIIO_BRANCH="upgrade-3.8"
 GRM2K_BRANCH="maint-3.8"
 LIBSIGROKDECODE_BRANCH="master"
 
-SCOPY_RELEASE="v1.4.1" # latest Scopy release, from 03 August 2022
-SCOPY_ARCHIVE=Scopy-${SCOPY_RELEASE}-Linux-arm.zip
-SCOPY=https://github.com/analogdevicesinc/scopy/releases/download/${SCOPY_RELEASE}/${SCOPY_ARCHIVE}
+export SCOPY1_RELEASE=v1.5.0-rc1
+export SCOPY1_ARCHIVE=Scopy-${SCOPY1_RELEASE}-Linux-armhf.AppImage.zip
+export SCOPY1_PATH=https://github.com/analogdevicesinc/scopy/releases/download/${SCOPY1_RELEASE}/${SCOPY1_ARCHIVE}
+export SCOPY1=Scopy-${SCOPY1_RELEASE}-Linux-armhf
 
 ARCH=arm
 JOBS=-j${NUM_JOBS}
+
+# Add desktop file and icon for Scopy
+install -d "${ROOTFS_DIR}/usr/local/share/scopy/icons/"
+install -d "${ROOTFS_DIR}/usr/local/share/applications/"
+cp files/scopy.desktop "${ROOTFS_DIR}/usr/local/share/applications/"
+cp files/scopy.png     "${ROOTFS_DIR}/usr/local/share/scopy/icons/scopy.png"
 
 on_chroot << EOF
 install_gnuradio() {
@@ -91,15 +98,17 @@ build_grm2k() {
 }
 
 install_scopy() {
-	[ -f "Scopy.flatpak" ] || {
-		wget ${SCOPY}
-		unzip ${SCOPY_ARCHIVE}
-		flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-		flatpak install Scopy.flatpak --assumeyes
-		rm -rf ${SCOPY_ARCHIVE}
-	}
-	echo "alias scopy='flatpak run org.adi.Scopy'" >> /root/.bashrc
-	echo "alias scopy='flatpak run org.adi.Scopy'" >> /home/analog/.bashrc
+
+	# Install Scopy 1
+	wget -q ${SCOPY1_PATH}
+	unzip ${SCOPY1_ARCHIVE} && rm ${SCOPY1_ARCHIVE}
+	chmod +x ${SCOPY1}.AppImage
+	mv ${SCOPY1}.AppImage /usr/local/bin
+	
+	sed -i 's/<name>/${SCOPY1}.AppImage/g' /usr/local/share/applications/scopy.desktop
+
+	echo "alias scopy='/usr/local/bin/${SCOPY1}.AppImage'" >> /etc/bash.bashrc
+	echo "alias Scopy='/usr/local/bin/${SCOPY1}.AppImage'" >> /etc/bash.bashrc
 }
 
 install_scopy
