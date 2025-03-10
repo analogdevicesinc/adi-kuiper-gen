@@ -17,6 +17,7 @@ if [ "${EXPORT_SOURCES}" = y ]; then
 	mkdir -p kuiper-volume/sources/deb-src-rpi
 	mkdir -p kuiper-volume/sources/adi-git
 	mkdir -p kuiper-volume/sources/adi-boot
+	mkdir -p kuiper-volume/sources/pip-src
 
 
 	######################## ADI git sources ######################## 
@@ -87,6 +88,23 @@ EOF
 		umount "${BUILD_DIR}/deb-src-rpi"
 		rm -r "${BUILD_DIR}/deb-src-rpi"
 	fi
+
+	######################## Pip packages sources ########################
+
+	mkdir "${BUILD_DIR}/pip-src"
+	mount --bind /kuiper-volume/sources/pip-src "${BUILD_DIR}/pip-src"
+
+# --format=freeze: install only one version of the package
+# --no-binary :all: : downloads only sources, not precompiled weels
+# --no-deps: does not download dependencies
+# --no-build-isolation: avoid virtual environments
+# || true: ensures that the script continues running even if the pip command is not installed, a package has missing or broken dependencies, or if the required wheels cannot be found
+chroot "${BUILD_DIR}" << EOF
+	pip list --format=freeze | xargs -I {} /usr/bin/python3 -m pip download {} --no-binary :all: --no-deps --no-build-isolation -d /pip-src/ || true
+EOF
+
+	umount "${BUILD_DIR}/pip-src"
+	rm -r "${BUILD_DIR}/pip-src"
 
 else
 	echo "Sources won't be exported because EXPORT_SOURCES is set to 'n'."
