@@ -310,8 +310,10 @@ if [ "${CONFIG_GRM2K}" = y ]; then
 	html_pre_file /usr/local/src/gr-m2k/COPYING gr-m2k
 fi
 
-package_table_items $((var++)) "linux_image_ADI-scripts" " " "GPL-3.0" "https://github.com/analogdevicesinc/linux_image_ADI-scripts"
-html_pre_file /usr/local/src/linux_image_ADI-scripts/LICENSE linux_image_ADI-scripts
+if [ "${CONFIG_LINUX_SCRIPTS}" = y ]; then
+	package_table_items $((var++)) "linux_image_ADI-scripts" " " "GPL-3.0" "https://github.com/analogdevicesinc/linux_image_ADI-scripts"
+	html_pre_file /usr/local/src/linux_image_ADI-scripts/LICENSE linux_image_ADI-scripts
+fi
 
 dpkg -l | awk '/ii/ { print $2 " " $3 }' | while read -r line
 do
