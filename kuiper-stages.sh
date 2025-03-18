@@ -104,6 +104,9 @@ chroot "${BUILD_DIR}" << EOF
 	elif ([ -e "${1}"/packages-iio-oscilloscope ] && [ "${CONFIG_IIO_OSCILLOSCOPE}" = y ])
 	then
 		xargs -a "${1}"/packages-iio-oscilloscope apt-get install --no-install-recommends -y
+	elif ([ -e "${1}"/packages-scopy ] && [ "${CONFIG_SCOPY}" = y ])
+	then
+		xargs -a "${1}"/packages-scopy apt-get install -y
 	elif ([ -e "${1}"/packages-libm2k ] && [ "${CONFIG_LIBM2K}" = y ])
 	then
 		xargs -a "${1}"/packages-libm2k apt-get install --no-install-recommends -y
