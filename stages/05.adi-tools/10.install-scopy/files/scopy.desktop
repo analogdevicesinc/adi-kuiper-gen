@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=2.0
+Icon=/usr/local/share/scopy/icons/scopy.png
+Exec=/usr/local/bin/<name>
+Terminal=false
+Type=Application
+Categories=Science
+Name=Scopy
+GenericName=Oscilloscope
+Comment=A software oscilloscope

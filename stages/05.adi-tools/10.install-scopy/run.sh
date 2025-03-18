@@ -6,26 +6,31 @@
 # Copyright (c) 2024 Analog Devices, Inc.
 # Author: Larisa Radu <larisa.radu@analog.com>
 
-export SCOPY_RELEASE=v1.4.0
-export SCOPY_ARCHIVE=Scopy-${SCOPY_RELEASE}-Linux-arm.zip
-export SCOPY=https://github.com/analogdevicesinc/scopy/releases/download/${SCOPY_RELEASE}/${SCOPY_ARCHIVE}
+export SCOPY_RELEASE=v2.0.0-beta-rc2
+export SCOPY_ARCHIVE=Scopy-${SCOPY_RELEASE}-Linux-${TARGET_ARCHITECTURE}-AppImage.zip
+export SCOPY_PATH=https://github.com/analogdevicesinc/scopy/releases/download/${SCOPY_RELEASE}/${SCOPY_ARCHIVE}
+export SCOPY=Scopy-${SCOPY_RELEASE}-Linux-${TARGET_ARCHITECTURE}
 
 if [ "${CONFIG_SCOPY}" = y ]; then
 	if [ "${CONFIG_LIBIIO}" = y ]; then
 
-mount -t proc proc "${BUILD_DIR}"/proc
-
 chroot "${BUILD_DIR}" << EOF
-		wget ${SCOPY}
-		unzip ${SCOPY_ARCHIVE}
-		flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-		flatpak install Scopy.flatpak --assumeyes
-		rm -rf ${SCOPY_ARCHIVE}
-	
-		echo "alias scopy='flatpak run org.adi.Scopy'" >> /etc/bash.bashrc
-		echo "alias Scopy='flatpak run org.adi.Scopy'" >> /etc/bash.bashrc
-	
-		umount /proc
+
+			# Install Scopy 2
+			wget -q ${SCOPY_PATH}
+			unzip ${SCOPY_ARCHIVE} && mv ${SCOPY}/* . && rm ${SCOPY_ARCHIVE}
+			chmod +x ${SCOPY}.AppImage
+			mv ${SCOPY}.AppImage /usr/local/bin
+
+			# Add desktop file and icon
+			mkdir -p /usr/local/share/scopy/icons/
+			mkdir -p /usr/local/share/applications/
+			cp stages/05.adi-tools/10.install-scopy/files/scopy.desktop /usr/local/share/applications/
+			cp stages/05.adi-tools/10.install-scopy/files/scopy.png     /usr/local/share/scopy/icons/scopy.png
+			sed -i 's/<name>/${SCOPY}.AppImage/g' /usr/local/share/applications/scopy.desktop
+
+			echo "alias scopy='/usr/local/bin/${SCOPY}.AppImage'" >> /etc/bash.bashrc
+			echo "alias Scopy='/usr/local/bin/${SCOPY}.AppImage'" >> /etc/bash.bashrc
 EOF
 
 	else
