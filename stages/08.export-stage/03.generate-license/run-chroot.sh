@@ -202,9 +202,10 @@ echo ", by sending a money order or check for \$15 (USD) to:</p>
 <pre>
 Director, Open Source Program Office
 Analog Devices
-Citypoint
-65 Haymarket Terrace
-Edinburgh EH5 3PN
+Floors 1 - 3
+2 Freer Street
+Edinburgh
+EH3 9FQ
 United Kingdom
 </pre>
 <p>Please write “<i>source for the ${TARGET}</i>” in the memo line of your payment.
