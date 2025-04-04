@@ -1,12 +1,12 @@
 trigger:
   branches:
     include:
-    - staging/kuiper2.0
+    - main
 
 pr:
   branches:
     include:
-    - staging/kuiper2.0
+    - main
 
 variables:
 - group: kuiper2.0_group_variables
