@@ -20,10 +20,9 @@ There is no support for Windows OS yet.
 You can clone the repository with:
 
 ```bash
-git clone -b staging/kuiper2.0 --depth 1 https://github.com/analogdevicesinc/adi-kuiper-gen
+git clone --depth 1 https://github.com/analogdevicesinc/adi-kuiper-gen
 ```
 
-Using `-b staging/kuiper2.0` will clone the Kuiper 2.0 branch.
 Using `--depth 1` with `git clone` will create a shallow clone, only containing
 the latest revision of the repository.
 
