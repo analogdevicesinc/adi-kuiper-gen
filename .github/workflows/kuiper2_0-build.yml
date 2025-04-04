@@ -2,10 +2,10 @@ name: Kuiper2.0
 on:
   push:
     branches:
-      - staging/kuiper2.0
+      - main
   pull_request:
     branches:
-      - staging/kuiper2.0
+      - main
 
 jobs:
   Build:
@@ -64,6 +64,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Trigger docker build
-        run: gh workflow run docker-image-build.yml --ref staging/kuiper2.0
+        run: gh workflow run docker-image-build.yml --ref main
         env:
           GH_TOKEN: ${{ github.token }}
