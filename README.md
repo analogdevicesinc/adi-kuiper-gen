@@ -2,254 +2,334 @@
 
 [![Kuiper2.0](https://github.com/analogdevicesinc/adi-kuiper-gen/actions/workflows/kuiper2_0-build.yml/badge.svg?branch=main)](https://github.com/analogdevicesinc/adi-kuiper-gen/actions/workflows/kuiper2_0-build.yml)
 
-Tool used to create Debian OS images.
+A build tool for creating customized Debian OS images optimized for Analog Devices hardware. Kuiper images can be configured with various ADI libraries, tools, and board-specific boot files for seamless hardware integration.
 
-## Dependencies
+## Prerequisites
 
-kuiper-gen runs on linux-based operating systems.
-To use `kuiper-gen` you need Docker. The Kuiper image is built inside Docker. 
-In case you don't have Docker installed or you can't build Kuiper with you current version of Docker,
-follow the build steps provided on the official website: https://docs.docker.com/engine/install/ .
-The version used for Docker is 24.0.6. Other versions might not work as expected.
+### Build Environment
 
-## Getting started with building your images
+- **Operating System**: Ubuntu 22.04 LTS is recommended. Other Linux distributions or versions may not work as expected.
+- **Important**: Windows is not supported.
+- **Space Requirements**: At least 10GB of free disk space for building images.
+- **Note**: Ensure you clone this repository to a path **without spaces**. Paths with spaces are not supported by debootstrap.
 
-To get started you need to clone this repository on your build machine.
-The build machine should have Ubuntu 22.04 OS. Other distros or versions might not work as expected.
-There is no support for Windows OS yet.
-You can clone the repository with:
+### Required Software
+
+1. **Docker**:
+
+   - Docker version 24.0.6 or compatible is required to build Kuiper images.
+   - If you don't have Docker installed, follow the installation steps at: <https://docs.docker.com/engine/install/>
+
+2. **Cross-Architecture Support**:
+
+   - These packages are necessary to build ARM-based images on x86 systems:
+     - `qemu-user-static`: For emulating ARM architecture
+     - `binfmt_misc`: Kernel module to run binaries from different architectures
+
+   You can install them on Debian/Ubuntu with:
+
+   ```bash
+   sudo apt-get update
+   sudo apt-get install qemu-user-static binfmt-support
+   ```
+
+   To ensure the binfmt_misc module is loaded:
+
+   ```bash
+   sudo modprobe binfmt_misc
+   ```
+
+   If using WSL, you may need to enable the service:
+
+   ```bash
+   sudo update-binfmts --enable
+   ```
+
+## Quick Start Guide
+
+This guide will help you build a basic Kuiper image with default settings.
+
+### 1. Clone the Repository
+
+After ensuring your build environment meets the [prerequisites](#prerequisites), clone the repository:
 
 ```bash
 git clone --depth 1 https://github.com/analogdevicesinc/adi-kuiper-gen
+cd adi-kuiper-gen
 ```
 
-Using `--depth 1` with `git clone` will create a shallow clone, only containing
-the latest revision of the repository.
+### 2. Review Default Configuration
 
-Also, be careful to clone the repository to a base path **NOT** containing spaces.
-This configuration is not supported by debootstrap and will lead to `kuiper-gen` not
-running.
+The default configuration will build a basic 32-bit (armhf) Debian Bookworm image with Raspberry Pi boot files. For most users, this is sufficient to get started:
 
-After cloning the repository, you can move to the next step and start configuring
-your build.
+- Target architecture: `armhf` (32-bit)
+- Debian version: `bookworm`
+- Essential boot files included: Yes
+- Desktop environment: No
+- ADI tools: None (can be enabled as needed)
 
-## Config
+This configuration creates what we call the "Basic Image" that includes only essential components. For details on exactly what stages and components are included in this basic build, see the [Basic Image section](#basic-image-default) under Kuiper Versions.
 
-Upon execution, `kuiper-stages.sh` will source the file `config` in the current
-working directory. This bash shell fragment is intended to set needed
-environment variables. There are variables that are set on to a default value. 
-The variables that are set to 'n' do not install aditional tools and files.
-If the tools are needed, the corresponding configuration variable should be set to 'y'. The 
-correspondig cmake arguments, branch name or version can also be customized.
+For customization options, see the [Configuration](#configuration) section.
 
-The following environment variables are supported:
-   
-* `TARGET_ARCHITECTURE` (Default: armhf)
+### 3. Build the Image
 
-   The base image for Kuiper can be built on 32 bits architecture and 64 bits architecture.
-   The default value corresponds to the 32 bits rootfs. For 64 bits you need to set the variable to 'arm64'.  
+Run the build script with sudo:
 
-* `DEBIAN_VERSION` (Default: bookworm)
+```bash
+sudo ./build-docker.sh
+```
 
-   If you want to use other version you need to modify this variable. (e.g. 'DEBIAN_VERSION=bullseye'). In this case
-   you may expect missing functionalities or unsupported tools.
-   
-* `PRESERVE_CONTAINER` (Default: n)
+The build process will:
 
-   If you want to preserve the Docker container after building an image you can set this variable to 'y'. 
-   This ensures that the container and the volumes attached to it will not be autoremoved.
-   
-* `CONTAINER_NAME` (Default: debian_<DEBIAN_VERSION>_rootfs_container)
+1. Create a Docker container with the necessary build environment
+2. Set up a minimal Debian system
+3. Configure system settings
+4. Install selected components based on your configuration
+5. Create a bootable image
 
-   This is useful if you want to build multiple Kuiper images in parallel or preserve the containers.
-   
-* `CONFIG_DESKTOP` (Default: n)
+This process typically takes 30-60 minutes depending on your system and internet speed.
 
-   Selects the installation of XFCE desktop environment and X11VNC server.
-   
-* `CONFIG_LIBIIO` (Default: n)
+### 4. Locate the Output
 
-   Selects the installation of Libiio.
-   
-* `CONFIG_LIBIIO_CMAKE_ARGS`
+After a successful build, your Kuiper image will be available as a zip file in the `kuiper-volume/` directory within the repository. The filename will follow the pattern `image_YYYY-MM-DD-ADI-Kuiper-Linux-[arch].zip`.
 
-   The cmake build arguments of the library. A default value can be found in 'config'.
-   
-* `BRANCH_LIBIIO` (Default: libiio-v0)
+### Next Steps
 
-   The branch for the library.
-   
-* `CONFIG_PYADI` (Default: n)
-   
-   Selects the installation of Pyadi library.
-   
-* `BRANCH_PYADI` (Default: main)
-   
-   The branch for the library.
-   
-* `CONFIG_LIBM2K` (Default: n)
-   
-   Selects the installation of Libm2k.
+- To write the image to an SD card and boot your device, see the [Using the Generated Image](#using-the-generated-image) section
+- To customize your build with additional tools or settings, see the [Configuration](#configuration) section
+- To understand how the build process works, see the [Build Flow](#build-flow) section
+- For troubleshooting build issues, see the [Troubleshooting](#troubleshooting) section
 
-* `CONFIG_LIBM2K_CMAKE_ARGS`
+## Configuration
 
-   The cmake build arguments of the library. A default value can be found in 'config'.
+Kuiper-gen's build process is controlled by settings defined in the `config` file located in the root of the repository. This file contains bash variables that determine what features to include and how to build the image.
 
-* `BRANCH_LIBM2K` (Default: main)
+### How to Configure
 
-   The branch for the library.
- 
-* `CONFIG_LIBAD9166` (Default: n)
+To modify the configuration:
 
-   Selects the installation of Libad9166.
- 
-* `CONFIG_LIBAD9166_CMAKE_ARGS`
+1. Edit the `config` file in your preferred text editor
+2. Set option values to 'y' to enable features or 'n' to disable them
+3. Modify other values as needed for your build
+4. Save the file and run the build script
 
-   The cmake build arguments of the library. A default value can be found in 'config'.
+After the build completes, you can find a copy of the used configuration in the root directory ('/') of the built image.
 
-* `BRANCH_LIBAD9166` (Default: libad9166-iio-v0)
+You can also set the number of processors or cores you want to use for building by adding `NUM_JOBS=[number]` to the config file. By default, this uses all available cores (`$(nproc)`).
 
-   The branch for the library.
- 
-* `CONFIG_LIBAD9361` (Default: n)
+### System Configuration
 
-   Selects the installation of Libad9361.  
+These options control the fundamental aspects of your Kuiper image:
 
-* `CONFIG_LIBAD9361_CMAKE_ARGS`
+| Option                | Default    | Description                                                                                                                |
+| --------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `TARGET_ARCHITECTURE` | `armhf`    | Target architecture: `armhf` (32-bit) or `arm64` (64-bit)                                                                  |
+| `DEBIAN_VERSION`      | `bookworm` | Debian version to use (e.g., `bookworm`, `bullseye`). Other versions may have missing functionalities or unsupported tools |
 
-   The cmake build arguments of the library. A default value can be found in 'config'.
+### Build Process Options
 
-* `BRANCH_LIBAD9361` (Default: libad9361-iio-v0)
+These options control how the Docker build process behaves:
 
-   The branch for the library.
- 
-* `CONFIG_IIO_OSCILLOSCOPE` (Default: n)
+| Option               | Default                                    | Description                                                                   |
+| -------------------- | ------------------------------------------ | ----------------------------------------------------------------------------- |
+| `PRESERVE_CONTAINER` | `n`                                        | Keep the Docker container after building (`y`/`n`)                            |
+| `CONTAINER_NAME`     | `debian_<DEBIAN_VERSION>_rootfs_container` | Name of the Docker container. Useful for building multiple images in parallel |
+| `EXPORT_SOURCES`     | `n`                                        | Download source files for all packages in the image (`y`/`n`)                 |
 
-   Selects the installation of IIO Oscilloscope.
- 
-* `CONFIG_IIO_OSCILLOSCOPE_CMAKE_ARGS`
+### Desktop Environment
 
-   The cmake build arguments of the library. A default value can be found in 'config'.
- 
-* `BRANCH_IIO_OSCILLOSCOPE` (Default: main)
+| Option           | Default | Description                                                  |
+| ---------------- | ------- | ------------------------------------------------------------ |
+| `CONFIG_DESKTOP` | `n`     | Install XFCE desktop environment and X11VNC server (`y`/`n`) |
 
-   The branch for the library.
+### ADI Libraries and Tools
 
-* `CONFIG_IIO_FM_RADIO` (Default: n)
+These options control which ADI libraries and tools are included in the image:
 
-   Selects the installation of IIO FM Radio.
- 
-* `BRANCH_IIO_FM_RADIO` (Default: main)
+| Option                            | Default             | Description                                                    |
+| --------------------------------- | ------------------- | -------------------------------------------------------------- |
+| `CONFIG_LIBIIO`                   | `n`                 | Install Libiio library (`y`/`n`)                               |
+| `CONFIG_LIBIIO_CMAKE_ARGS`        | _(see config file)_ | CMake build arguments for Libiio                               |
+| `BRANCH_LIBIIO`                   | `libiio-v0`         | Git branch to use for Libiio                                   |
+| `CONFIG_PYADI`                    | `n`                 | Install Pyadi library (`y`/`n`). Requires Libiio               |
+| `BRANCH_PYADI`                    | `main`              | Git branch to use for Pyadi                                    |
+| `CONFIG_LIBM2K`                   | `n`                 | Install Libm2k library (`y`/`n`). Requires Libiio              |
+| `CONFIG_LIBM2K_CMAKE_ARGS`        | _(see config file)_ | CMake build arguments for Libm2k                               |
+| `BRANCH_LIBM2K`                   | `main`              | Git branch to use for Libm2k                                   |
+| `CONFIG_LIBAD9166_IIO`            | `n`                 | Install Libad9166 library (`y`/`n`). Requires Libiio           |
+| `CONFIG_LIBAD9166_IIO_CMAKE_ARGS` | _(see config file)_ | CMake build arguments for Libad9166                            |
+| `BRANCH_LIBAD9166_IIO`            | `libad9166-iio-v0`  | Git branch to use for Libad9166                                |
+| `CONFIG_LIBAD9361_IIO`            | `n`                 | Install Libad9361 library (`y`/`n`). Requires Libiio           |
+| `CONFIG_LIBAD9361_IIO_CMAKE_ARGS` | _(see config file)_ | CMake build arguments for Libad9361                            |
+| `BRANCH_LIBAD9361_IIO`            | `libad9361-iio-v0`  | Git branch to use for Libad9361                                |
+| `CONFIG_GRM2K`                    | `n`                 | Install GRM2K (`y`/`n`). Requires Libiio, Libm2k, and Gnuradio |
+| `CONFIG_GRM2K_CMAKE_ARGS`         | _(see config file)_ | CMake build arguments for GRM2K                                |
+| `BRANCH_GRM2K`                    | `main`              | Git branch to use for GRM2K                                    |
+| `CONFIG_LINUX_SCRIPTS`            | `n`                 | Install ADI Linux scripts (`y`/`n`)                            |
+| `BRANCH_LINUX_SCRIPTS`            | `kuiper2.0`         | Git branch to use for Linux scripts                            |
 
-   The branch for the library.
- 
-* `CONFIG_FRU_TOOLS` (Default: n)
+### ADI Applications
 
-   Selects the installation of Fru tools.
- 
-* `BRANCH_FRU_TOOLS` (Default: main)
+These options control which ADI applications are included in the image:
 
-   The branch for the library.
-   
-* `CONFIG_JESD_EYE_SCAN_GTK` (Default: n)
+| Option                               | Default             | Description                                                                           |
+| ------------------------------------ | ------------------- | ------------------------------------------------------------------------------------- |
+| `CONFIG_IIO_OSCILLOSCOPE`            | `n`                 | Install IIO Oscilloscope (`y`/`n`). Requires Libiio, Libad9166_IIO, and Libad9361_IIO |
+| `CONFIG_IIO_OSCILLOSCOPE_CMAKE_ARGS` | _(see config file)_ | CMake build arguments for IIO Oscilloscope                                            |
+| `BRANCH_IIO_OSCILLOSCOPE`            | `main`              | Git branch to use for IIO Oscilloscope                                                |
+| `CONFIG_IIO_FM_RADIO`                | `n`                 | Install IIO FM Radio (`y`/`n`)                                                        |
+| `BRANCH_IIO_FM_RADIO`                | `main`              | Git branch to use for IIO FM Radio                                                    |
+| `CONFIG_FRU_TOOLS`                   | `n`                 | Install FRU tools (`y`/`n`)                                                           |
+| `BRANCH_FRU_TOOLS`                   | `main`              | Git branch to use for FRU tools                                                       |
+| `CONFIG_JESD_EYE_SCAN_GTK`           | `n`                 | Install JESD Eye Scan GTK (`y`/`n`)                                                   |
+| `BRANCH_JESD_EYE_SCAN_GTK`           | `main`              | Git branch to use for JESD Eye Scan GTK                                               |
+| `CONFIG_COLORIMETER`                 | `n`                 | Install Colorimeter (`y`/`n`). Requires Libiio                                        |
+| `BRANCH_COLORIMETER`                 | `main`              | Git branch to use for Colorimeter                                                     |
+| `CONFIG_SCOPY`                       | `n`                 | Install Scopy (`y`/`n`)                                                               |
 
-   Selects the installation of JESD Eye Scan GTK.
-   
-* `CONFIG_COLORIMETER` (Default: n)
+### Non-ADI Applications
 
-   Selects the installation of Colorimeter.
- 
-* `BRANCH_JESD_EYE_SCAN_GTK` (Default: main)
+These options control which non-ADI applications are included in the image:
 
-   The branch for the library.
-   
-* `CONFIG_SCOPY` (Default: n)
+| Option            | Default | Description                 |
+| ----------------- | ------- | --------------------------- |
+| `CONFIG_GNURADIO` | `n`     | Install GNU Radio (`y`/`n`) |
 
-   Selects the installation of Scopy.
-   
-* `CONFIG_GNURADIO` (Default: n)
+### Boot Configuration
 
-   Selects the installation of Gnuradio.
-   
-* `CONFIG_GRM2K` (Default: n)
-   
-   Selects the installation of Grm2k.
+These options control boot files and configurations:
 
-* `CONFIG_GRM2K_CMAKE_ARGS`
+| Option                            | Default     | Description                                                            |
+| --------------------------------- | ----------- | ---------------------------------------------------------------------- |
+| `CONFIG_RPI_BOOT_FILES`           | `y`         | Include Raspberry Pi boot files (`y`/`n`) - **Enabled by default**     |
+| `BRANCH_RPI_BOOT_FILES`           | `rpi-6.1.y` | Git branch for Raspberry Pi boot files                                 |
+| `USE_ADI_REPO_RPI_BOOT`           | `y`         | Install Raspberry Pi boot files from ADI repository (`y`/`n`)          |
+| `CONFIG_XILINX_INTEL_BOOT_FILES`  | `y`         | Include Xilinx and Intel boot files (`y`/`n`) - **Enabled by default** |
+| `RELEASE_XILINX_INTEL_BOOT_FILES` | `2022_r2`   | Release version of Xilinx/Intel boot files                             |
+| `USE_ADI_REPO_CARRIERS_BOOT`      | `y`         | Install carriers boot files from ADI repository (`y`/`n`)              |
 
-   The cmake build arguments of the library. A default value can be found in 'config'.
+### Platform-Specific Configuration
 
-* `BRANCH_GRM2K` (Default: main)
+These options configure the target board and project:
 
-   The branch for the library.
+| Option                 | Default   | Description                                                                                                                                                                                              |
+| ---------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ADI_EVAL_BOARD`       | _(empty)_ | Configure which ADI evaluation board project the image will run. Requires `CONFIG_XILINX_INTEL_BOOT_FILES=y`                                                                                             |
+| `CARRIER`              | _(empty)_ | Configure which board the image will boot on. Used together with `ADI_EVAL_BOARD`                                                                                                                        |
+| `INSTALL_RPI_PACKAGES` | `n`       | Install Raspberry Pi specific packages (`y`/`n`) including: raspi-config, GPIO-related tools (pigpio, python3-gpio, raspi-gpio, python3-rpi.gpio), VideoCore debugging (vcdbg), sense-hat, and sense-emu |
 
-* `CONFIG_RPI_BOOT_FILES` (Default: y)
+### Customization
 
-   Selects if the image should contain boot files for Raspberry PI.
- 
-* `BRANCH_RPI_BOOT_FILES` (Default: rpi-6.1.y)
+| Option         | Default   | Description                                                                                                  |
+| -------------- | --------- | ------------------------------------------------------------------------------------------------------------ |
+| `EXTRA_SCRIPT` | _(empty)_ | Path to a custom script inside the adi-kuiper-gen directory to run during build for additional customization |
 
-   The branch for the Raspberry PI boot files.
+### Common Configuration Examples
 
-* `USE_ADI_REPO_RPI_BOOT` (Default: y)
+**Building a 64-bit image with desktop environment:**
 
-   Installs ADI Raspberry PI boot files package from the ADI repository, corresponding to the configured branch.
- 
-* `CONFIG_XILINX_INTEL_BOOT_FILES` (Default: y)
+```bash
+TARGET_ARCHITECTURE=arm64
+CONFIG_DESKTOP=y
+```
 
-   Selects if the image should contain boot files for Xilinx and Intel.
- 
-* `RELEASE_XILINX_INTEL_BOOT_FILES` (Default: 2022_r2)
+**Including IIO tools and libraries:**
 
-   The release version of the boot files for Xilinx and Intel.
+```bash
+CONFIG_LIBIIO=y
+CONFIG_IIO_OSCILLOSCOPE=y  # This will require LIBAD9166_IIO and LIBAD9361_IIO
+```
 
-* `USE_ADI_REPO_CARRIERS_BOOT` (Default: y)
+**Building for a specific ADI evaluation board:**
 
-   Installs carriers boot files package from the ADI repository, corresponding to the configured release.
+```bash
+ADI_EVAL_BOARD=ad9361-fmcomms2
+CARRIER=zedboard
+```
 
-* `ADI_EVAL_BOARD` (Default empty)
+**Complete development environment with GNU Radio:**
 
-   Configure the project the Kuiper image will run. Together with the variable `CARRIER` it can be used to prepare \
-   the boot partition during build time with the required ADI project and carrier.
+```bash
+CONFIG_DESKTOP=y
+CONFIG_LIBIIO=y
+CONFIG_LIBM2K=y
+CONFIG_GNURADIO=y
+CONFIG_GRM2K=y
+```
 
-* `CARRIER` (Default empty)
-
-   Configure the board the Kuiper image will boot on. Together with the variable `ADI_EVAL_BOARD` it can be used to prepare \
-   the boot partition during build time with the required ADI project and carrier.
-
-* `INSTALL_RPI_PACKAGES` (Default: n)
-
-   Install the following RaspberryPi specific packages: raspi-config, GPIO related (pigpio, python3-gpio, raspi-gpio,\
-   python3-rpi.gpio), VideoCore debugging related (vcdbg), sense-hat, sense-emu.
-
-* `EXTRA_SCRIPT` (Default empty)
-
-   Customize the Kuiper image by running an extra script. The variable should be the path to the script. 
-   The script needs to be inside 'adi-kuiper-gen' directory.
- 
-* `EXPORT_SOURCES` (Default: n)
-
-   Selects if the source files of all packages in the image should be downloaded.
- 
-If you want to change one of the variables you need to modify the 'config' file.
-You can also set the number of processors or cores you want to use for building the image. This can be done
-by adding the following line in the config file: NUM_JOBS=[number]. 
-By default NUM_JOBS has the value returned by '$(nproc)'.
-
-After the Kuiper is built, you can find the configuration file in '/' (root).
- 
 ## Build Flow
 
-The `build-docker.sh` script builds the base Debian image and starts a docker container. 
-Inside the container runs 'kuiper-stages.sh'. This script is responsible with running all the scripts inside
-the stages directory and with exporting the Kuiper image.
- 
-### Docker Build
+### Overview
 
-Docker is used to perform the build inside a container. This partially isolates
-the build from the host system, and allows using the script on non-debian based
-systems (e.g. Fedora Linux). The isolation is not total due to the need to use
-some kernel level services for arm emulation (binfmt) and loop devices (losetup).
+The Kuiper build process uses Docker to create a controlled environment for building Debian-based images for Analog Devices products. The build follows these high-level steps:
+
+1. `build-docker.sh` creates a Docker container with all necessary build dependencies
+2. Inside the container, `kuiper-stages.sh` orchestrates a series of build stages
+3. Each stage performs specific tasks like system configuration, tool installation, and boot setup
+4. The final image is exported as a zip file to the `kuiper-volume` directory on your host machine
+
+This approach ensures consistent builds across different host systems while allowing full customization through the `config` file.
+
+The `config` file is first read by `build-docker.sh` on the host system to set up environment variables and Docker options. It is then copied into the container where `kuiper-stages.sh` reads it again to determine which stages to execute and how to configure them.
+
+```diagram
+┌──────────────────────────────────────────────────┐
+│ Host System                                      │
+│                                                  │
+│  ┌─────────────────┐        ┌─────────────────┐  │
+│  │ build-docker.sh │◄───────┤ config          │  │
+│  └─────────────────┘        └─────────────────┘  │
+│          │                          │            │
+│          │                          │            │
+│          │                          │            │
+│          ▼                          ▼            │
+│  ┌───────────────────────────────────────────┐   │
+│  │ Docker Container                          │   │
+│  │                                           │   │
+│  │  ┌─────────────────┐   ┌─────────────────┐│   │
+│  │  │kuiper-stages.sh │◄──┤ config (copy)   ││   │
+│  │  └─────────────────┘   └─────────────────┘│   │
+│  │         │                                 │   │
+│  │         ▼                                 │   │
+│  │  ┌─────────────────┐                      │   │
+│  │  │ Stage Execution │                      │   │
+│  │  └─────────────────┘                      │   │
+│  │         │                                 │   │
+│  │         ▼                                 │   │
+│  │  ┌─────────────────┐                      │   │
+│  │  │ Image Creation  │                      │   │
+│  │  └─────────────────┘                      │   │
+│  └───────────────────────────────────────────┘   │
+│                    │                             │
+│                    ▼                             │
+│  ┌─────────────────────────────────────────┐     │
+│  │ kuiper-volume/                          │     │
+│  │ ├── image_YYYY-MM-DD-ADI-Kuiper-        │     │
+│  │ │   Linux-[arch].zip                    │     │
+│  │ ├── build.log                           │     │
+│  │ ├── ADI_repos_git_info.txt              │     │
+│  │ ├── licensing/                          │     │
+│  │ └── sources/                            │     │
+│  └─────────────────────────────────────────┘     │
+└──────────────────────────────────────────────────┘
+```
+
+### Docker Build Environment
+
+Docker is used to perform the build inside a container, which partially isolates the build from the host system. This allows the script to work on non-Debian based systems (e.g., Fedora Linux). The isolation is not total due to the need to use some kernel-level services for ARM emulation (binfmt) and loop devices (losetup).
+
+The `build-docker.sh` script handles:
+
+- Checking prerequisites and permissions
+- Building a Docker image with all necessary dependencies
+- Running a Docker container with appropriate options
+- Mounting volumes to share data between the host and container
+- Setting environment variables based on the `config` file
+- Starting the internal build process by calling `kuiper-stages.sh`
+- Cleaning up the container after completion (if `PRESERVE_CONTAINER=n`)
+
+#### Running the Build
 
 To build:
 
@@ -263,23 +343,22 @@ or
 sudo ./build-docker.sh
 ```
 
-Your Kuiper image will be in the `kuiper-volume/` folder inside the cloned repository on you machine.
-After successful build, the docker image and the build container are removed if `PRESERVE_CONTAINER=n`.
+Your Kuiper image will be in the `kuiper-volume/` folder inside the cloned repository on your machine as a zip file named `image_YYYY-MM-DD-ADI-Kuiper-Linux-[arch].zip`. After successful build, the Docker image and the build container are removed if `PRESERVE_CONTAINER=n`.
+
 If needed, you can remove the build container with:
 
 ```bash
-docker rm -v debian_<DEBIAN_VERSION>_rootfs_container`
+docker rm -v debian_<DEBIAN_VERSION>_rootfs_container
 ```
 
-If you choose to preserve the Docker container, you can access the Kuiper root filesystem by copying 
-it from the container to your machine with this command:
+If you choose to preserve the Docker container, you can access the Kuiper root filesystem by copying it from the container to your machine with this command:
 
 ```bash
 CONTAINER_ID=$(docker inspect --format="{{.Id}}" debian_<DEBIAN_VERSION>_rootfs_container)
 sudo docker cp $CONTAINER_ID:<TARGET_ARCHITECTURE>_rootfs .
 ```
 
-You need to replace <DEBIAN_VERSION> and <TARGET_ARCHITECTURE> with the ones in the configuration file.
+You need to replace `<DEBIAN_VERSION>` and `<TARGET_ARCHITECTURE>` with the ones in the configuration file.
 
 Example:
 
@@ -288,180 +367,524 @@ CONTAINER_ID=$(docker inspect --format="{{.Id}}" debian_bookworm_rootfs_containe
 sudo docker cp $CONTAINER_ID:armhf_rootfs .
 ```
 
-### Passing arguments to Docker
+#### Docker Container Configuration
 
-When the docker image is run, various required command line arguments are provided.
-For example the system mounts the `/dev` directory to the `/dev` directory within the docker container. 
+When the Docker container is run, various required command line arguments are provided:
+
+- `-t`: Allocates a pseudo-TTY allowing interaction with container's shell
+- `--privileged`: Provides elevated privileges required by the chroot command
+- `-v /dev:/dev`: Mounts the host system's device directory
+- `-v /lib/modules:/lib/modules`: Mounts kernel modules from the host
+- `-v ./kuiper-volume:/kuiper-volume`: Creates a shared volume for the output
+- `-e "DEBIAN_VERSION={value}"`: Sets environment variables from the config file
+
 The `--name` and `--privileged` options are already set by the script and should not be redefined.
- 
-## How the build process works inside Docker
 
-The following process is used to build images:
+### Stage-Based Build Process
 
- * Loop through the stage directory in alphanumeric order
+Inside the Docker container, `kuiper-stages.sh` orchestrates the entire build process. This script reads the `config` file, sets up environment variables, and executes a series of stages in a specific order.
 
- * Loop through each subdirectory and then run each of the install scripts it contains, in alphanumeric order.
-   There are a number of different files and directories which can be used to control different parts of the 
-   build process:
+#### How Stages Are Processed
 
-     - **run.sh** - a unix shell script that will run inside the Docker image.
+The build process follows these steps inside the Docker container:
 
-     - **run-chroot.sh** - a unix shell script which will be run using 'chroot' inside the Kuiper image.
+1. `kuiper-stages.sh` loops through the `stages` directory in alphanumeric order
+2. Within each stage, it processes subdirectories in alphanumeric order
+3. For each subdirectory, it runs the following files if they exist:
+   - `run.sh` - A shell script executed in the Docker container's context
+   - `run-chroot.sh` - A shell script executed within the Kuiper image using chroot
+   - Package installation files:
+     - `packages-[*]` - Lists packages to install with `--no-install-recommends`
+     - `packages-[*]-with-recommends` - Lists packages to install with their recommended dependencies
 
-     - **packages-[*]** - a list of required packages to install in the Kuiper image using 
-       the ```--no-install-recommends``` parameter to apt-get.
+The package installation files (`packages-[*]`) are processed if the corresponding configuration option is enabled. For example, `packages-desktop` is only processed if `CONFIG_DESKTOP=y` in the config file.
 
-     - **packages-[*]-with-recommends** - as 'packages', except these will be installed along with the recommended packages.
-       
-     [*]: desktop, libiio, pyadi, iio-oscilloscope, libm2k, fru-tools, jesd-eye-scan-gtk, colorimeter.
-     The packages are installed if the corresponding configuration is set to 'y'.
+#### Key Stages Overview
+
+The build process is divided into several stages for logical clarity and modularity:
+
+1. **01.bootstrap** - Creates a usable filesystem using `debootstrap`
+2. **02.set-locale-and-timezone** - Configures system locale and timezone settings
+3. **03.system-tweaks** - Sets up users, passwords, and system configuration
+4. **04.configure-desktop-env** - Installs and configures desktop environment (if enabled)
+5. **05.adi-tools** - Installs Analog Devices libraries and tools (based on config)
+6. **06.boot-partition** - Adds boot files for different platforms
+7. **07.extra-tweaks** - Applies custom scripts and additional configurations
+8. **08.export-stage** - Creates and exports the final image
+
+Each stage contains multiple substages that handle specific aspects of the build process. The stages are designed to be modular, allowing for easy customization and extension.
+
+For a more detailed description of each stage and its purpose, see the [Stage Anatomy](#stage-anatomy) section.
+
+#### Stage Execution Logic
+
+The `kuiper-stages.sh` script contains a helper function called `install_packages` that handles package installation for each stage. This function:
+
+1. Checks if package files exist for the current stage
+2. Verifies if the corresponding configuration option is enabled
+3. Installs the packages using the appropriate apt-get command
+
+The script then executes each stage's `run.sh` script, which may perform additional configuration steps, compile software from source, or prepare files for the final image.
+
+This modular approach allows users to easily customize the build process by modifying existing stages or adding new ones.
 
 ## Stage Anatomy
 
-### Debian Stage Overview
+The Kuiper build is divided into several stages for logical clarity and modularity. This section describes each stage in detail, helping you understand the complete build process.
 
-The build of Kuiper is divided up into several stages for logical clarity
-and modularity. This causes some initial complexity, but it simplifies
-maintenance and customization.
+### Stage 01: Bootstrap
 
- - **01.bootstrap** - the primary purpose of this stage is to create a usable filesystem.
-   This is accomplished largely through the use of `debootstrap` command, which creates a minimal filesystem 
-   suitable for use on Debian systems. The minimal core is installed but not configured, and 
-   the system will not quite boot yet.
+**Purpose**: Create a usable minimal filesystem
 
- - **02.set-locale-and-timezone** - this stage installs packages like locales and dialog, 
-   configures locale variables and sets the timezone. At this stage mandatory packages for a system are installed.
+**Key operations**:
 
- - **03.system-tweaks** - this stage creates a user with sudo rights and gives the root a password.
-   The username is 'analog' and the password is 'analog'. Root has the same password.
-   It also sets the hostname, ensures root autologin and configures root login via ssh.
- 
- - **04.configure-desktop-env** - this stage installs and configures XFCE desktop enviroment with automatic
-   login for the 'analog' user. It also installs and configures X11VNC server.
+- Uses `debootstrap` to create a minimal Debian filesystem
+- Sets up core system components
+- Prepares for configuration in later stages
 
- - **05.adi-tools** - this stage installs the following ADI tools: libiio, pyadi, libm2k, libad9361, libad9166,
-   iio-oscilloscope, iio-fm-radio, fru_tools, jesd-eye-scan-gtk, colorimeter, Scopy, Gnuradio and gr-m2k based on settings from config. 
-   The 'linux_image_ADI-scripts' repository is cloned by default. The last substage creates a file that contains all the tools and libraries
-   installed, along their branches and SHAs.
+The minimal core is installed but not configured at this stage, and the system is not yet bootable.
 
- - **06.boot-partition** - this stage adds the Intel, Xilinx and Raspberry Pi boot binaries that will be in the 
-   BOOT partition. It also configures files so that the image is bootable on RPI by default.
+### Stage 02: Set Locale and Timezone
 
- - **07.extra-tweaks** - this stage is used to customize Kuiper image with extra scripts. It contains a script that runs
-   the extra script inside chroot. Extra script path is retrieved from EXTRA_SCRIPT variable from config file. In this stage the RaspberryPi specific packages are also installed if INSTALL_RPI_PACKAGES is set to 'y'.
+**Purpose**: Configure system localization
 
- - **08.export-stage** - this stage downloads sources for the ADI tools, debootstrap command 
-   and all packages installed in Kuiper. The sources can be found in `kuiper-volume/sources` inside the cloned repository on your machine. 
-   This stage installs the 'extend-rootfs' script that extends the rootfs partition to the dimension of the SD 
-   card. Additionally, during this stage the boot partition is prepared with the required boot files corresponding to the variables 
-   from config file: `ADI_EVAL_BOARD` and `CARRIER`, making the image ready to be booted. After this stage 
-   the full Kuiper image is built and exported. It can be found in `kuiper-volume/`. 
- 
-## Kuiper versions
+**Key operations**:
 
-   Depending on the configuration file, the following stages and substages are included. 
-   You cand also mix them to obtain a Kuiper image with exactly the tools and packages you need.
+- Installs localization packages (locales, dialog)
+- Configures locale variables
+- Sets the system timezone
+- Installs mandatory system packages
 
- * `Basic image` 
+**Related config options**: None (always executed)
 
-   This is the default version and it contains only basic packages and configuration so the system
-   will boot and run properly. Any other configuration will be added on top of the basic image.
-   The corresponding stages are:
-   - **01.bootstrap**
-   - **02.set-locale-and-timezone**
-   - **03.system-tweaks**
-   - **05.adi-tools** - substages  **13.install-linux_image_ADI-scripts**, **14.write-git-logs**
-   - **06.boot-partition** - substages **01.adi-boot-files**, **02.rpi-boot-files** (depending on 'config' file), **03.add-fstab**
-   - **07.extra-tweaks** - substage **03.install-rpi-wifi-firmware** (depending on 'config' file)
-   - **08.export-stage** - substages **01.extend-rootfs**, **03.export-image**
- 
- * `Kuiper with desktop environment:` 
+### Stage 03: System Tweaks
 
-   - **04.configure-desktop-env** - substages **01.desktop-env**, **02.vnc-server**, **03.cosmetic**
+**Purpose**: Configure core system settings and users
 
- * `Kuiper with ADI tool:` 
+**Key operations**:
 
-   - **05.adi-tools** - substage **xx.install-[adi tool]**
+- Creates 'analog' user with sudo rights (password: 'analog')
+- Sets root password (same as user: 'analog')
+- Configures hostname
+- Sets up root autologin
+- Enables SSH root login
+- Configures network settings
+- Sets up automounting for external devices
 
- * `Kuiper with exported sources:` 
+**Related config options**: None (always executed)
 
-   - **08.export-stage** - substage **02.export-sources**
+### Stage 04: Configure Desktop Environment
 
- * `Kuiper with custom script:`
+**Purpose**: Set up graphical interface (optional)
 
-   - **07.extra-tweaks** - substage **01.extra-scripts**
+**Key operations**:
 
- * `Kuiper with specific RaspberryPi packages:`
+- Installs XFCE desktop environment
+- Configures automatic login for 'analog' user
+- Sets up X11VNC server for remote access
+- Applies visual customizations
 
-   - **07.extra-tweaks** - substage **02.install-rpi-packages**
+**Related config options**:
 
-# Kuiper with custom extra scripts
+- `CONFIG_DESKTOP=y` - Enable/disable entire stage
 
-Kuiper has an option to run extra scripts at build time in order to customize the resulted image.
-Below are steps to add this option by using the example script provided in stage `07.extra-tweaks` or a custom script.
+### Stage 05: ADI Tools
 
-Steps to prepare Kuiper customization with the example script:
-- in the `config` file, set 'EXTRA_SCRIPT' variable to `stages/07.extra-tweaks/01.extra-scripts/examples/extra-script-example.sh`
-- if you need to pass `config` file parameters to the script, uncomment the line where it sources the config file in 
-`stages/07.extra-tweaks/01.extra-scripts/examples/extra-script-example.sh`, otherwise skip this step
-- write your commands in `stages/07.extra-tweaks/01.extra-scripts/examples/extra-script-example.sh`
+**Purpose**: Install Analog Devices libraries and applications
 
-Steps to prepare Kuiper customization with custom script:
-- place the custom script inside `adi-kuiper-gen` directory
-- in the `config` file set 'EXTRA_SCRIPT' variable to be the path to the custom script; the path should
-be relative to the `adi-kuiper-gen` directory (see example in the `config` file)
+**Key operations**:
 
-# ADI APT Repository
+- Installs selected ADI libraries: libiio, pyadi, libm2k, libad9361, libad9166, gr-m2k
+- Installs selected ADI applications: iio-oscilloscope, iio-fm-radio, fru_tools, jesd-eye-scan-gtk, colorimeter, Scopy
+- Installs non-ADI applications: GNU Radio
+- Clones Linux scripts repository
+- Creates log file with installed tools, branches, and commit hashes
 
-ADI APT repository is a collection of Debian package files that facilitates the distribution and installation 
-of ADI software packages. The repository contains .deb packages with boot files for carriers and Raspberry Pi.
+**Related config options**: Multiple tool-specific options
 
-Advantages of using this APT repository:
-   - **easy installation, removal and upgrade (apt install, apt remove, apt upgrade)**
-   - **easy versioning**
-   - **package manager resolves (or indicates) conflicts between packages**
-   - **apt manages dependencies for packages to be installed**
+- `CONFIG_LIBIIO`, `CONFIG_PYADI`, `CONFIG_LIBM2K`, etc.
+- See [ADI Libraries and Tools](#adi-libraries-and-tools), [ADI Applications](#adi-applications) and [Non-ADI Applications](#non-adi-applications) in Configuration section
 
-Installing packages from the repository in Kuiper:
-   - **sudo apt update**
-   - **sudo apt install [*]**
+### Stage 06: Boot Partition
 
-[*]: adi-carriers-boot-2022.r2, adi-carriers-boot-main, adi-rpi-boot-5.15.y, adi-rpi-boot-6.1.
+**Purpose**: Prepare boot files for different platforms
 
-# RPI Repository
+**Key operations**:
 
-By default, Kuiper image includes the Raspberry Pi package repository in '/etc/apt/sources.list.d/raspi.list'.
-If a package from that repository needs to be installed, the first line from 'raspi.list' should be uncommented,
-and a system update should be run: 'sudo apt update'.
+- Adds Intel and Xilinx boot binaries (if configured)
+- Adds Raspberry Pi boot files (if configured)
+- Creates and configures fstab for mounting partitions
+- Sets up default boot configuration for Raspberry Pi
 
-# Troubleshooting
+**Related config options**:
 
-### `binfmt_misc`
+- `CONFIG_RPI_BOOT_FILES` - Include Raspberry Pi boot files
+- `CONFIG_XILINX_INTEL_BOOT_FILES` - Include Xilinx and Intel boot files
 
-Linux is able execute binaries from other architectures, meaning that it should be
-possible to make use of `kuiper-gen` on an x86_64 system, even though it will be running
-ARM binaries. This requires support from the [`binfmt_misc`](https://en.wikipedia.org/wiki/Binfmt_misc)
-kernel module.
+### Stage 07: Extra Tweaks
 
-You may see one of the following errors:
+**Purpose**: Apply custom configurations and additions
 
+**Key operations**:
+
+- Runs custom user scripts (if specified)
+- Installs Raspberry Pi specific packages (if configured)
+- Installs Raspberry Pi WiFi firmware (if Raspberry Pi boot files are configured)
+
+**Related config options**:
+
+- `EXTRA_SCRIPT` - Path to custom script
+- `INSTALL_RPI_PACKAGES` - Install Raspberry Pi specific packages
+- `CONFIG_RPI_BOOT_FILES` - Install Raspberry Pi WiFi firmware
+
+### Stage 08: Export Stage
+
+**Purpose**: Finalize and export the image
+
+**Key operations**:
+
+- Installs scripts to extend rootfs partition on first boot
+- Exports source code for all packages (if configured)
+- Generates license information
+- Prepares boot partition for target hardware
+- Creates and compresses the final disk image into a zip file
+
+**Related config options**:
+
+- `EXPORT_SOURCES` - Download source files for all packages
+- `ADI_EVAL_BOARD` and `CARRIER` - Configure for specific hardware
+
+## Kuiper Versions
+
+Depending on your configuration choices, different combinations of build stages and substages will be included. Here are the common build configurations:
+
+### Basic Image (Default)
+
+The default configuration includes only the essential packages and configuration needed for a functional system:
+
+- **01.bootstrap** - Core filesystem setup
+- **02.set-locale-and-timezone** - Basic system localization
+- **03.system-tweaks** - User and system configuration
+- **05.adi-tools**
+  - Substage **14.write-git-logs** - Build information tracking
+- **06.boot-partition**
+  - Substage **01.adi-boot-files** - Intel/Xilinx boot files (if enabled)
+  - Substage **02.rpi-boot-files** - Raspberry Pi boot files (if enabled)
+  - Substage **03.add-fstab** - Filesystem table configuration
+- **07.extra-tweaks**
+  - Substage **03.install-rpi-wifi-firmware** - WiFi support (if needed)
+- **08.export-stage**
+  - Substage **01.extend-rootfs** - Root filesystem expansion script
+  - Substage **03.generate-license** License generation
+  - Substage **04.export-image** - Final image creation
+
+### Optional Components
+
+These components can be added on top of the basic image:
+
+- **Desktop Environment** (`CONFIG_DESKTOP=y`):
+
+  - **04.configure-desktop-env**
+    - Substage **01.desktop-env** - XFCE desktop
+    - Substage **02.vnc-server** - Remote display access
+    - Substage **03.cosmetic** - Visual customizations
+
+- **ADI Tools** (various CONFIG\_\* options):
+
+  - **05.adi-tools**
+    - Substages for each tool (libiio, pyadi, libm2k, etc.)
+
+- **Source Code Export** (`EXPORT_SOURCES=y`):
+
+  - **08.export-stage**
+    - Substage **02.export-sources** - Package source code collection
+
+- **Custom Scripts** (`EXTRA_SCRIPT` set):
+
+  - **07.extra-tweaks**
+    - Substage **01.extra-scripts** - Custom script execution
+  - For detailed instructions, see the [Custom Script Integration](#custom-script-integration) section.
+
+- **Raspberry Pi Packages** (`INSTALL_RPI_PACKAGES=y`):
+  - **07.extra-tweaks**
+    - Substage **02.install-rpi-packages** - RPI-specific packages
+
+## Custom Script Integration
+
+Kuiper allows you to run additional scripts during the build process to customize the resulting image. This feature enables advanced customization beyond the standard configuration options.
+
+### Using the Example Script
+
+To use the provided example script:
+
+1. In the `config` file, set the `EXTRA_SCRIPT` variable to:
+
+   ```bash
+   EXTRA_SCRIPT=stages/07.extra-tweaks/01.extra-scripts/examples/extra-script-example.sh
+   ```
+
+2. If you need to pass `config` file parameters to the script, uncomment the line where it sources the config file in the example script.
+
+3. Add your custom commands to the example script file.
+
+### Using Your Own Custom Script
+
+To use your own custom script:
+
+1. Place your script file inside the `adi-kuiper-gen/stages` directory.
+
+2. In the `config` file, set the `EXTRA_SCRIPT` variable to the path of your script relative to the `adi-kuiper-gen` directory.
+
+3. Make sure your script is executable (`chmod +x your-script.sh`).
+
+Custom scripts are executed in the chroot environment of the target system during the build process, allowing you to install additional packages, modify system files, or perform any other customization.
+
+## Using the Generated Image
+
+After successfully building your Kuiper image, you'll need to write it to an SD card or storage device and boot your target hardware. This section guides you through that process.
+
+### Extracting the Image
+
+The build process produces a zip file in the `kuiper-volume/` directory. Extract it using:
+
+```bash
+# Navigate to the kuiper-volume directory
+cd kuiper-volume
+
+# Extract the image
+unzip image_YYYY-MM-DD-ADI-Kuiper-Linux-[arch].zip
 ```
+
+### Writing the Image to an SD Card
+
+#### Using Balena Etcher (Recommended)
+
+[Balena Etcher](https://www.balena.io/etcher/) provides a simple, graphical interface for writing images to SD cards and is the recommended method:
+
+1. **Download and install** [Balena Etcher](https://www.balena.io/etcher/).
+2. **Launch Etcher** and click "Flash from file".
+3. **Select the image file** you extracted from the zip.
+4. **Select your SD card** as the target.
+5. **Click "Flash"** and wait for the process to complete.
+
+#### Using Command Line on Linux
+
+For users who prefer command line tools:
+
+1. **Insert your SD card** into your computer.
+2. **Identify the device name** of your SD card:
+
+   ```bash
+   sudo fdisk -l
+   ```
+
+   Look for a device like `/dev/sdX` or `/dev/mmcblkX` (where X is a letter or number) that matches your SD card's size.
+
+3. **Unmount any auto-mounted partitions**:
+
+   ```bash
+   sudo umount /dev/sdX*
+   ```
+
+   Replace `/dev/sdX` with your actual device path.
+
+4. **Write the image to the SD card**:
+
+   ```bash
+   sudo dd if=image_YYYY-MM-DD-ADI-Kuiper-Linux-[arch].img of=/dev/sdX bs=4M status=progress conv=fsync
+   ```
+
+   Replace `/dev/sdX` with your actual device path, and update the image filename accordingly.
+
+5. **Ensure all data is written**:
+
+   ```bash
+   sudo sync
+   ```
+
+6. **Eject the SD card**:
+
+   ```bash
+   sudo eject /dev/sdX
+   ```
+
+### Booting Your Device
+
+1. **Insert the SD card** into your target device.
+2. **Connect required peripherals** (power, display, keyboard if needed).
+3. **Power on the device**.
+4. The first boot may take longer as the system automatically resizes the root partition to use the full SD card capacity.
+
+### Login Information
+
+- **Username**: analog
+- **Password**: analog
+
+Root access is available using the same password with `sudo` or by logging in directly as root.
+
+### Accessing Your Kuiper System
+
+#### Console Access
+
+Connect directly with a keyboard and display if your hardware supports it.
+
+#### SSH Access
+
+If your device is connected to a network, you can access it via SSH:
+
+```bash
+ssh analog@<device-ip-address>
+```
+
+Replace `<device-ip-address>` with the actual IP address of your device.
+
+#### VNC Access (If desktop environment was enabled)
+
+If you built your image with `CONFIG_DESKTOP=y`, you can access the graphical environment via VNC:
+
+1. Connect to your device using a VNC client (like RealVNC, TigerVNC, or Remmina).
+2. Use the device's IP address and port 5900 (e.g., `192.168.1.100:5900`).
+
+### Verifying Your Installation
+
+To verify that your Kuiper image is working correctly:
+
+1. **Check system information**:
+
+   ```bash
+   cat /etc/os-release
+   uname -a
+   ```
+
+2. **Verify ADI tools** (if you included them in your build):
+
+   ```bash
+   # For libiio (if installed)
+   iio_info -h
+
+   # For IIO Oscilloscope (if installed)
+   osc -h
+   ```
+
+3. **Check available hardware**:
+
+   ```bash
+   # List connected IIO devices (if libiio installed)
+   iio_info
+   ```
+
+## Repositories
+
+Kuiper uses multiple package repositories to install and update software. These repositories are configured during the build process in the bootstrap stage.
+
+### ADI Repository
+
+The ADI APT repository is a collection of Debian package files that facilitates the distribution and installation of Analog Devices software packages. The repository contains .deb packages with boot files for carriers and Raspberry Pi.
+
+**Advantages of using the ADI repository:**
+
+- Easy installation, removal, and upgrading of packages (`apt install`, `apt remove`, `apt upgrade`)
+- Simplified version management
+- Package manager handles dependency resolution and conflict detection
+- Centralized distribution of ADI-specific packages
+
+**Available packages include:**
+
+- `adi-carriers-boot-2022.r2`
+- `adi-carriers-boot-main`
+- `adi-rpi-boot-5.15.y`
+- `adi-rpi-boot-6.1`
+
+### Raspberry Pi Repository
+
+By default, the Kuiper image includes the official Raspberry Pi package repository in `/etc/apt/sources.list.d/raspi.list`. This repository provides access to Pi-specific packages and optimizations.
+
+**Using the Raspberry Pi repository:**
+
+1. Edit `/etc/apt/sources.list.d/raspi.list` and uncomment the first line
+2. Update the package lists: `sudo apt update`
+3. Install packages as needed: `sudo apt install <package-name>`
+
+This gives you access to RPI-specific packages such as GPIO libraries, VideoCore tools, and other hardware-specific packages.
+
+### Installing Packages
+
+To install packages from either repository on your running Kuiper system:
+
+```bash
+sudo apt update
+sudo apt install <package-name>
+```
+
+For example, to install Raspberry Pi boot files from the ADI repository:
+
+```bash
+sudo apt update
+sudo apt install adi-rpi-boot-6.1
+```
+
+## Troubleshooting
+
+### Cross-Architecture Build Issues
+
+If you encounter errors related to ARM emulation, first ensure you've properly set up the prerequisites as described in the [Prerequisites section](#prerequisites).
+
+Common error messages and their solutions:
+
+```bash
 update-binfmts: warning: Couldn't load the binfmt_misc module.
 ```
-```
+
+OR
+
+```bash
 W: Failure trying to run: chroot chroot "//armhf_rootfs" /bin/true
-and/or
+```
+
+OR
+
+```bash
 chroot: failed to run command '/bin/true': Exec format error
 ```
 
-To resolve this, ensure that the following files are available (install them if necessary):
+**Solution**:
 
+1. Verify these specific files exist on your system:
+
+   ```bash
+   /lib/modules/$(uname -r)/kernel/fs/binfmt_misc.ko
+   /usr/bin/qemu-arm-static
+   ```
+
+2. If necessary, install the missing packages and load the module:
+
+   ```bash
+   sudo apt-get install qemu-user-static binfmt-support
+   sudo modprobe binfmt_misc
+   ```
+
+### Docker Permission Issues
+
+If you encounter permission errors when running Docker commands:
+
+```bash
+permission denied while trying to connect to the Docker daemon socket
 ```
-/lib/modules/$(uname -r)/kernel/fs/binfmt_misc.ko
-/usr/bin/qemu-arm-static
-```
 
-You may also need to load the module by hand - run `modprobe binfmt_misc`.
+**Solution**:
 
-If you are using WSL to build you may have to enable the service `sudo update-binfmts --enable`
+1. Either prefix commands with `sudo` as shown in the build instructions
 
+2. Or add your user to the docker group (requires logout/login):
+
+   ```bash
+   sudo usermod -aG docker $USER
+   ```
+
+### Build Path Issues
+
+If the build fails with debootstrap errors, check if your path contains spaces. As mentioned in the prerequisites, the build path must not contain spaces.
+
+### Other Issues
+
+For other issues not covered here, please check the [GitHub Issues](https://github.com/analogdevicesinc/adi-kuiper-gen/issues) page or open a new issue with details about your problem.
