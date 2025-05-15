@@ -5,11 +5,10 @@
 #
 # Copyright (c) 2024 Analog Devices, Inc.
 # Author: Monica Constandachi <monica.constandachi@analog.com>
+# Author: Larisa Radu <larisa.radu@analog.com>
 
 chroot "${BUILD_DIR}" << EOF
-    if [ -e /lib/udev/rules.d/80-net-setup-link.rules ]; then
-        # Change ID_NET_NAME to eth0
-        sed -i 's/\"\$env{ID_NET_NAME}\"/\"eth0\"/g' /lib/udev/rules.d/80-net-setup-link.rules
-    fi
-
+	# Link files that enable Predictable Network Interface names to null
+	ln -sf /dev/null /etc/systemd/network/99-default.link
+	ln -sf /dev/null /etc/systemd/network/73-usb-net-by-mac.link
 EOF
