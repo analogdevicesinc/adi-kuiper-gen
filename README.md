@@ -572,7 +572,7 @@ The default configuration includes only the essential packages and configuration
   - Substage **02.rpi-boot-files** - Raspberry Pi boot files (if enabled)
   - Substage **03.add-fstab** - Filesystem table configuration
 - **07.extra-tweaks**
-  - Substage **03.install-rpi-wifi-firmware** - WiFi support (if needed)
+  - Substage **03.install-rpi-firmware** - WiFi and bluetooth support (if needed)
 - **08.export-stage**
   - Substage **01.extend-rootfs** - Root filesystem expansion script
   - Substage **03.generate-license** License generation
