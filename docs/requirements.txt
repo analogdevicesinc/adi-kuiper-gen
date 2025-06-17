@@ -3,3 +3,4 @@ sphinx
 matplotlib
 rst2pdf
 svglib
+sphinx-design

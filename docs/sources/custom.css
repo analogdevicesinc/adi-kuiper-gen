@@ -1,0 +1,245 @@
+/* Kuiper Documentation - Extending ADI Styles */
+/* This file enhances rather than overrides ADI's cosmic theme */
+
+/* ============================================================================
+   CSS VARIABLES APPROACH - Extending ADI's Design System
+   ============================================================================ */
+
+:root {
+  /* Kuiper-specific color extensions */
+  --kuiper-primary: #667eea;
+  --kuiper-primary-light: #8a9eff;
+  --kuiper-secondary: #764ba2;
+  --kuiper-accent: #fdcb6e;
+  --kuiper-success: #28a745;
+  --kuiper-warning: #ffc107;
+  --kuiper-info: #17a2b8;
+  
+  /* Extend ADI spacing if needed */
+  --kuiper-section-gap: 3rem;
+  --kuiper-card-gap: 1.5rem;
+  
+  /* Component-specific variables */
+  --kuiper-hero-gradient: linear-gradient(135deg, var(--kuiper-primary) 0%, var(--kuiper-secondary) 100%);
+  --kuiper-card-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --kuiper-card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================================================
+   KUIPER-SPECIFIC COMPONENTS - Additive Only
+   ============================================================================ */
+
+/* Hero Banner - New component, doesn't override ADI styles */
+.hero-banner {
+  background: var(--kuiper-hero-gradient);
+  color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: var(--kuiper-section-gap);
+  box-shadow: var(--kuiper-card-shadow);
+}
+
+.hero-banner h2 {
+  margin-top: 0;
+  font-size: 2.2rem;
+  font-weight: 300;
+}
+
+.hero-banner p {
+  margin-bottom: 0;
+  font-size: 1.1rem;
+  opacity: 0.95;
+}
+
+/* Grid System - Compatible with both sphinx-design and ADI styling */
+.feature-grid,
+.requirements-grid,
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--kuiper-card-gap);
+  margin: var(--kuiper-section-gap) 0;
+}
+
+/* Feature Cards - Namespace to avoid conflicts */
+.kuiper-feature-item,
+.kuiper-action-card {
+  background: var(--color-background-surface, #f8f9fa);
+  border: 1px solid var(--color-border, #e9ecef);
+  border-radius: 8px;
+  padding: 1.5rem;
+  border-left: 4px solid var(--kuiper-primary);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: var(--kuiper-card-shadow);
+}
+
+.kuiper-feature-item:hover,
+.kuiper-action-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--kuiper-card-shadow-hover);
+}
+
+/* Requirements Section - Themed for warnings */
+.kuiper-req-section {
+  background: #ffeaa7;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--kuiper-accent);
+}
+
+/* ============================================================================
+   SPHINX-DESIGN COMPONENT ENHANCEMENTS
+   ============================================================================ */
+
+/* Only enhance sphinx-design components, don't override */
+.sd-card {
+  border-left: 4px solid var(--kuiper-primary);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sd-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--kuiper-card-shadow-hover);
+}
+
+/* Tab styling enhancements */
+.sd-tab-content {
+  padding: 1.5rem;
+}
+
+/* Button enhancements */
+.sd-btn-primary {
+  background: var(--kuiper-primary);
+  border-color: var(--kuiper-primary);
+}
+
+.sd-btn-primary:hover {
+  background: var(--kuiper-primary-light);
+  border-color: var(--kuiper-primary-light);
+}
+
+/* ============================================================================
+   TABLE ENHANCEMENTS - Respecting ADI Base Styles
+   ============================================================================ */
+
+/* Only enhance, don't override core table styles */
+.build-configs {
+  margin: var(--kuiper-card-gap) 0;
+}
+
+.build-configs th {
+  background: var(--kuiper-primary);
+  color: white;
+}
+
+.config-snippet {
+  font-size: 0.85rem;
+  margin: 0;
+  background: var(--color-code-background, #2d3748);
+  color: var(--color-code-foreground, #e2e8f0);
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+/* ============================================================================
+   ADMONITION ENHANCEMENTS - Compatible with ADI System
+   ============================================================================ */
+
+/* Enhance existing admonitions without breaking ADI styling */
+.admonition.tip {
+  border-left-color: var(--kuiper-success);
+}
+
+.admonition.important {
+  border-left-color: var(--kuiper-warning);
+}
+
+.admonition.note {
+  border-left-color: var(--kuiper-info);
+}
+
+/* ============================================================================
+   SECTION SEPARATORS - Visual Enhancement
+   ============================================================================ */
+
+/* Custom horizontal rules for section separation */
+.kuiper-section-divider {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--kuiper-primary), transparent);
+  margin: var(--kuiper-section-gap) 0;
+}
+
+/* ============================================================================
+   RESPONSIVE DESIGN - Mobile Friendly
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .hero-banner {
+    padding: 1.5rem;
+    margin-bottom: calc(var(--kuiper-section-gap) * 0.7);
+  }
+  
+  .hero-banner h2 {
+    font-size: 1.8rem;
+  }
+  
+  .feature-grid,
+  .requirements-grid,
+  .action-grid {
+    grid-template-columns: 1fr;
+    gap: calc(var(--kuiper-card-gap) * 0.7);
+  }
+  
+  .kuiper-feature-item,
+  .kuiper-action-card,
+  .kuiper-req-section {
+    padding: 1rem;
+  }
+}
+
+/* ============================================================================
+   ACCESSIBILITY ENHANCEMENTS
+   ============================================================================ */
+
+/* Ensure sufficient color contrast */
+@media (prefers-reduced-motion: reduce) {
+  .kuiper-feature-item,
+  .kuiper-action-card,
+  .sd-card {
+    transition: none;
+  }
+  
+  .kuiper-feature-item:hover,
+  .kuiper-action-card:hover,
+  .sd-card:hover {
+    transform: none;
+  }
+}
+
+/* Focus styles for keyboard navigation */
+.kuiper-feature-item:focus-within,
+.kuiper-action-card:focus-within,
+.sd-card:focus-within {
+  outline: 2px solid var(--kuiper-primary);
+  outline-offset: 2px;
+}
+
+/* ============================================================================
+   PRINT STYLES - Documentation Friendly
+   ============================================================================ */
+
+@media print {
+  .hero-banner {
+    background: none !important;
+    color: black !important;
+    border: 2px solid black;
+  }
+  
+  .kuiper-feature-item,
+  .kuiper-action-card {
+    box-shadow: none !important;
+    border: 1px solid black;
+  }
+}

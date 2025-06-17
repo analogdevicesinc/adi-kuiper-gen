@@ -15,8 +15,16 @@ version = '' # documentation version, will be printed on the cover page
 extensions = [
     'sphinx.ext.todo',
     'adi_doctools',
-    'rst2pdf.pdfbuilder'
+    'rst2pdf.pdfbuilder',
+    # Try to include sphinx-design if available, fallback gracefully if not
+    'sphinx_design',  # For advanced UI components like grids and cards
 ]
+
+# Handle missing sphinx-design gracefully
+import importlib.util
+if importlib.util.find_spec('sphinx_design') is None:
+    print("Warning: sphinx-design not found. Some UI components may not render correctly.")
+    extensions.remove('sphinx_design')
 
 needs_extensions = {
     'adi_doctools': '0.3.47'
@@ -54,3 +62,9 @@ html_theme_options = {
     "light_logo": "HDL_logo_cropped.svg",
     "dark_logo": "HDL_logo_w_cropped.svg",
 }
+
+# -- Sphinx Design configuration (if available) -------------------------------
+
+# Enable sphinx-design features if the extension is loaded
+if 'sphinx_design' in extensions:
+    html_css_files.append('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css')
