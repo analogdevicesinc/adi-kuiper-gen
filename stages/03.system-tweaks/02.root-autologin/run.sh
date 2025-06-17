@@ -20,4 +20,7 @@ chroot "${BUILD_DIR}" << EOF
 	echo "ttyS0" >> /etc/securetty
 	echo "ttyGS0" >> /etc/securetty
 	echo "ttyGS1" >> /etc/securetty
+
+	# Add an ANSI reset code at the begining of /etc/issue to clear any text formatting from boot messages
+	sed -i '1s|^|\\\e[0m|' /etc/issue
 EOF
