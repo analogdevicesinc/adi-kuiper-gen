@@ -1,0 +1,16 @@
+[connection]
+id=eth0-linklocal
+type=ethernet
+autoconnect-priority=5
+interface-name=eth0
+
+[ethernet]
+
+[ipv4]
+method=link-local
+
+[ipv6]
+addr-gen-mode=default
+method=disabled
+
+[proxy]
