@@ -177,7 +177,7 @@ BRANCH_GRM2K=main
 # [ADI LINUX SCRIPTS]
 # ADI Scripts for Linux images: semi-random collection of small shell scripts which run on various Linux images (on various platforms) which talk to a varity of different ADI boards and parts
 # Github: https://github.com/analogdevicesinc/linux_image_ADI-scripts
-CONFIG_LINUX_SCRIPTS=n
+CONFIG_LINUX_SCRIPTS=y
 BRANCH_LINUX_SCRIPTS=kuiper2.0
 #
 #
