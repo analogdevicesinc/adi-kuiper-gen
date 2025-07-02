@@ -1,5 +1,5 @@
 #!/bin/bash
-sed -i 's/^#\(kernel\.printk = 3 4 1 3\)/\1/' /etc/sysctl.conf
+
 mkdir /lib/firmware
 # copy eval support files to embedded system and enable systemd-service (step 3)
 # git setup
