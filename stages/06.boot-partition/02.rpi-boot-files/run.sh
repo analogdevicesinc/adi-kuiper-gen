@@ -74,8 +74,8 @@ EOF
 	fi
 
 	# Add custom files for Raspberry Pi
-	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/cmdline.txt "${BUILD_DIR}/boot/cmdline.txt"
-	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/config.txt "${BUILD_DIR}/boot/config.txt"
+	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/cmdline.txt 			 "${BUILD_DIR}/boot/cmdline.txt"
+	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/${TARGET_ARCHITECTURE}/config.txt "${BUILD_DIR}/boot/config.txt"
 	
 	# Install Raspberry Pi boot files: start*.elf, fixup*.dat, bootcode.bin and LICENCE.broadcom. 
 	# These files are downloaded as a package from the Raspberry Pi apt repository.

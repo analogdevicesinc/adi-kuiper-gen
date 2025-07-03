@@ -1,0 +1,33 @@
+# For more options and information see
+# http://rpf.io/configtxt
+# Some settings may impact device functionality. See link above for details
+
+hdmi_force_hotplug=1
+
+# Enable audio (loads snd_bcm2835)
+#dtparam=audio=on
+
+# Automatically load overlays for detected cameras
+#camera_auto_detect=1
+
+# Automatically load overlays for detected DSI displays
+display_auto_detect=1
+
+# Enable DRM VC4 V3D driver
+dtoverlay=vc4-fkms-v3d
+max_framebuffers=2
+
+# Run in 64-bit mode
+arm_64bit=1
+
+# Disable compensation for displays with overscan
+disable_overscan=1
+
+[pi4]
+# Run as fast as firmware / board allows
+arm_boost=1
+
+[cm5]
+dtoverlay=dwc2,dr_mode=host
+
+autologin-user=analog
