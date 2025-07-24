@@ -14,6 +14,14 @@ IMAGE_NAME="debian_${DEBIAN_VERSION}_rootfs"
 CONTAINER_NAME=${CONTAINER_NAME:-"${IMAGE_NAME}_container"}
 PRESERVE_CONTAINER=${PRESERVE_CONTAINER:-n}
 
+cleanup() {
+	docker rm -fv ${CONTAINER_NAME}
+	exit 1
+}
+
+# Remove container if build was interrupted or cancelled
+trap cleanup SIGINT SIGTERM
+
 # Check if the script is run as root
 if [ "$(id -u)" != "0" ] ; then
 	echo "This script must be run as root"
