@@ -47,6 +47,12 @@ jobs:
             sudo apt-get update
             sudo apt-get install -y qemu-user-static
           fi
+          # remove container if already exists
+          CONTAINER_NAME=$(grep -m1 -oP '^[#]?CONTAINER_NAME=\K.*' ./config)
+          if [ "$(docker ps -a -q -f name=^/${CONTAINER_NAME}$)" ]; then
+              docker rm -fv "$CONTAINER_NAME"
+          fi
+
           ci/modify_config.sh ./config "${{ vars[format('{0}', env.BRANCH_NAME )] }}"
           sudo bash build-docker.sh
           ls kuiper-volume/*.zip >/dev/null 2>&1 && exit 0 || exit 2
