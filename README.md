@@ -173,20 +173,21 @@ These options control which ADI libraries and tools are included in the image:
 
 These options control which ADI applications are included in the image:
 
-| Option                               | Default             | Description                                                                           |
-| ------------------------------------ | ------------------- | ------------------------------------------------------------------------------------- |
-| `CONFIG_IIO_OSCILLOSCOPE`            | `n`                 | Install IIO Oscilloscope (`y`/`n`). Requires Libiio, Libad9166_IIO, and Libad9361_IIO |
-| `CONFIG_IIO_OSCILLOSCOPE_CMAKE_ARGS` | _(see config file)_ | CMake build arguments for IIO Oscilloscope                                            |
-| `BRANCH_IIO_OSCILLOSCOPE`            | `main`              | Git branch to use for IIO Oscilloscope                                                |
-| `CONFIG_IIO_FM_RADIO`                | `n`                 | Install IIO FM Radio (`y`/`n`)                                                        |
-| `BRANCH_IIO_FM_RADIO`                | `main`              | Git branch to use for IIO FM Radio                                                    |
-| `CONFIG_FRU_TOOLS`                   | `n`                 | Install FRU tools (`y`/`n`)                                                           |
-| `BRANCH_FRU_TOOLS`                   | `main`              | Git branch to use for FRU tools                                                       |
-| `CONFIG_JESD_EYE_SCAN_GTK`           | `n`                 | Install JESD Eye Scan GTK (`y`/`n`)                                                   |
-| `BRANCH_JESD_EYE_SCAN_GTK`           | `main`              | Git branch to use for JESD Eye Scan GTK                                               |
-| `CONFIG_COLORIMETER`                 | `n`                 | Install Colorimeter (`y`/`n`). Requires Libiio                                        |
-| `BRANCH_COLORIMETER`                 | `main`              | Git branch to use for Colorimeter                                                     |
-| `CONFIG_SCOPY`                       | `n`                 | Install Scopy (`y`/`n`)                                                               |
+| Option                                | Default             | Description                                                                           |
+| ------------------------------------  | ------------------- | ------------------------------------------------------------------------------------- |
+| `CONFIG_IIO_OSCILLOSCOPE`             | `n`                 | Install IIO Oscilloscope (`y`/`n`). Requires Libiio, Libad9166_IIO, and Libad9361_IIO |
+| `CONFIG_IIO_OSCILLOSCOPE_CMAKE_ARGS`  | _(see config file)_ | CMake build arguments for IIO Oscilloscope                                            |
+| `BRANCH_IIO_OSCILLOSCOPE`             | `main`              | Git branch to use for IIO Oscilloscope                                                |
+| `CONFIG_IIO_FM_RADIO`                 | `n`                 | Install IIO FM Radio (`y`/`n`)                                                        |
+| `BRANCH_IIO_FM_RADIO`                 | `main`              | Git branch to use for IIO FM Radio                                                    |
+| `CONFIG_FRU_TOOLS`                    | `n`                 | Install FRU tools (`y`/`n`)                                                           |
+| `BRANCH_FRU_TOOLS`                    | `main`              | Git branch to use for FRU tools                                                       |
+| `CONFIG_JESD_EYE_SCAN_GTK`            | `n`                 | Install JESD Eye Scan GTK (`y`/`n`)                                                   |
+| `CONFIG_JESD_EYE_SCAN_GTK_CMAKE_ARGS` | _(see config file)_ | CMake build arguments for JESD Eye Scan GTK                                           |
+| `BRANCH_JESD_EYE_SCAN_GTK`            | `main`              | Git branch to use for JESD Eye Scan GTK                                               |
+| `CONFIG_COLORIMETER`                  | `n`                 | Install Colorimeter (`y`/`n`). Requires Libiio                                        |
+| `BRANCH_COLORIMETER`                  | `main`              | Git branch to use for Colorimeter                                                     |
+| `CONFIG_SCOPY`                        | `n`                 | Install Scopy (`y`/`n`)                                                               |
 
 ### Non-ADI Applications
 

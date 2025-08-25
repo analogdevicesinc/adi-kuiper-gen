@@ -15,7 +15,7 @@ chroot "${BUILD_DIR}" << EOF
 	git clone -b ${BRANCH_JESD_EYE_SCAN_GTK} ${GITHUB_ANALOG_DEVICES}/jesd-eye-scan-gtk.git
 		
 	# Install jesd-eye-scan-gtk
-	cd jesd-eye-scan-gtk && make -j $NUM_JOBS && make install
+	cd jesd-eye-scan-gtk && cmake ${CONFIG_JESD_EYE_SCAN_GTK_CMAKE_ARGS} && cd build && make -j $NUM_JOBS && make install
 EOF
 
 else

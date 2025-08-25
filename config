@@ -131,6 +131,8 @@ BRANCH_FRU_TOOLS=main
 # JESD Eye Scan Gtk: JESD204 Eye Scan Visualization Utility
 # Github: https://github.com/analogdevicesinc/jesd-eye-scan-gtk
 CONFIG_JESD_EYE_SCAN_GTK=n
+CONFIG_JESD_EYE_SCAN_GTK_CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX=/usr/local \
+				-Bbuild -H."
 BRANCH_JESD_EYE_SCAN_GTK=main
 #
 #
