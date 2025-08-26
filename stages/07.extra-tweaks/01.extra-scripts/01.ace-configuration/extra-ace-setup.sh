@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Install extra packages
+apt install -y bsdmainutils xxd
+
 mkdir /lib/firmware
 # copy eval support files to embedded system and enable systemd-service (step 3)
 # git setup
