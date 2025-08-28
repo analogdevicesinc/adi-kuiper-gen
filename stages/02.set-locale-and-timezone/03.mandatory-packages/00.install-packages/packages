@@ -24,3 +24,5 @@ device-tree-compiler
 psmisc
 tree
 bash-completion
+jq
+bsdextrautils
