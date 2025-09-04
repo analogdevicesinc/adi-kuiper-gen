@@ -8,6 +8,13 @@
 
 if [ "${CONFIG_DESKTOP}" = y ]; then
 
+	if [[ "${CONFIG_RPI_BOOT_FILES}" = y && "${TARGET_ARCHITECTURE}" = arm64 ]]; then
+
+		# Use the vc4 card for the display on RPi5
+		install -m 644 "${BASH_SOURCE%%/run.sh}"/files/99-vc4.conf "${BUILD_DIR}/etc/X11/xorg.conf.d"
+
+	fi
+
 chroot "${BUILD_DIR}" << EOF
 	# Enable autologin for analog user
 	sed -i "s/#autologin-user=/autologin-user=analog/g" /etc/lightdm/lightdm.conf
