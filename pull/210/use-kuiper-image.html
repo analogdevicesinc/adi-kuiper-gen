@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="After obtaining your Kuiper image (built or downloaded), you’ll need to write it to an SD card or storage device and boot your target hardware. This section guides you through that process." name="description" />
+
+    <title>Using Kuiper Images &#8212; Kuiper  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8e8a900e" />
+    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=37266688" />
+    <script async="async" src="_static/app.umd.js?v=8f62bab2"></script>
+    <link rel="icon" href="_static/icon.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Hardware Configuration" href="hardware-configuration.html" />
+    <link rel="prev" title="Quick Start" href="quick-start.html" />
+   
+  
+  
+  <meta name="repository" content="adi-kuiper-gen">
+  <meta name="version" content="latest">
+  
+    <meta name="page_source_suffix" content=".rst">
+  
+  
+
+
+<style>
+  body {
+    
+  }
+
+  body.dark {
+    
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body:not(.light) {
+      
+    }
+  }
+</style>
+  </head><body>
+  <input type="checkbox" id="input-show-toc">
+  <input type="checkbox" id="input-show-localtoc">
+  <input type="checkbox" id="input-show-repotoc">
+
+  
+  <div class="search-area">
+    <form action="" method="get">
+      <input type="text" name="q" aria-labelledby="search-documentation" value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="search" placeholder="Search"/>
+      <button class="icon"></button>
+    </form>
+  </div>
+  
+
+  <header>
+    <div id="left">
+      <label id="show-sidebar" class="icon" for="input-show-toc" title="Show/hide index"></label>
+    </div>
+    <div id="right">
+      <span>
+        <a id="logo-org" href="https://analog.com" aria-label="Analog Devices Inc. landing page"></a>
+        <div class="vertical-divider"></div>
+        
+        <label id="show-repotoc" for="input-show-repotoc" title="Show/hide docs" tabindex="0">Docs</label>
+        
+        <a id="logo" href="index.html">
+          <div>Kuiper</div>
+        </a>
+      </span>
+      <span class="reverse">
+        <label id="show-localtoc" class="icon" for="input-show-localtoc" title="Show/hide contents"></label>
+      </span>
+    </div>
+  </header>
+
+
+  <div class="repotoc-tree overlay">
+    <root/>
+
+  </div>
+    <div class="localtoc">
+      <div class="tocwrapper">
+        <div class="header localtoc-header">
+          <a id="scroll-up" href="#top-anchor" title="Back to top"></a>
+        </div>
+        <nav>
+          <ul>
+<li><a class="reference internal" href="#">Using Kuiper Images</a><ul>
+<li><a class="reference internal" href="#extracting-the-image">Extracting the Image</a></li>
+<li><a class="reference internal" href="#writing-the-image-to-an-sd-card">Writing the Image to an SD Card</a><ul>
+<li><a class="reference internal" href="#using-balena-etcher-recommended">Using Balena Etcher (Recommended)</a></li>
+<li><a class="reference internal" href="#using-command-line-on-linux">Using Command Line on Linux</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#booting-your-device">Booting Your Device</a></li>
+<li><a class="reference internal" href="#login-information">Login Information</a></li>
+<li><a class="reference internal" href="#accessing-your-kuiper-system">Accessing Your Kuiper System</a><ul>
+<li><a class="reference internal" href="#console-access">Console Access</a></li>
+<li><a class="reference internal" href="#ssh-access">SSH Access</a></li>
+<li><a class="reference internal" href="#vnc-access-if-desktop-environment-was-enabled">VNC Access (If desktop environment was enabled)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#verifying-your-installation">Verifying Your Installation</a></li>
+<li><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+
+        </nav>
+      </div>
+    </div>
+
+  
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+    <a id="logo" href="index.html">
+      <img class="only-light" src="_static/logo_light.png"/>
+      <img class="only-dark" src="_static/logo_dark.png"/>
+    </a><input id="input-switch-toc" type="checkbox">
+<label id="show-repotoc" for="input-switch-toc">
+All content
+</label>
+<label id="show-toc" for="input-switch-toc">
+Content on this topic
+</label>
+<div class="repotoc-tree">
+  <root/>
+
+</div>
+<div class="toc-tree">
+  <html>
+  <body><p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start.html#building-your-own-image">Building Your Own Image</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Using Kuiper Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hardware-configuration.html">Hardware Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration &amp; Building</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kuiper-versions.html">Kuiper Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-flow.html">Build Flow</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="stage-reference.html">Stage Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customization.html">Custom Script Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="repositories.html">Repositories</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</body>
+</html>
+
+</div>
+        </div>
+      </div>
+
+  <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper" id="top-anchor">
+          <div class="body-header">
+  <nav class="breadcrumb empty"><ol></ol></nav>
+</div>
+          <div class="body" role="main">
+            
+  <section id="using-kuiper-images">
+<span id="use-kuiper-image"></span><h1>Using Kuiper Images<a class="headerlink" href="#using-kuiper-images" title="Link to this heading"></a></h1>
+<p>After obtaining your Kuiper image (built or downloaded), you’ll need to write
+it to an SD card or storage device and boot your target hardware. This section
+guides you through that process.</p>
+<hr class="docutils" />
+<section id="extracting-the-image">
+<h2>Extracting the Image<a class="headerlink" href="#extracting-the-image" title="Link to this heading"></a></h2>
+<p>The build process produces a zip file in the <code class="docutils literal notranslate"><span class="pre">kuiper-volume/</span></code> directory.
+Extract it using:</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-number">Listing 1 </span><span class="caption-text">Extract the image</span><a class="headerlink" href="#id2" title="Link to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Navigate to the kuiper-volume directory</span>
+<span class="nb">cd</span><span class="w"> </span>kuiper-volume
+
+<span class="c1"># Extract the image</span>
+unzip<span class="w"> </span>image_YYYY-MM-DD-ADI-Kuiper-Linux-<span class="o">[</span>arch<span class="o">]</span>.zip
+</pre></div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="writing-the-image-to-an-sd-card">
+<h2>Writing the Image to an SD Card<a class="headerlink" href="#writing-the-image-to-an-sd-card" title="Link to this heading"></a></h2>
+<section id="using-balena-etcher-recommended">
+<h3>Using Balena Etcher (Recommended)<a class="headerlink" href="#using-balena-etcher-recommended" title="Link to this heading"></a></h3>
+<p><a class="icon link reference external" href="https://www.balena.io/etcher/" target="_blank">Balena Etcher</a> provides a simple, graphical
+interface for writing images to SD cards and is the recommended method:</p>
+<ol class="arabic simple">
+<li><p><strong>Download and install</strong> <a class="icon link reference external" href="https://www.balena.io/etcher/" target="_blank">Balena Etcher</a>.</p></li>
+<li><p><strong>Launch Etcher</strong> and click “Flash from file”.</p></li>
+<li><p><strong>Select the image file</strong> you extracted from the zip.</p></li>
+<li><p><strong>Select your SD card</strong> as the target.</p></li>
+<li><p><strong>Click “Flash”</strong> and wait for the process to complete.</p></li>
+</ol>
+</section>
+<section id="using-command-line-on-linux">
+<h3>Using Command Line on Linux<a class="headerlink" href="#using-command-line-on-linux" title="Link to this heading"></a></h3>
+<p>For users who prefer command line tools:</p>
+<ol class="arabic">
+<li><p><strong>Insert your SD card</strong> into your computer.</p></li>
+<li><p><strong>Identify the device name</strong> of your SD card:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>fdisk<span class="w"> </span>-l
+</pre></div>
+</div>
+<p>Look for a device like <code class="docutils literal notranslate"><span class="pre">/dev/sdX</span></code> or <code class="docutils literal notranslate"><span class="pre">/dev/mmcblkX</span></code> (where X is a
+letter or number) that matches your SD card’s size.</p>
+</li>
+<li><p><strong>Unmount any auto-mounted partitions</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>umount<span class="w"> </span>/dev/sdX*
+</pre></div>
+</div>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">/dev/sdX</span></code> with your actual device path.</p>
+</li>
+<li><p><strong>Write the image to the SD card</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>image_YYYY-MM-DD-ADI-Kuiper-Linux-<span class="o">[</span>arch<span class="o">]</span>.img<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/sdX<span class="w"> </span><span class="nv">bs</span><span class="o">=</span>4M<span class="w"> </span><span class="nv">status</span><span class="o">=</span>progress<span class="w"> </span><span class="nv">conv</span><span class="o">=</span>fsync
+</pre></div>
+</div>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">/dev/sdX</span></code> with your actual device path, and update the image
+filename accordingly.</p>
+</li>
+<li><p><strong>Ensure all data is written</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>sync
+</pre></div>
+</div>
+</li>
+<li><p><strong>Eject the SD card</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>eject<span class="w"> </span>/dev/sdX
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="booting-your-device">
+<h2>Booting Your Device<a class="headerlink" href="#booting-your-device" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Insert the SD card</strong> into your target device.</p></li>
+<li><p><strong>Connect required peripherals</strong> (power, display, keyboard if needed).</p></li>
+<li><p><strong>Power on the device</strong>.</p></li>
+<li><p>The first boot may take longer as the system automatically resizes the root partition to use the full SD card capacity.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="login-information">
+<h2>Login Information<a class="headerlink" href="#login-information" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Username</strong>: analog</p></li>
+<li><p><strong>Password</strong>: analog</p></li>
+</ul>
+<p>Root access is available using the same password with <code class="docutils literal notranslate"><span class="pre">sudo</span></code> or by logging
+in directly as root.</p>
+</section>
+<hr class="docutils" />
+<section id="accessing-your-kuiper-system">
+<h2>Accessing Your Kuiper System<a class="headerlink" href="#accessing-your-kuiper-system" title="Link to this heading"></a></h2>
+<section id="console-access">
+<h3>Console Access<a class="headerlink" href="#console-access" title="Link to this heading"></a></h3>
+<p>Connect directly with a keyboard and display if your hardware supports it.</p>
+</section>
+<section id="ssh-access">
+<h3>SSH Access<a class="headerlink" href="#ssh-access" title="Link to this heading"></a></h3>
+<p>If your device is connected to a network, you can access it via SSH:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>analog@&lt;device-ip-address&gt;
+</pre></div>
+</div>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">&lt;device-ip-address&gt;</span></code> with the actual IP address of your device.</p>
+</section>
+<section id="vnc-access-if-desktop-environment-was-enabled">
+<h3>VNC Access (If desktop environment was enabled)<a class="headerlink" href="#vnc-access-if-desktop-environment-was-enabled" title="Link to this heading"></a></h3>
+<p>If you built your image with <code class="docutils literal notranslate"><span class="pre">CONFIG_DESKTOP=y</span></code>, you can access the
+graphical environment via VNC:</p>
+<ol class="arabic simple">
+<li><p>Connect to your device using a VNC client (like RealVNC, TigerVNC, or Remmina).</p></li>
+<li><p>Use the device’s IP address and port 5900 (e.g., <code class="docutils literal notranslate"><span class="pre">192.168.1.100:5900</span></code>).</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="verifying-your-installation">
+<h2>Verifying Your Installation<a class="headerlink" href="#verifying-your-installation" title="Link to this heading"></a></h2>
+<p>To verify that your Kuiper image is working correctly:</p>
+<ol class="arabic">
+<li><p><strong>Check system information</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span>/etc/os-release
+uname<span class="w"> </span>-a
+</pre></div>
+</div>
+</li>
+<li><p><strong>Verify ADI tools</strong> (if you included them in your build):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># For libiio (if installed)</span>
+iio_info<span class="w"> </span>-h
+
+<span class="c1"># For IIO Oscilloscope (if installed)</span>
+osc<span class="w"> </span>-h
+</pre></div>
+</div>
+</li>
+<li><p><strong>Check available hardware</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List connected IIO devices (if libiio installed)</span>
+iio_info
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<p>For ADI evaluation boards: If you need to configure your Kuiper system for
+a specific ADI evaluation board and carrier combination, see
+<a class="reference internal" href="hardware-configuration.html"><span class="doc">Hardware Configuration</span></a> for the complete
+setup process.</p>
+</section>
+</section>
+
+
+          </div>
+              <div class="related">
+                &nbsp;
+    <a href="quick-start.html" title="Previous document (Alt+Shift+LeftArrow)" class="prev">Quick Start</a>
+    <a href="hardware-configuration.html" title="Next document (Alt+Shift+RightArrow)" class="next">Hardware Configuration</a>
+              </div>
+          
+        </div>
+      </div>
+  </div>
+
+  <label id="cancel-area-show-toc" for="input-show-toc"></label>
+  <label id="cancel-area-show-localtoc" for="input-show-localtoc"></label>
+    <footer>
+      &#169;2025, Analog Devices, Inc.
+      
+      |
+      Made with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+      &amp; <a href="https://github.com/analogdevicesinc/doctools">Doctools</a>
+      
+    </footer>
+  </body>
+</html>
