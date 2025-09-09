@@ -183,10 +183,8 @@ BRANCH_LINUX_SCRIPTS=kuiper2.0
 #
 #
 # [RASPBERRY PI BOOT FILES]
-# Contains boot files for Raspberry PI.
+# Contains boot files for Raspberry PI installed from the ADI Package Repository.
 CONFIG_RPI_BOOT_FILES=y
-BRANCH_RPI_BOOT_FILES=rpi-6.1.y
-USE_ADI_REPO_RPI_BOOT=y
 #
 #
 #

@@ -6,11 +6,22 @@
 # Copyright (c) 2024 Analog Devices, Inc.
 # Author: Larisa Radu <larisa.radu@analog.com>
 
+USE_ADI_REPO_RPI_BOOT=y
+
+# Variables used for custom downloads from SWDownloads or Artifactory for testing purposes
 SERVER="https://swdownloads.analog.com"
 RPI_SPATH="cse/linux_rpi"
 RPI_PROPERTIES="rpi_archives_properties.txt"
-RPI_ARCHIVE_NAME="rpi_latest_boot.tar.gz"
-RPI_MODULES_ARCHIVE_NAME="rpi_modules.tar.gz"
+BRANCH_RPI_BOOT_FILES="rpi-6.6.y"
+
+if [ "${TARGET_ARCHITECTURE}" = armhf ]; then
+	RPI_MODULES_ARCHIVE_NAME="rpi_modules_32bit.tar.gz"
+	RPI_ARCHIVE_NAME="rpi_latest_boot_32bit.tar.gz"
+
+else
+	RPI_MODULES_ARCHIVE_NAME="rpi_modules_64bit.tar.gz"
+	RPI_ARCHIVE_NAME="rpi_latest_boot_64bit.tar.gz"
+fi
 
 if [ "${CONFIG_RPI_BOOT_FILES}" = y ]; then
 	mkdir -p "${BUILD_DIR}"/lib/modules
@@ -18,19 +29,24 @@ if [ "${CONFIG_RPI_BOOT_FILES}" = y ]; then
 
 	# Check if RPI boot files should be downloaded from ADI repository, Artifactory or Software downloads
 	if [ "${USE_ADI_REPO_RPI_BOOT}" == y ]; then
-		# extract the RPI branch (exclude "rpi-")
-		rpi_package_branch=$(cut -d'-' -f2 <<< ${BRANCH_RPI_BOOT_FILES})
-		
+
 		# install package from adi-repo
 chroot "${BUILD_DIR}" << EOF
-		apt-get install adi-rpi-boot-${rpi_package_branch}
+		apt-get install adi-rpi-boot
 EOF
 
 	elif [[ ! -z ${ARTIFACTORY_RPI} ]]; then
 		wget -r -q --progress=bar:force:noscroll -nH --cut-dirs=5 -np -R "index.html*" "-l inf" ${ARTIFACTORY_RPI} -P "${BUILD_DIR}/boot"
-		tar -xf "${BUILD_DIR}/boot/rpi_modules.tar.gz" -C "${BUILD_DIR}/lib/modules" --no-same-owner
-		rm -rf "${BUILD_DIR}/boot/rpi_modules.tar.gz"
+		tar -xf "${BUILD_DIR}/boot/${RPI_MODULES_ARCHIVE_NAME}" -C "${BUILD_DIR}/lib/modules" --no-same-owner
+		rm -rf "${BUILD_DIR}/boot/${RPI_MODULES_ARCHIVE_NAME}"
 	else
+		# Get Raspberry Pi properties file corresponding to boot files
+		wget --progress=bar:force:noscroll "$SERVER/$RPI_SPATH/$BRANCH_RPI_BOOT_FILES/$RPI_PROPERTIES"
+		if [ $? -ne 0 ]; then
+			echo -e "\nDownloading $SERVER/$RPI_SPATH/$BRANCH_RPI_BOOT_FILES/$RPI_PROPERTIES failed - Aborting."  1>&2
+			exit 1
+		fi
+
 		# Get custom ADI Raspberry Pi boot files brcm*.dtb, kernel*.img and overlays
 		wget --progress=bar:force:noscroll "$SERVER/$RPI_SPATH/$BRANCH_RPI_BOOT_FILES/$RPI_ARCHIVE_NAME"
 		if [ $? -ne 0 ]; then
@@ -45,17 +61,15 @@ EOF
   			exit 1
 		fi
 
-		# Get Raspberry Pi properties file corresponding to boot files
-		wget --progress=bar:force:noscroll "$SERVER/$RPI_SPATH/$BRANCH_RPI_BOOT_FILES/$RPI_PROPERTIES"
-		if [ $? -ne 0 ]; then
-			echo -e "\nDownloading $SERVER/$RPI_SPATH/$BRANCH_RPI_BOOT_FILES/$RPI_PROPERTIES failed - Aborting."  1>&2
- 			exit 1
+		# Extract checksum from modules and boot files
+		if [ "${TARGET_ARCHITECTURE}" = armhf ]; then
+			checksum_properties_modules=$(grep '^checksum_modules_32bit=' $RPI_PROPERTIES | cut -d'=' -f2)
+			checksum_properties_boot_files=$(grep '^checksum_boot_files_32bit=' "$RPI_PROPERTIES" | cut -d'=' -f2)
+		else
+			checksum_properties_modules=$(grep '^checksum_modules_64bit=' $RPI_PROPERTIES | cut -d'=' -f2)
+			checksum_properties_boot_files=$(grep '^checksum_boot_files_64bit=' "$RPI_PROPERTIES" | cut -d'=' -f2)
 		fi
 
-		# Extract checksum from modules and boot files
-		checksum_properties_modules=$(sed -n 4p $RPI_PROPERTIES|sed 's/=/ /1'|cut -d' ' -f2)
-		checksum_properties_boot_files=$(sed -n 5p $RPI_PROPERTIES|sed 's/=/ /1'|cut -d' ' -f2)
-	
 		# Compute the checksums for the downloaded archives
 		checksum_modules=$(md5sum $RPI_MODULES_ARCHIVE_NAME | cut -d' ' -f1)
 		checksum_boot_files=$(md5sum $RPI_ARCHIVE_NAME | cut -d' ' -f1)
