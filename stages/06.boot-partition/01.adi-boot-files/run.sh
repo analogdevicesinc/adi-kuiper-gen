@@ -6,58 +6,67 @@
 # Copyright (c) 2024 Analog Devices, Inc.
 # Author: Larisa Radu <larisa.radu@analog.com>
 
+# Variable that selects if the boot files should be installed from the ADI APT Package Repository or from other source
+# For normal use this variable will be left on 'y'
+USE_ADI_REPO_CARRIERS_BOOT=y
+
 SERVER="https://swdownloads.analog.com"
 XILINX_INTEL_SPATH="cse/boot_partition_files"
 XILINX_INTEL_ARCHIVE_NAME="latest_boot_partition.tar.gz"
 XILINX_INTEL_PROPERTIES="latest_boot.txt"
+RELEASE_XILINX_INTEL_BOOT_FILES="2023_r2"
 
-if [ "${CONFIG_XILINX_INTEL_BOOT_FILES}" = y ]; then
-	echo "Download Xilinx and Intel boot files"
-
-	# Check if Xilinx and Intel boot files should be downloaded from ADI repository, Artifactory or Software downloads
-	if [ "${USE_ADI_REPO_CARRIERS_BOOT}" == y ]; then
-		# extract the carriers release
-		carriers_package_release=${RELEASE_XILINX_INTEL_BOOT_FILES/_/.}
+if [ "${USE_ADI_REPO_CARRIERS_BOOT}" == y ]; then
 		
-		# install package from adi-repo
+# Install packages from adi-repo
 chroot "${BUILD_DIR}" << EOF
-		apt-get install adi-carriers-boot-${carriers_package_release}
+	# Install only boot files packages for the architectures that are enabled
+	# Look through environment variables, find those starting with 'CONFIG_ARCH_' and set to '=y'
+	# Remove the 'CONFIG_ARCH_' prefix and the '=y' suffix, leaving only the architecture name
+	# Convert result to lowercase
+	# For each architecture check if package exists
+	# Install package
+	# Or print and info message
+	env | grep '^CONFIG_ARCH_.*=y' \
+		| sed -E 's/^CONFIG_ARCH_(.*)=y/\L\1/' \
+		| while read arch; do
+		apt-cache show adi-\$arch-boot >/dev/null 2>&1 \
+		&& apt install adi-\$arch-boot \
+		|| echo "Package adi-\$arch-boot not found for $TARGET_ARCHITECTURE"
+	done
 EOF
 
-	elif [[ ! -z ${ARTIFACTORY_XILINX_INTEL} ]]; then
-		wget -r -q --progress=bar:force:noscroll -nH --cut-dirs=5 -np -R "index.html*" "-l inf" ${ARTIFACTORY_XILINX_INTEL} -P "${BUILD_DIR}/boot"
-	else
-		# Get Xilinx and Intel boot files
-		wget --progress=bar:force:noscroll "$SERVER/$XILINX_INTEL_SPATH/$RELEASE_XILINX_INTEL_BOOT_FILES/$XILINX_INTEL_ARCHIVE_NAME"
-		if [ $? -ne 0 ]; then
-			echo -e "\nDownloading $SERVER/$XILINX_INTEL_SPATH/$RELEASE_XILINX_INTEL_BOOT_FILES/$XILINX_INTEL_ARCHIVE_NAME failed - Aborting."  1>&2
-  			exit 1
-		fi
-		
-		# Get Xilinx Intel properties file corresponding to boot files
-		wget --progress=bar:force:noscroll "$SERVER/$XILINX_INTEL_SPATH/$RELEASE_XILINX_INTEL_BOOT_FILES/$XILINX_INTEL_PROPERTIES"
-		if [ $? -ne 0 ]; then
-			echo -e "Downloading $SERVER/$XILINX_INTEL_SPATH/$RELEASE_XILINX_INTEL_BOOT_FILES/$XILINX_INTEL_PROPERTIES failed - Aborting."  1>&2
-  			exit 1
-		fi
-		
-		# Compute the checksum for the downloaded archive
-		checksum_latest_boot=$(md5sum $XILINX_INTEL_ARCHIVE_NAME | cut -d' ' -f1)
-	
-		# Extract the checksum of the archive from XILINX_INTEL_PROPERTIES file
-		checksum_current_boot=$(sed -n 3p $XILINX_INTEL_PROPERTIES | cut -d' ' -f2)
-
-		# Check if the archive was downloaded correctly and then extract files
-		if [ $checksum_latest_boot = $checksum_current_boot ]; then
-			tar xf $XILINX_INTEL_ARCHIVE_NAME -C "${BUILD_DIR}"/boot --no-same-owner
-		else
-			echo "Something went wrong while downloading the boot files - Aborting."
-			exit 1
-		fi
-		
-		rm $XILINX_INTEL_ARCHIVE_NAME
-		rm $XILINX_INTEL_PROPERTIES
-	fi
+elif [[ ! -z ${ARTIFACTORY_XILINX_INTEL} ]]; then
+	wget -r -q --progress=bar:force:noscroll -nH --cut-dirs=5 -np -R "index.html*" "-l inf" ${ARTIFACTORY_XILINX_INTEL} -P "${BUILD_DIR}/boot"
 else
-	echo "Xilinx and Intel boot files won't be installed because CONFIG_XILINX_INTEL_BOOT_FILES is set to 'n'."
+	# Get Xilinx and Intel boot files
+	wget --progress=bar:force:noscroll "$SERVER/$XILINX_INTEL_SPATH/$RELEASE_XILINX_INTEL_BOOT_FILES/$XILINX_INTEL_ARCHIVE_NAME"
+	if [ $? -ne 0 ]; then
+		echo -e "\nDownloading $SERVER/$XILINX_INTEL_SPATH/$RELEASE_XILINX_INTEL_BOOT_FILES/$XILINX_INTEL_ARCHIVE_NAME failed - Aborting."  1>&2
+		exit 1
+	fi
+		
+	# Get Xilinx Intel properties file corresponding to boot files
+	wget --progress=bar:force:noscroll "$SERVER/$XILINX_INTEL_SPATH/$RELEASE_XILINX_INTEL_BOOT_FILES/$XILINX_INTEL_PROPERTIES"
+	if [ $? -ne 0 ]; then
+		echo -e "Downloading $SERVER/$XILINX_INTEL_SPATH/$RELEASE_XILINX_INTEL_BOOT_FILES/$XILINX_INTEL_PROPERTIES failed - Aborting."  1>&2
+		exit 1
+	fi
+		
+	# Compute the checksum for the downloaded archive
+	checksum_latest_boot=$(md5sum $XILINX_INTEL_ARCHIVE_NAME | cut -d' ' -f1)
+	
+	# Extract the checksum of the archive from XILINX_INTEL_PROPERTIES file
+	checksum_current_boot=$(sed -n 3p $XILINX_INTEL_PROPERTIES | cut -d' ' -f2)
+
+	# Check if the archive was downloaded correctly and then extract files
+	if [ $checksum_latest_boot = $checksum_current_boot ]; then
+		tar xf $XILINX_INTEL_ARCHIVE_NAME -C "${BUILD_DIR}"/boot --no-same-owner
+	else
+		echo "Something went wrong while downloading the boot files - Aborting."
+		exit 1
+	fi
+
+	rm $XILINX_INTEL_ARCHIVE_NAME
+	rm $XILINX_INTEL_PROPERTIES
 fi
