@@ -93,15 +93,25 @@
 <li><a class="reference internal" href="#using-hardware-configuration">Using Hardware Configuration</a><ul>
 <li><a class="reference internal" href="#when-to-configure-hardware">When to Configure Hardware</a></li>
 <li><a class="reference internal" href="#common-workflows">Common Workflows</a></li>
-<li><a class="reference internal" href="#discovering-available-hardware-combinations">Discovering Available Hardware Combinations</a></li>
-<li><a class="reference internal" href="#reconfiguring-your-hardware-setup">Reconfiguring Your Hardware Setup</a></li>
-<li><a class="reference internal" href="#what-happens-during-reconfiguration">What Happens During Reconfiguration</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#examples-and-common-use-cases">Examples and Common Use Cases</a><ul>
-<li><a class="reference internal" href="#same-hardware-reconfiguration">Same Hardware Reconfiguration</a></li>
-<li><a class="reference internal" href="#different-hardware-platforms">Different Hardware Platforms</a></li>
-<li><a class="reference internal" href="#development-and-testing-workflow">Development and Testing Workflow</a></li>
+<li><a class="reference internal" href="#automated-hardware-reconfiguration">Automated Hardware Reconfiguration</a><ul>
+<li><a class="reference internal" href="#discovering-available-hardware-combinations">Discovering Available Hardware Combinations</a></li>
+<li><a class="reference internal" href="#automated-reconfiguration-process">Automated Reconfiguration Process</a></li>
+<li><a class="reference internal" href="#what-happens-during-automated-reconfiguration">What Happens During Automated Reconfiguration</a></li>
+<li><a class="reference internal" href="#examples-and-common-use-cases">Examples and Common Use Cases</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#manual-configuration-advanced">Manual Configuration (Advanced)</a><ul>
+<li><a class="reference internal" href="#understanding-what-configure-setup-sh-does">Understanding What configure-setup.sh Does</a></li>
+<li><a class="reference internal" href="#platform-specific-manual-steps">Platform-Specific Manual Steps</a><ul>
+<li><a class="reference internal" href="#amd-xilinx-platforms">AMD/Xilinx Platforms</a></li>
+<li><a class="reference internal" href="#intel-altera-platforms">Intel/Altera Platforms</a></li>
+<li><a class="reference internal" href="#finding-the-correct-partition-for-preloader">Finding the Correct Partition for Preloader</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#file-location-reference">File Location Reference</a></li>
+<li><a class="reference internal" href="#verification-and-testing">Verification and Testing</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#next-steps">Next Steps</a></li>
@@ -172,11 +182,11 @@ Content on this topic
             
   <section id="hardware-configuration">
 <span id="id1"></span><h1>Hardware Configuration<a class="headerlink" href="#hardware-configuration" title="Link to this heading"></a></h1>
-<p>Kuiper allows you to configure your image to work with specific ADI evaluation
-boards and carrier platforms both during the build process and after
-deployment. This flexibility lets you create images that are ready for your
-primary hardware while maintaining the ability to reconfigure for different
-hardware later.</p>
+<p>Kuiper allows you to configure your image to work with specific ADI
+evaluation boards and carrier platforms both during the build process and
+after deployment. This flexibility lets you create images that are ready for
+your primary hardware while maintaining the ability to reconfigure for
+different hardware later.</p>
 <hr class="docutils" />
 <section id="how-hardware-configuration-works">
 <h2>How Hardware Configuration Works<a class="headerlink" href="#how-hardware-configuration-works" title="Link to this heading"></a></h2>
@@ -189,10 +199,10 @@ specific hardware combination during the build process. See the
 <a class="reference internal" href="configuration.html"><span class="doc">Configuration</span></a> section for details on these
 parameters.</p>
 </dd>
-<dt><strong>Runtime Reconfiguration (Always Available)</strong></dt><dd><p>Use the built-in <code class="docutils literal notranslate"><span class="pre">configure-setup.sh</span></code> script to configure or reconfigure
-your Kuiper image for different hardware combinations after deployment.
-This script is always installed and available, regardless of whether you
-used build-time configuration.</p>
+<dt><strong>Runtime Reconfiguration (Always Available)</strong></dt><dd><p>Use the built-in <code class="docutils literal notranslate"><span class="pre">configure-setup.sh</span></code> script to configure or
+reconfigure your Kuiper image for different hardware combinations after
+deployment. This script is always installed and available, regardless of
+whether you used build-time configuration.</p>
 </dd>
 </dl>
 <p><strong>Key Benefits:</strong></p>
@@ -203,13 +213,15 @@ used build-time configuration.</p>
 <li><p><strong>No rebuilding required</strong> when switching hardware configurations</p></li>
 </ul>
 </section>
+<hr class="docutils" />
 <section id="using-hardware-configuration">
 <h2>Using Hardware Configuration<a class="headerlink" href="#using-hardware-configuration" title="Link to this heading"></a></h2>
 <section id="when-to-configure-hardware">
 <h3>When to Configure Hardware<a class="headerlink" href="#when-to-configure-hardware" title="Link to this heading"></a></h3>
 <p>Hardware configuration and reconfiguration is useful when you need to:</p>
 <ul class="simple">
-<li><p><strong>Set up your primary hardware</strong> during the build process for immediate use</p></li>
+<li><p><strong>Set up your primary hardware</strong> during the build process for immediate
+use</p></li>
 <li><p><strong>Test multiple evaluation boards</strong> with the same Kuiper installation</p></li>
 <li><p><strong>Switch between development and production hardware</strong> without rebuilding
 images</p></li>
@@ -233,11 +245,19 @@ script.</p>
 </dd>
 </dl>
 </section>
+</section>
+<hr class="docutils" />
+<section id="automated-hardware-reconfiguration">
+<h2>Automated Hardware Reconfiguration<a class="headerlink" href="#automated-hardware-reconfiguration" title="Link to this heading"></a></h2>
+<p>The recommended method for configuring your Kuiper image is the automated
+<code class="docutils literal notranslate"><span class="pre">configure-setup.sh</span></code> script. This script handles all the technical details
+of copying files, updating configurations, and preparing your system for
+different hardware combinations.</p>
 <section id="discovering-available-hardware-combinations">
 <h3>Discovering Available Hardware Combinations<a class="headerlink" href="#discovering-available-hardware-combinations" title="Link to this heading"></a></h3>
-<p>Before reconfiguring your hardware setup, you need to know what combinations
-are supported by your Kuiper image. The configuration script includes a
-discovery feature that shows all available options.</p>
+<p>Before reconfiguring your hardware setup, you need to know what
+combinations are supported by your Kuiper image. The configuration script
+includes a discovery feature that shows all available options.</p>
 <p>To see what hardware combinations your image supports:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>--help
 </pre></div>
@@ -269,14 +289,14 @@ ad4003            zed
 adrv9009-zu11eg   adrv9009-zu11eg-revb
 </pre></div>
 </div>
-<p>This output shows all the evaluation board and carrier combinations that your
-specific Kuiper image can support.</p>
+<p>This output shows all the evaluation board and carrier combinations that
+your specific Kuiper image can support.</p>
 </section>
-<section id="reconfiguring-your-hardware-setup">
-<h3>Reconfiguring Your Hardware Setup<a class="headerlink" href="#reconfiguring-your-hardware-setup" title="Link to this heading"></a></h3>
+<section id="automated-reconfiguration-process">
+<h3>Automated Reconfiguration Process<a class="headerlink" href="#automated-reconfiguration-process" title="Link to this heading"></a></h3>
 <p>Hardware reconfiguration requires root access to your Kuiper system (the
-<code class="docutils literal notranslate"><span class="pre">analog</span></code> user has sudo privileges) and that your system is running from an
-SD card or storage device. The process varies depending on whether you’re
+<code class="docutils literal notranslate"><span class="pre">analog</span></code> user has sudo privileges) and that your system is running from
+an SD card or storage device. The process varies depending on whether you’re
 switching to different physical hardware or reconfiguring for the same
 hardware.</p>
 <p>Follow these steps:</p>
@@ -287,8 +307,8 @@ hardware.</p>
 </pre></div>
 </div>
 </li>
-<li><p><strong>Run the configuration command</strong> on your current system with your desired
-hardware combination:</p>
+<li><p><strong>Run the configuration command</strong> on your current system with your
+desired hardware combination:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>&lt;eval-board&gt;<span class="w"> </span>&lt;carrier&gt;
 </pre></div>
 </div>
@@ -340,32 +360,27 @@ hardware to ensure proper system state</p></li>
 </ul>
 </div>
 </section>
-<section id="what-happens-during-reconfiguration">
-<h3>What Happens During Reconfiguration<a class="headerlink" href="#what-happens-during-reconfiguration" title="Link to this heading"></a></h3>
-<p>When you run the configuration script, it performs several operations to
-prepare your system for the target hardware:</p>
+<section id="what-happens-during-automated-reconfiguration">
+<h3>What Happens During Automated Reconfiguration<a class="headerlink" href="#what-happens-during-automated-reconfiguration" title="Link to this heading"></a></h3>
+<p>When you run the configuration script, it automatically handles all the
+technical details of preparing your system for the target hardware:</p>
 <dl class="simple">
-<dt><strong>File Operations</strong></dt><dd><ul class="simple">
-<li><p>Copies the appropriate kernel image to the boot partition</p></li>
-<li><p>Copies device tree files and boot configuration files specific to your
-hardware</p></li>
-<li><p>Updates boot loader configurations as needed</p></li>
-</ul>
+<dt><strong>File Management</strong></dt><dd><p>The script identifies and copies all required files for your specific
+hardware combination, including kernels, device trees, and boot
+configurations.</p>
 </dd>
-<dt><strong>Platform-Specific Setup</strong></dt><dd><p>For Intel-based platforms, the script performs additional steps including
-updating the boot loader in the dedicated boot loader partition.</p>
+<dt><strong>Platform Adaptation</strong></dt><dd><p>Different hardware platforms require different boot procedures - the script
+handles these variations automatically, including special requirements for
+Intel-based systems.</p>
 </dd>
-<dt><strong>Verification</strong></dt><dd><p>The script provides feedback on the success or failure of each operation,
-allowing you to verify that the configuration completed properly.</p>
+<dt><strong>Verification and Feedback</strong></dt><dd><p>The script reports success or failure for each operation, allowing you to
+confirm the configuration completed properly before rebooting.</p>
 </dd>
 </dl>
 </section>
-</section>
-<hr class="docutils" />
 <section id="examples-and-common-use-cases">
-<h2>Examples and Common Use Cases<a class="headerlink" href="#examples-and-common-use-cases" title="Link to this heading"></a></h2>
-<section id="same-hardware-reconfiguration">
-<h3>Same Hardware Reconfiguration<a class="headerlink" href="#same-hardware-reconfiguration" title="Link to this heading"></a></h3>
+<h3>Examples and Common Use Cases<a class="headerlink" href="#examples-and-common-use-cases" title="Link to this heading"></a></h3>
+<p><strong>Same Hardware Reconfiguration</strong></p>
 <p>When testing different evaluation board projects on the same carrier board,
 you can use the simple reboot workflow since no physical hardware changes:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test AD4003 project on ZedBoard</span>
@@ -393,9 +408,7 @@ sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>ad9361-fmc
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>reboot
 </pre></div>
 </div>
-</section>
-<section id="different-hardware-platforms">
-<h3>Different Hardware Platforms<a class="headerlink" href="#different-hardware-platforms" title="Link to this heading"></a></h3>
+<p><strong>Different Hardware Platforms</strong></p>
 <p>When switching between different carrier boards, follow the complete
 shutdown/move/boot workflow:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Configure for AD9361-FMCOMMS2 on ZedBoard</span>
@@ -427,9 +440,7 @@ sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>ad9361-fmc
 </pre></div>
 </div>
 <p>Again, move the SD card from ZC706 to your target hardware and power on.</p>
-</section>
-<section id="development-and-testing-workflow">
-<h3>Development and Testing Workflow<a class="headerlink" href="#development-and-testing-workflow" title="Link to this heading"></a></h3>
+<p><strong>Development and Testing Workflow</strong></p>
 <p>A common development workflow combines both scenarios - testing on
 development hardware, then deploying to production hardware:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Development phase: test different projects on ZedBoard</span>
@@ -453,6 +464,208 @@ power on.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># On production hardware, verify configuration</span>
 sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>--help
 <span class="c1"># Confirm your project shows in the available list</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="manual-configuration-advanced">
+<h2>Manual Configuration (Advanced)<a class="headerlink" href="#manual-configuration-advanced" title="Link to this heading"></a></h2>
+<p>While the automated <code class="docutils literal notranslate"><span class="pre">configure-setup.sh</span></code> script handles most configuration
+scenarios, there are situations where manual configuration is necessary or
+preferred. Manual configuration is particularly useful when:</p>
+<ul class="simple">
+<li><p>The automated script fails or reports errors</p></li>
+<li><p>You need to perform custom modifications with specific file versions</p></li>
+<li><p>Your Kuiper system is not functioning properly and the script is
+unavailable</p></li>
+<li><p>You’re working on a host PC to prepare SD cards before deployment</p></li>
+<li><p>You need to understand the boot process for development or debugging</p></li>
+</ul>
+<p>The manual process involves the same file operations that the automated
+script performs, but gives you direct control over each step.</p>
+<section id="understanding-what-configure-setup-sh-does">
+<h3>Understanding What configure-setup.sh Does<a class="headerlink" href="#understanding-what-configure-setup-sh-does" title="Link to this heading"></a></h3>
+<p>For manual configuration, it’s helpful to understand the technical process
+that the automated script performs:</p>
+<ol class="arabic simple">
+<li><p><strong>Project Discovery</strong>: Searches <cite>/boot</cite> for JSON files containing metadata
+about available hardware combinations, matching your specified evaluation
+board and carrier.</p></li>
+<li><p><strong>File Selection</strong>: Extracts file paths from the JSON metadata, identifying
+which kernel (Image/uImage/zImage), device tree, and boot files are needed
+for your specific hardware.</p></li>
+<li><p><strong>Boot Partition Updates</strong>: Copies all required files to <cite>/boot</cite>,
+including platform-specific files like BOOT.BIN, device trees, and common
+files like kernel images and U-Boot configurations.</p></li>
+<li><p><strong>Platform-Specific Operations</strong>: For Intel platforms, creates extlinux
+directories and writes preloader files to the dedicated bootloader
+partition (typically <cite>/dev/mmcblk0p3</cite>) using low-level disk operations.</p></li>
+<li><p><strong>Validation</strong>: Verifies each file operation completed successfully and
+reports any errors that would prevent proper booting.</p></li>
+</ol>
+<p>Understanding these steps helps when performing manual configuration or
+troubleshooting automated configuration failures.</p>
+</section>
+<section id="platform-specific-manual-steps">
+<h3>Platform-Specific Manual Steps<a class="headerlink" href="#platform-specific-manual-steps" title="Link to this heading"></a></h3>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Manual configuration requires working with the SD card’s boot partition.
+Always ensure the SD card is properly unmounted from your target hardware
+before modifying files on a host PC. Use the <strong>EJECT</strong> function when
+removing the SD card from the reader to prevent corruption.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Manual configuration bypasses the automated validation performed by
+configure-setup.sh. Ensure you’re using compatible file versions for your
+specific hardware combination.</p>
+</div>
+<section id="amd-xilinx-platforms">
+<h4>AMD/Xilinx Platforms<a class="headerlink" href="#amd-xilinx-platforms" title="Link to this heading"></a></h4>
+<p><strong>For Zynq projects</strong> (ZedBoard, ZC702, ZC706, etc.), copy these files to
+the root of the BOOT FAT32 partition:</p>
+<ol class="arabic simple">
+<li><p><cite>&lt;target&gt;/BOOT.BIN</cite> - First stage bootloader with FPGA bitstream</p></li>
+<li><p><cite>&lt;target&gt;/&lt;specific_folder&gt;/devicetree.dtb</cite> - Device tree for your
+specific project</p></li>
+<li><p><cite>zynq-common/uImage</cite> - Kernel image for Zynq platforms</p></li>
+<li><p><cite>zynq-common/uEnv.txt</cite> - U-Boot environment configuration</p></li>
+</ol>
+<p><strong>For ZynqMP projects</strong> (ZCU102, ADRV9009-ZU11EG, etc.), copy these files
+to the root of the BOOT FAT32 partition:</p>
+<ol class="arabic simple">
+<li><p><cite>&lt;target&gt;/BOOT.BIN</cite> - First stage bootloader with FPGA bitstream</p></li>
+<li><p><cite>&lt;target&gt;/&lt;specific_folder&gt;/system.dtb</cite> - Device tree for your specific
+project</p></li>
+<li><p><cite>zynqmp-common/Image</cite> - Kernel image for ZynqMP platforms</p></li>
+<li><p><cite>zynqmp-common/uEnv.txt</cite> - U-Boot environment configuration</p></li>
+</ol>
+<p><strong>For Versal projects</strong> (VCK190, VPK180, etc.), copy these files to the
+root of the BOOT FAT32 partition:</p>
+<ol class="arabic simple">
+<li><p><cite>&lt;target&gt;/BOOT.BIN</cite> - Platform Loader and Manager (PLM) and boot
+components</p></li>
+<li><p><cite>&lt;target&gt;/&lt;specific_folder&gt;/system.dtb</cite> - Device tree for your specific
+project</p></li>
+<li><p><cite>&lt;target&gt;/boot.scr</cite> - U-Boot script for Versal boot sequence</p></li>
+<li><p><cite>versal-common/Image</cite> - Kernel image for Versal platforms</p></li>
+</ol>
+</section>
+<section id="intel-altera-platforms">
+<h4>Intel/Altera Platforms<a class="headerlink" href="#intel-altera-platforms" title="Link to this heading"></a></h4>
+<p><strong>For Arria10 SoC projects</strong>, copy these files to the root of the BOOT
+FAT32 partition:</p>
+<ol class="arabic simple">
+<li><p><cite>&lt;target&gt;/fit_spl_fpga.itb</cite> - FPGA configuration and SPL image</p></li>
+<li><p><cite>&lt;target&gt;/socfpga_arria10_socdk_sdmmc.dtb</cite> - Device tree</p></li>
+<li><p><cite>&lt;target&gt;/u-boot.img</cite> - U-Boot proper</p></li>
+<li><p><cite>socfpga_arria10_common/zImage</cite> - Kernel image</p></li>
+<li><p>Create an <cite>extlinux</cite> folder and copy
+<cite>socfpga_arria10_common/extlinux.conf</cite> into it</p></li>
+</ol>
+<p>Then write the preloader:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write preloader to the bootloader partition (replace mmcblkXp3 with your actual device)</span>
+sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>&lt;target&gt;/fit_spl_fpga.itb<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/mmcblk0p3<span class="w"> </span><span class="nv">status</span><span class="o">=</span>progress
+</pre></div>
+</div>
+<p><strong>For Cyclone5 projects</strong> (DE10-Nano, Cyclone V SoC Kit, etc.), copy these
+files to the root of the BOOT FAT32 partition:</p>
+<ol class="arabic simple">
+<li><p><cite>&lt;target&gt;/soc_system.rbf</cite> - FPGA bitstream</p></li>
+<li><p><cite>&lt;target&gt;/socfpga.dtb</cite> - Device tree</p></li>
+<li><p><cite>&lt;target&gt;/u-boot.scr</cite> - U-Boot script</p></li>
+<li><p><cite>&lt;target&gt;/u-boot-with-spl.sfp</cite> - SPL and U-Boot combined</p></li>
+<li><p><cite>socfpga_cyclone5_common/zImage</cite> - Kernel image</p></li>
+<li><p>Create an <cite>extlinux</cite> folder and copy
+<cite>socfpga_cyclone5_common/extlinux.conf</cite> into it</p></li>
+</ol>
+<p>Then write the preloader:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clear the partition first</span>
+sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>/dev/zero<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/mmcblk0p3<span class="w"> </span><span class="nv">oflag</span><span class="o">=</span>sync<span class="w"> </span><span class="nv">status</span><span class="o">=</span>progress<span class="w"> </span><span class="nv">bs</span><span class="o">=</span>64k<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
+<span class="c1"># Write preloader</span>
+sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>&lt;target&gt;/u-boot-with-spl.sfp<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/mmcblk0p3<span class="w"> </span><span class="nv">oflag</span><span class="o">=</span>sync<span class="w"> </span><span class="nv">status</span><span class="o">=</span>progress<span class="w"> </span><span class="nv">bs</span><span class="o">=</span>64k
+</pre></div>
+</div>
+</section>
+<section id="finding-the-correct-partition-for-preloader">
+<h4>Finding the Correct Partition for Preloader<a class="headerlink" href="#finding-the-correct-partition-for-preloader" title="Link to this heading"></a></h4>
+<p>For Intel platforms, you need to write the preloader to the correct
+partition. To identify it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find your SD card device</span>
+lsblk
+
+<span class="c1"># Look for a device like /dev/mmcblkX with multiple partitions</span>
+<span class="c1"># The third partition (mmcblkXp3) is typically the 4MB bootloader partition</span>
+</pre></div>
+</div>
+<p>Example output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+mmcblk0     179:0    0 29.7G  0 disk
+├─mmcblk0p1 179:1    0  256M  0 part /mnt/BOOT
+├─mmcblk0p2 179:2    0 29.2G  0 part
+└─mmcblk0p3 179:3    0    4M  0 part
+</pre></div>
+</div>
+<p>In this case, <cite>/dev/mmcblk0p3</cite> is the bootloader partition.</p>
+</section>
+</section>
+<section id="file-location-reference">
+<h3>File Location Reference<a class="headerlink" href="#file-location-reference" title="Link to this heading"></a></h3>
+<p>When manually configuring, you’ll find the required files in your <cite>/boot</cite>
+directory organized like this:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>/boot/
+├── zynq-common/          # Shared Zynq files
+│   ├── uImage
+│   └── uEnv.txt
+├── zynqmp-common/        # Shared ZynqMP files
+│   ├── Image
+│   └── uEnv.txt
+├── versal-common/        # Shared Versal files
+│   └── Image
+├── socfpga_arria10_common/   # Shared Arria10 files
+│   ├── zImage
+│   └── extlinux.conf
+├── &lt;project_name&gt;/       # Project-specific files
+│   ├── BOOT.BIN
+│   ├── devicetree.dtb or system.dtb
+│   └── other project files
+└── *.json                # Configuration metadata
+</pre></div>
+</div>
+</section>
+<section id="verification-and-testing">
+<h3>Verification and Testing<a class="headerlink" href="#verification-and-testing" title="Link to this heading"></a></h3>
+<p>After manual configuration, verify your setup:</p>
+<p><strong>1. Check Boot Messages</strong></p>
+<p>Connect to the serial console (115200 baud) and watch for successful boot
+messages. You should see:</p>
+<ul class="simple">
+<li><p>U-Boot loading and executing</p></li>
+<li><p>Kernel starting</p></li>
+<li><p>Root filesystem mounting</p></li>
+<li><p>Kuiper Linux login prompt</p></li>
+</ul>
+<p><strong>2. Verify Hardware Detection</strong></p>
+<p>Once booted, check if your hardware is properly detected:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List IIO devices (if your project includes IIO devices)</span>
+iio_info
+
+<span class="c1"># Check kernel boot messages</span>
+dmesg<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;your_device_name&quot;</span>
+
+<span class="c1"># Verify device tree loading</span>
+ls<span class="w"> </span>/sys/firmware/devicetree/base/
+</pre></div>
+</div>
+<p><strong>3. Network and System Check</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verify system information</span>
+cat<span class="w"> </span>/etc/os-release
+uname<span class="w"> </span>-a
+
+<span class="c1"># Check network (if configured)</span>
+ip<span class="w"> </span>addr<span class="w"> </span>show
 </pre></div>
 </div>
 </section>

@@ -3,11 +3,11 @@
 Hardware Configuration
 ======================
 
-Kuiper allows you to configure your image to work with specific ADI evaluation 
-boards and carrier platforms both during the build process and after 
-deployment. This flexibility lets you create images that are ready for your 
-primary hardware while maintaining the ability to reconfigure for different 
-hardware later.
+Kuiper allows you to configure your image to work with specific ADI 
+evaluation boards and carrier platforms both during the build process and 
+after deployment. This flexibility lets you create images that are ready for 
+your primary hardware while maintaining the ability to reconfigure for 
+different hardware later.
 
 .. description::
 
@@ -30,10 +30,10 @@ build time and runtime:
    parameters.
 
 **Runtime Reconfiguration (Always Available)**
-   Use the built-in ``configure-setup.sh`` script to configure or reconfigure 
-   your Kuiper image for different hardware combinations after deployment. 
-   This script is always installed and available, regardless of whether you 
-   used build-time configuration.
+   Use the built-in ``configure-setup.sh`` script to configure or 
+   reconfigure your Kuiper image for different hardware combinations after 
+   deployment. This script is always installed and available, regardless of 
+   whether you used build-time configuration.
 
 **Key Benefits:**
 
@@ -41,6 +41,8 @@ build time and runtime:
 - **Reconfigure anytime** for testing different evaluation boards
 - **Use the same image** across multiple hardware platforms
 - **No rebuilding required** when switching hardware configurations
+
+----
 
 Using Hardware Configuration
 ----------------------------
@@ -50,7 +52,8 @@ When to Configure Hardware
 
 Hardware configuration and reconfiguration is useful when you need to:
 
-- **Set up your primary hardware** during the build process for immediate use
+- **Set up your primary hardware** during the build process for immediate 
+  use
 - **Test multiple evaluation boards** with the same Kuiper installation
 - **Switch between development and production hardware** without rebuilding 
   images
@@ -74,12 +77,22 @@ Common Workflows
    ``CARRIER`` empty), then configure each deployment using the runtime 
    script.
 
+----
+
+Automated Hardware Reconfiguration
+----------------------------------
+
+The recommended method for configuring your Kuiper image is the automated 
+``configure-setup.sh`` script. This script handles all the technical details 
+of copying files, updating configurations, and preparing your system for 
+different hardware combinations.
+
 Discovering Available Hardware Combinations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Before reconfiguring your hardware setup, you need to know what combinations 
-are supported by your Kuiper image. The configuration script includes a 
-discovery feature that shows all available options.
+Before reconfiguring your hardware setup, you need to know what 
+combinations are supported by your Kuiper image. The configuration script 
+includes a discovery feature that shows all available options.
 
 To see what hardware combinations your image supports:
 
@@ -116,15 +129,15 @@ Output example:
    ad4003            zed
    adrv9009-zu11eg   adrv9009-zu11eg-revb
 
-This output shows all the evaluation board and carrier combinations that your 
-specific Kuiper image can support.
+This output shows all the evaluation board and carrier combinations that 
+your specific Kuiper image can support.
 
-Reconfiguring Your Hardware Setup
+Automated Reconfiguration Process
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Hardware reconfiguration requires root access to your Kuiper system (the 
-``analog`` user has sudo privileges) and that your system is running from an 
-SD card or storage device. The process varies depending on whether you're 
+``analog`` user has sudo privileges) and that your system is running from 
+an SD card or storage device. The process varies depending on whether you're 
 switching to different physical hardware or reconfiguring for the same 
 hardware.
 
@@ -138,8 +151,8 @@ Follow these steps:
 
       sudo configure-setup.sh --help
 
-#. **Run the configuration command** on your current system with your desired 
-   hardware combination:
+#. **Run the configuration command** on your current system with your 
+   desired hardware combination:
 
    .. code-block:: bash
 
@@ -194,33 +207,30 @@ Follow these steps:
    * Always use ``shutdown -h now`` when moving to different physical 
      hardware to ensure proper system state
 
-What Happens During Reconfiguration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What Happens During Automated Reconfiguration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When you run the configuration script, it performs several operations to 
-prepare your system for the target hardware:
+When you run the configuration script, it automatically handles all the 
+technical details of preparing your system for the target hardware:
 
-**File Operations**
-   - Copies the appropriate kernel image to the boot partition
-   - Copies device tree files and boot configuration files specific to your 
-     hardware
-   - Updates boot loader configurations as needed
+**File Management**
+   The script identifies and copies all required files for your specific 
+   hardware combination, including kernels, device trees, and boot 
+   configurations.
 
-**Platform-Specific Setup**
-   For Intel-based platforms, the script performs additional steps including 
-   updating the boot loader in the dedicated boot loader partition.
+**Platform Adaptation**
+   Different hardware platforms require different boot procedures - the script 
+   handles these variations automatically, including special requirements for 
+   Intel-based systems.
 
-**Verification**
-   The script provides feedback on the success or failure of each operation, 
-   allowing you to verify that the configuration completed properly.
-
-----
+**Verification and Feedback**
+   The script reports success or failure for each operation, allowing you to 
+   confirm the configuration completed properly before rebooting.
 
 Examples and Common Use Cases
------------------------------
-
-Same Hardware Reconfiguration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Same Hardware Reconfiguration**
 
 When testing different evaluation board projects on the same carrier board, 
 you can use the simple reboot workflow since no physical hardware changes:
@@ -261,8 +271,7 @@ Output:
 
    sudo reboot
 
-Different Hardware Platforms
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Different Hardware Platforms**
 
 When switching between different carrier boards, follow the complete 
 shutdown/move/boot workflow:
@@ -310,8 +319,7 @@ Output:
 
 Again, move the SD card from ZC706 to your target hardware and power on.
 
-Development and Testing Workflow
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Development and Testing Workflow**
 
 A common development workflow combines both scenarios - testing on 
 development hardware, then deploying to production hardware:
@@ -343,6 +351,233 @@ power on.
    # On production hardware, verify configuration
    sudo configure-setup.sh --help
    # Confirm your project shows in the available list
+
+----
+
+Manual Configuration (Advanced)
+-------------------------------
+
+While the automated ``configure-setup.sh`` script handles most configuration 
+scenarios, there are situations where manual configuration is necessary or 
+preferred. Manual configuration is particularly useful when:
+
+- The automated script fails or reports errors
+- You need to perform custom modifications with specific file versions
+- Your Kuiper system is not functioning properly and the script is 
+  unavailable
+- You're working on a host PC to prepare SD cards before deployment
+- You need to understand the boot process for development or debugging
+
+The manual process involves the same file operations that the automated 
+script performs, but gives you direct control over each step.
+
+Understanding What configure-setup.sh Does
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For manual configuration, it's helpful to understand the technical process 
+that the automated script performs:
+
+1. **Project Discovery**: Searches `/boot` for JSON files containing metadata 
+   about available hardware combinations, matching your specified evaluation 
+   board and carrier.
+
+2. **File Selection**: Extracts file paths from the JSON metadata, identifying 
+   which kernel (Image/uImage/zImage), device tree, and boot files are needed 
+   for your specific hardware.
+
+3. **Boot Partition Updates**: Copies all required files to `/boot`, 
+   including platform-specific files like BOOT.BIN, device trees, and common 
+   files like kernel images and U-Boot configurations.
+
+4. **Platform-Specific Operations**: For Intel platforms, creates extlinux 
+   directories and writes preloader files to the dedicated bootloader 
+   partition (typically `/dev/mmcblk0p3`) using low-level disk operations.
+
+5. **Validation**: Verifies each file operation completed successfully and 
+   reports any errors that would prevent proper booting.
+
+Understanding these steps helps when performing manual configuration or 
+troubleshooting automated configuration failures.
+
+Platform-Specific Manual Steps
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. important::
+
+   Manual configuration requires working with the SD card's boot partition. 
+   Always ensure the SD card is properly unmounted from your target hardware 
+   before modifying files on a host PC. Use the **EJECT** function when 
+   removing the SD card from the reader to prevent corruption.
+
+.. warning::
+
+   Manual configuration bypasses the automated validation performed by 
+   configure-setup.sh. Ensure you're using compatible file versions for your 
+   specific hardware combination.
+
+AMD/Xilinx Platforms
++++++++++++++++++++++
+
+**For Zynq projects** (ZedBoard, ZC702, ZC706, etc.), copy these files to 
+the root of the BOOT FAT32 partition:
+
+1. `<target>/BOOT.BIN` - First stage bootloader with FPGA bitstream
+2. `<target>/<specific_folder>/devicetree.dtb` - Device tree for your 
+   specific project
+3. `zynq-common/uImage` - Kernel image for Zynq platforms
+4. `zynq-common/uEnv.txt` - U-Boot environment configuration
+
+**For ZynqMP projects** (ZCU102, ADRV9009-ZU11EG, etc.), copy these files 
+to the root of the BOOT FAT32 partition:
+
+1. `<target>/BOOT.BIN` - First stage bootloader with FPGA bitstream
+2. `<target>/<specific_folder>/system.dtb` - Device tree for your specific 
+   project
+3. `zynqmp-common/Image` - Kernel image for ZynqMP platforms
+4. `zynqmp-common/uEnv.txt` - U-Boot environment configuration
+
+**For Versal projects** (VCK190, VPK180, etc.), copy these files to the 
+root of the BOOT FAT32 partition:
+
+1. `<target>/BOOT.BIN` - Platform Loader and Manager (PLM) and boot 
+   components
+2. `<target>/<specific_folder>/system.dtb` - Device tree for your specific 
+   project
+3. `<target>/boot.scr` - U-Boot script for Versal boot sequence
+4. `versal-common/Image` - Kernel image for Versal platforms
+
+Intel/Altera Platforms
++++++++++++++++++++++++
+
+**For Arria10 SoC projects**, copy these files to the root of the BOOT 
+FAT32 partition:
+
+1. `<target>/fit_spl_fpga.itb` - FPGA configuration and SPL image
+2. `<target>/socfpga_arria10_socdk_sdmmc.dtb` - Device tree
+3. `<target>/u-boot.img` - U-Boot proper
+4. `socfpga_arria10_common/zImage` - Kernel image
+5. Create an `extlinux` folder and copy 
+   `socfpga_arria10_common/extlinux.conf` into it
+
+Then write the preloader:
+
+.. code-block:: bash
+
+   # Write preloader to the bootloader partition (replace mmcblkXp3 with your actual device)
+   sudo dd if=<target>/fit_spl_fpga.itb of=/dev/mmcblk0p3 status=progress
+
+**For Cyclone5 projects** (DE10-Nano, Cyclone V SoC Kit, etc.), copy these 
+files to the root of the BOOT FAT32 partition:
+
+1. `<target>/soc_system.rbf` - FPGA bitstream
+2. `<target>/socfpga.dtb` - Device tree
+3. `<target>/u-boot.scr` - U-Boot script
+4. `<target>/u-boot-with-spl.sfp` - SPL and U-Boot combined
+5. `socfpga_cyclone5_common/zImage` - Kernel image
+6. Create an `extlinux` folder and copy 
+   `socfpga_cyclone5_common/extlinux.conf` into it
+
+Then write the preloader:
+
+.. code-block:: bash
+
+   # Clear the partition first
+   sudo dd if=/dev/zero of=/dev/mmcblk0p3 oflag=sync status=progress bs=64k || true
+   # Write preloader
+   sudo dd if=<target>/u-boot-with-spl.sfp of=/dev/mmcblk0p3 oflag=sync status=progress bs=64k
+
+Finding the Correct Partition for Preloader
++++++++++++++++++++++++++++++++++++++++++++
+
+For Intel platforms, you need to write the preloader to the correct 
+partition. To identify it:
+
+.. code-block:: bash
+
+   # Find your SD card device
+   lsblk
+
+   # Look for a device like /dev/mmcblkX with multiple partitions
+   # The third partition (mmcblkXp3) is typically the 4MB bootloader partition
+
+Example output:
+
+.. code-block:: text
+
+   NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+   mmcblk0     179:0    0 29.7G  0 disk 
+   ├─mmcblk0p1 179:1    0  256M  0 part /mnt/BOOT
+   ├─mmcblk0p2 179:2    0 29.2G  0 part 
+   └─mmcblk0p3 179:3    0    4M  0 part
+
+In this case, `/dev/mmcblk0p3` is the bootloader partition.
+
+File Location Reference
+~~~~~~~~~~~~~~~~~~~~~~~
+
+When manually configuring, you'll find the required files in your `/boot` 
+directory organized like this:
+
+.. code-block:: text
+
+   /boot/
+   ├── zynq-common/          # Shared Zynq files
+   │   ├── uImage
+   │   └── uEnv.txt
+   ├── zynqmp-common/        # Shared ZynqMP files
+   │   ├── Image
+   │   └── uEnv.txt
+   ├── versal-common/        # Shared Versal files
+   │   └── Image
+   ├── socfpga_arria10_common/   # Shared Arria10 files
+   │   ├── zImage
+   │   └── extlinux.conf
+   ├── <project_name>/       # Project-specific files
+   │   ├── BOOT.BIN
+   │   ├── devicetree.dtb or system.dtb
+   │   └── other project files
+   └── *.json                # Configuration metadata
+
+Verification and Testing
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+After manual configuration, verify your setup:
+
+**1. Check Boot Messages**
+
+Connect to the serial console (115200 baud) and watch for successful boot 
+messages. You should see:
+
+- U-Boot loading and executing
+- Kernel starting
+- Root filesystem mounting
+- Kuiper Linux login prompt
+
+**2. Verify Hardware Detection**
+
+Once booted, check if your hardware is properly detected:
+
+.. code-block:: bash
+
+   # List IIO devices (if your project includes IIO devices)
+   iio_info
+
+   # Check kernel boot messages
+   dmesg | grep -i "your_device_name"
+
+   # Verify device tree loading
+   ls /sys/firmware/devicetree/base/
+
+**3. Network and System Check**
+
+.. code-block:: bash
+
+   # Verify system information
+   cat /etc/os-release
+   uname -a
+
+   # Check network (if configured)
+   ip addr show
 
 ----
 
