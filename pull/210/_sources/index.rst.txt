@@ -24,10 +24,12 @@ Quick Start
 
 Get up and running with Kuiper on Raspberry Pi:
 
-#. :doc:`Check prerequisites <prerequisites>` (Ubuntu 22.04 + Docker for building)
+#. :doc:`Check prerequisites <prerequisites>` (Ubuntu 22.04 + Docker for 
+   building)
 #. Get Kuiper image:
 
-   - **Quick option**: Download pre-built from :git-adi-kuiper-gen:`GitHub Actions <actions/workflows/kuiper2_0-build.yml+>`
+   - **Quick option**: Download pre-built from :git-adi-kuiper-gen:`GitHub 
+     Actions <actions/workflows/kuiper2_0-build.yml+>`
    - **Custom option**: Clone repository and build your own
 
    .. code-block:: bash
@@ -40,15 +42,16 @@ Get up and running with Kuiper on Raspberry Pi:
 
 #. :doc:`Write the image to an SD card and boot your device <use-kuiper-image>`
 
-**For ADI evaluation boards**: See :doc:`Hardware Configuration <hardware-configuration>` 
-for setup instructions.
+**For ADI evaluation boards**: See :doc:`Hardware Configuration 
+<hardware-configuration>` for setup instructions.
 
 ----
 
 What's Included
 ---------------
 
-Kuiper provides a configurable development environment tailored for ADI hardware:
+Kuiper provides a configurable development environment tailored for ADI 
+hardware:
 
 **Core System**
    Debian Bookworm base with optimized configurations for ARM devices
@@ -65,7 +68,8 @@ Kuiper provides a configurable development environment tailored for ADI hardware
 **Desktop Environment (Optional)**
    XFCE desktop with VNC access for graphical applications
 
-All optional components are configurable - build exactly what you need for your project.
+All optional components are configurable - build exactly what you need for your 
+project.
 
 ----
 
@@ -73,9 +77,11 @@ Build Configurations
 --------------------
 
 Kuiper offers three main configurations to suit different needs. You can either 
-download pre-built images or create custom builds using the configuration system.
+download pre-built images or create custom builds using the configuration 
+system.
 
-For detailed stage breakdowns and component lists, see :doc:`Kuiper Versions <kuiper-versions>`.
+For detailed stage breakdowns and component lists, see :doc:`Kuiper Versions 
+<kuiper-versions>`.
 
 Basic Image (Default)
 ~~~~~~~~~~~~~~~~~~~~~
@@ -87,9 +93,12 @@ Basic Image (Default)
 - User account setup (analog/analog) with sudo access
 - Network configuration and SSH access
 
-**Perfect for:** Headless applications, foundation for custom development, resource-constrained environments
+**Perfect for:** Headless applications, foundation for custom development, 
+resource-constrained environments
 
-**Get it:** Download pre-built from :git-adi-kuiper-gen:`GitHub Actions <actions/workflows/kuiper2_0-build.yml+>` or build using the default config file.
+**Get it:** Download pre-built from :git-adi-kuiper-gen:`GitHub Actions 
+<actions/workflows/kuiper2_0-build.yml+>` or build using the default config 
+file.
 
 Full Image
 ~~~~~~~~~~
@@ -102,9 +111,12 @@ Full Image
 - ADI applications (IIO Oscilloscope, Scopy), GNU Radio
 - Development tools and utilities
 
-**Perfect for:** Complete development workstations, evaluation and testing, learning ADI ecosystem
+**Perfect for:** Complete development workstations, evaluation and testing, 
+learning ADI ecosystem
 
-**Get it:** Download pre-built from :git-adi-kuiper-gen:`GitHub Actions <actions/workflows/kuiper2_0-build.yml+>` or enable all options in the config file.
+**Get it:** Download pre-built from :git-adi-kuiper-gen:`GitHub Actions 
+<actions/workflows/kuiper2_0-build.yml+>` or enable all options in the config 
+file.
 
 Custom Image
 ~~~~~~~~~~~~
@@ -116,9 +128,11 @@ Custom Image
 - Optional desktop environment and development packages
 - Tailored boot configuration for your target hardware
 
-**Perfect for:** Production deployments, specialized applications, specific tool combinations
+**Perfect for:** Production deployments, specialized applications, specific 
+tool combinations
 
-**Get it:** Modify the :doc:`config file <configuration>` and run the build process locally.
+**Get it:** Modify the :doc:`config file <configuration>` and run the build 
+process locally.
 
 ----
 

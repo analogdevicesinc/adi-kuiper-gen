@@ -8,8 +8,8 @@
 
     <title>Repositories &#8212; Kuiper  documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8e8a900e" />
-    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=37266688" />
-    <script async="async" src="_static/app.umd.js?v=8f62bab2"></script>
+    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=8d0b0339" />
+    <script async="async" src="_static/app.umd.js?v=1a06b6a7"></script>
     <link rel="icon" href="_static/icon.png"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -123,7 +123,6 @@ Content on this topic
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quick-start.html#building-your-own-image">Building Your Own Image</a></li>
 <li class="toctree-l1"><a class="reference internal" href="use-kuiper-image.html">Using Kuiper Images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hardware-configuration.html">Hardware Configuration</a></li>
 </ul>
@@ -161,34 +160,74 @@ Content on this topic
   <section id="repositories">
 <span id="id1"></span><h1>Repositories<a class="headerlink" href="#repositories" title="Link to this heading"></a></h1>
 <p>Kuiper uses multiple package repositories to install and update software.
-These repositories are configured during the build process in the bootstrap stage.</p>
+These repositories are configured during the build process in the bootstrap
+stage.</p>
 <hr class="docutils" />
 <section id="adi-repository">
 <h2>ADI Repository<a class="headerlink" href="#adi-repository" title="Link to this heading"></a></h2>
-<p>The ADI APT repository is a collection of Debian package files that facilitates
-the distribution and installation of Analog Devices software packages. The
-repository contains .deb packages with boot files for carriers and Raspberry Pi.</p>
+<p>The ADI APT repository is a collection of Debian package files that
+facilitates the distribution and installation of Analog Devices software
+packages. The repository contains .deb packages with boot files for carriers
+and Raspberry Pi.</p>
 <p><strong>Advantages of using the ADI repository:</strong></p>
 <ul class="simple">
-<li><p>Easy installation, removal, and upgrading of packages (<code class="docutils literal notranslate"><span class="pre">apt</span> <span class="pre">install</span></code>, <code class="docutils literal notranslate"><span class="pre">apt</span> <span class="pre">remove</span></code>, <code class="docutils literal notranslate"><span class="pre">apt</span> <span class="pre">upgrade</span></code>)</p></li>
+<li><p>Easy installation, removal, and upgrading of packages (<code class="docutils literal notranslate"><span class="pre">apt</span> <span class="pre">install</span></code>,
+<code class="docutils literal notranslate"><span class="pre">apt</span> <span class="pre">remove</span></code>, <code class="docutils literal notranslate"><span class="pre">apt</span> <span class="pre">upgrade</span></code>)</p></li>
 <li><p>Simplified version management</p></li>
 <li><p>Package manager handles dependency resolution and conflict detection</p></li>
 <li><p>Centralized distribution of ADI-specific packages</p></li>
 </ul>
-<p><strong>Available packages include:</strong></p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">adi-carriers-boot-2022.r2</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">adi-carriers-boot-main</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">adi-rpi-boot-5.15.y</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">adi-rpi-boot-6.1</span></code></p></li>
-</ul>
+<p><strong>Architecture-Specific Boot Packages:</strong></p>
+<p>Boot files are organized by processor architecture. ADI provides packages for
+each supported architecture family:</p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Hardware Platform Examples</p></th>
+<th class="head"><p>Architecture Package</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ZedBoard, ZC702, ZC706, Cora Z7s, ADRV9361-Z7035, ADRV9364-Z7020</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">adi-zynq-boot</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>ZCU102, ADRV9009-ZU11EG, Jupiter SDR</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">adi-zynqmp-boot</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>VCK190, VPK180</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">adi-versal-boot</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Arria10 SoC Development Kit</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">adi-arria10-boot</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Cyclone 5 SoC Kit, DE10-Nano, Arradio board</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">adi-cyclone5-boot</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Raspberry Pi (all versions)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">adi-rpi-boot</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>ADI packages follow standard Debian conventions with consistent package names
+and version-based differentiation, allowing standard package management
+operations.</p>
+<p><strong>Discovering Available Packages:</strong></p>
+<p>To see all available ADI packages and their versions:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt<span class="w"> </span>search<span class="w"> </span><span class="s2">&quot;adi-.*-boot&quot;</span>
+</pre></div>
+</div>
+<p>To see detailed information about a specific package:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt<span class="w"> </span>show<span class="w"> </span>adi-zynq-boot
+</pre></div>
+</div>
 </section>
 <hr class="docutils" />
 <section id="raspberry-pi-repository">
 <h2>Raspberry Pi Repository<a class="headerlink" href="#raspberry-pi-repository" title="Link to this heading"></a></h2>
 <p>By default, the Kuiper image includes the official Raspberry Pi package
-repository in <code class="docutils literal notranslate"><span class="pre">/etc/apt/sources.list.d/raspi.list</span></code>. This repository provides
-access to Pi-specific packages and optimizations.</p>
+repository in <code class="docutils literal notranslate"><span class="pre">/etc/apt/sources.list.d/raspi.list</span></code>. This repository
+provides access to Pi-specific packages and optimizations.</p>
 <p><strong>Using the Raspberry Pi repository:</strong></p>
 <ol class="arabic simple">
 <li><p>Edit <code class="docutils literal notranslate"><span class="pre">/etc/apt/sources.list.d/raspi.list</span></code> and uncomment the first line</p></li>
@@ -206,9 +245,14 @@ VideoCore tools, and other hardware-specific packages.</p>
 sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>&lt;package-name&gt;
 </pre></div>
 </div>
-<p>For example, to install Raspberry Pi boot files from the ADI repository:</p>
+<p>For example, to install boot files for your hardware architecture:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update
-sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>adi-rpi-boot-6.1
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>adi-zynq-boot
+</pre></div>
+</div>
+<p>To upgrade to a newer version when available:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>upgrade<span class="w"> </span>adi-zynq-boot
 </pre></div>
 </div>
 </section>

@@ -8,8 +8,8 @@
 
     <title>Build Flow &#8212; Kuiper  documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8e8a900e" />
-    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=37266688" />
-    <script async="async" src="_static/app.umd.js?v=8f62bab2"></script>
+    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=8d0b0339" />
+    <script async="async" src="_static/app.umd.js?v=1a06b6a7"></script>
     <link rel="icon" href="_static/icon.png"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -131,7 +131,6 @@ Content on this topic
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quick-start.html#building-your-own-image">Building Your Own Image</a></li>
 <li class="toctree-l1"><a class="reference internal" href="use-kuiper-image.html">Using Kuiper Images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hardware-configuration.html">Hardware Configuration</a></li>
 </ul>
@@ -172,10 +171,14 @@ Content on this topic
 building Debian-based images for Analog Devices products. The build follows
 these high-level steps:</p>
 <ol class="arabic simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">build-docker.sh</span></code> creates a Docker container with all necessary build dependencies</p></li>
-<li><p>Inside the container, <code class="docutils literal notranslate"><span class="pre">kuiper-stages.sh</span></code> orchestrates a series of build stages</p></li>
-<li><p>Each stage performs specific tasks like system configuration, tool installation, and boot setup</p></li>
-<li><p>The final image is exported as a zip file to the <code class="docutils literal notranslate"><span class="pre">kuiper-volume</span></code> directory on your host machine</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">build-docker.sh</span></code> creates a Docker container with all necessary build
+dependencies</p></li>
+<li><p>Inside the container, <code class="docutils literal notranslate"><span class="pre">kuiper-stages.sh</span></code> orchestrates a series of build
+stages</p></li>
+<li><p>Each stage performs specific tasks like system configuration, tool
+installation, and boot setup</p></li>
+<li><p>The final image is exported as a zip file to the <code class="docutils literal notranslate"><span class="pre">kuiper-volume</span></code>
+directory on your host machine</p></li>
 </ol>
 <p>This approach ensures consistent builds across different host systems while
 allowing full customization through the <code class="docutils literal notranslate"><span class="pre">config</span></code> file.</p>
@@ -319,23 +322,21 @@ and loop devices (losetup).</p>
 <section id="running-the-build">
 <h3>Running the Build<a class="headerlink" href="#running-the-build" title="Link to this heading"></a></h3>
 <p>To build:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>bash<span class="w"> </span>build-docker.sh
-</pre></div>
-</div>
-<p>or</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>./build-docker.sh
 </pre></div>
 </div>
 <p>Your Kuiper image will be in the <code class="docutils literal notranslate"><span class="pre">kuiper-volume/</span></code> folder inside the cloned
 repository on your machine as a zip file named
 <code class="docutils literal notranslate"><span class="pre">image_YYYY-MM-DD-ADI-Kuiper-Linux-[arch].zip</span></code>. After successful build,
-the Docker image and the build container are removed if <code class="docutils literal notranslate"><span class="pre">PRESERVE_CONTAINER=n</span></code>.</p>
+the Docker image and the build container are removed if
+<code class="docutils literal notranslate"><span class="pre">PRESERVE_CONTAINER=n</span></code>.</p>
 <p>If needed, you can remove the build container with:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>rm<span class="w"> </span>-v<span class="w"> </span>debian_&lt;DEBIAN_VERSION&gt;_rootfs_container
 </pre></div>
 </div>
 <p>If you choose to preserve the Docker container, you can access the Kuiper
-root filesystem by copying it from the container to your machine with this command:</p>
+root filesystem by copying it from the container to your machine with this
+command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">CONTAINER_ID</span><span class="o">=</span><span class="k">$(</span>docker<span class="w"> </span>inspect<span class="w"> </span>--format<span class="o">=</span><span class="s2">&quot;{{.Id}}&quot;</span><span class="w"> </span>debian_&lt;DEBIAN_VERSION&gt;_rootfs_container<span class="k">)</span>
 sudo<span class="w"> </span>docker<span class="w"> </span>cp<span class="w"> </span><span class="nv">$CONTAINER_ID</span>:&lt;TARGET_ARCHITECTURE&gt;_rootfs<span class="w"> </span>.
 </pre></div>
@@ -350,14 +351,18 @@ sudo<span class="w"> </span>docker<span class="w"> </span>cp<span class="w"> </s
 </section>
 <section id="docker-container-configuration">
 <h3>Docker Container Configuration<a class="headerlink" href="#docker-container-configuration" title="Link to this heading"></a></h3>
-<p>When the Docker container is run, various required command line arguments are provided:</p>
+<p>When the Docker container is run, various required command line arguments
+are provided:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">-t</span></code>: Allocates a pseudo-TTY allowing interaction with container’s shell</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">--privileged</span></code>: Provides elevated privileges required by the chroot command</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--privileged</span></code>: Provides elevated privileges required by the chroot
+command</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">/dev:/dev</span></code>: Mounts the host system’s device directory</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">/lib/modules:/lib/modules</span></code>: Mounts kernel modules from the host</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">./kuiper-volume:/kuiper-volume</span></code>: Creates a shared volume for the output</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">-e</span> <span class="pre">&quot;DEBIAN_VERSION={value}&quot;</span></code>: Sets environment variables from the config file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">./kuiper-volume:/kuiper-volume</span></code>: Creates a shared volume for the
+output</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-e</span> <span class="pre">&quot;DEBIAN_VERSION={value}&quot;</span></code>: Sets environment variables from the config
+file</p></li>
 </ul>
 <p>The <code class="docutils literal notranslate"><span class="pre">--name</span></code> and <code class="docutils literal notranslate"><span class="pre">--privileged</span></code> options are already set by the script and
 should not be redefined.</p>
@@ -373,34 +378,43 @@ variables, and executes a series of stages in a specific order.</p>
 <h3>How Stages Are Processed<a class="headerlink" href="#how-stages-are-processed" title="Link to this heading"></a></h3>
 <p>The build process follows these steps inside the Docker container:</p>
 <ol class="arabic simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">kuiper-stages.sh</span></code> loops through the <code class="docutils literal notranslate"><span class="pre">stages</span></code> directory in alphanumeric order</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kuiper-stages.sh</span></code> loops through the <code class="docutils literal notranslate"><span class="pre">stages</span></code> directory in
+alphanumeric order</p></li>
 <li><p>Within each stage, it processes subdirectories in alphanumeric order</p></li>
 <li><p>For each subdirectory, it runs the following files if they exist:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">run.sh</span></code> - A shell script executed in the Docker container’s context</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">run-chroot.sh</span></code> - A shell script executed within the Kuiper image using chroot</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run-chroot.sh</span></code> - A shell script executed within the Kuiper image
+using chroot</p></li>
 <li><p>Package installation files:</p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">packages-[*]</span></code> - Lists packages to install with <code class="docutils literal notranslate"><span class="pre">--no-install-recommends</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">packages-[*]-with-recommends</span></code> - Lists packages to install with their recommended dependencies</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">packages-[*]</span></code> - Lists packages to install with
+<code class="docutils literal notranslate"><span class="pre">--no-install-recommends</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">packages-[*]-with-recommends</span></code> - Lists packages to install with
+their recommended dependencies</p></li>
 </ul>
 </li>
 </ul>
 </li>
 </ol>
 <p>The package installation files (<code class="docutils literal notranslate"><span class="pre">packages-[*]</span></code>) are processed if the
-corresponding configuration option is enabled. For example, <code class="docutils literal notranslate"><span class="pre">packages-desktop</span></code>
-is only processed if <code class="docutils literal notranslate"><span class="pre">CONFIG_DESKTOP=y</span></code> in the config file.</p>
+corresponding configuration option is enabled. For example,
+<code class="docutils literal notranslate"><span class="pre">packages-desktop</span></code> is only processed if <code class="docutils literal notranslate"><span class="pre">CONFIG_DESKTOP=y</span></code> in the config
+file.</p>
 </section>
 <section id="key-stages-overview">
 <h3>Key Stages Overview<a class="headerlink" href="#key-stages-overview" title="Link to this heading"></a></h3>
-<p>The build process is divided into several stages for logical clarity and modularity:</p>
+<p>The build process is divided into several stages for logical clarity and
+modularity:</p>
 <ul class="simple">
 <li><p><strong>01.bootstrap</strong> - Creates a usable filesystem using <code class="docutils literal notranslate"><span class="pre">debootstrap</span></code></p></li>
-<li><p><strong>02.set-locale-and-timezone</strong> - Configures system locale and timezone settings</p></li>
+<li><p><strong>02.set-locale-and-timezone</strong> - Configures system locale and timezone
+settings</p></li>
 <li><p><strong>03.system-tweaks</strong> - Sets up users, passwords, and system configuration</p></li>
-<li><p><strong>04.configure-desktop-env</strong> - Installs and configures desktop environment (if enabled)</p></li>
-<li><p><strong>05.adi-tools</strong> - Installs Analog Devices libraries and tools (based on config)</p></li>
+<li><p><strong>04.configure-desktop-env</strong> - Installs and configures desktop environment
+(if enabled)</p></li>
+<li><p><strong>05.adi-tools</strong> - Installs Analog Devices libraries and tools (based on
+config)</p></li>
 <li><p><strong>06.boot-partition</strong> - Adds boot files for different platforms</p></li>
 <li><p><strong>07.extra-tweaks</strong> - Applies custom scripts and additional configurations</p></li>
 <li><p><strong>08.export-stage</strong> - Creates and exports the final image</p></li>
@@ -414,15 +428,16 @@ customization and extension.</p>
 <section id="stage-execution-logic">
 <h3>Stage Execution Logic<a class="headerlink" href="#stage-execution-logic" title="Link to this heading"></a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">kuiper-stages.sh</span></code> script contains a helper function called
-<code class="docutils literal notranslate"><span class="pre">install_packages</span></code> that handles package installation for each stage. This function:</p>
+<code class="docutils literal notranslate"><span class="pre">install_packages</span></code> that handles package installation for each stage. This
+function:</p>
 <ol class="arabic simple">
 <li><p>Checks if package files exist for the current stage</p></li>
 <li><p>Verifies if the corresponding configuration option is enabled</p></li>
 <li><p>Installs the packages using the appropriate apt-get command</p></li>
 </ol>
 <p>The script then executes each stage’s <code class="docutils literal notranslate"><span class="pre">run.sh</span></code> script, which may perform
-additional configuration steps, compile software from source, or prepare files
-for the final image.</p>
+additional configuration steps, compile software from source, or prepare
+files for the final image.</p>
 <p>This modular approach allows users to easily customize the build process by
 modifying existing stages or adding new ones.</p>
 </section>

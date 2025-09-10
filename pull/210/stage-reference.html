@@ -8,8 +8,8 @@
 
     <title>Stage Reference &#8212; Kuiper  documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8e8a900e" />
-    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=37266688" />
-    <script async="async" src="_static/app.umd.js?v=8f62bab2"></script>
+    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=8d0b0339" />
+    <script async="async" src="_static/app.umd.js?v=1a06b6a7"></script>
     <link rel="icon" href="_static/icon.png"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -128,7 +128,6 @@ Content on this topic
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quick-start.html#building-your-own-image">Building Your Own Image</a></li>
 <li class="toctree-l1"><a class="reference internal" href="use-kuiper-image.html">Using Kuiper Images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hardware-configuration.html">Hardware Configuration</a></li>
 </ul>
@@ -232,8 +231,10 @@ is not yet bootable.</p>
 <p><strong>Purpose</strong>: Install Analog Devices libraries and applications</p>
 <p><strong>Key operations</strong>:</p>
 <ul class="simple">
-<li><p>Installs selected ADI libraries: libiio, pyadi, libm2k, libad9361, libad9166, gr-m2k</p></li>
-<li><p>Installs selected ADI applications: iio-oscilloscope, iio-fm-radio, fru_tools, jesd-eye-scan-gtk, colorimeter, Scopy</p></li>
+<li><p>Installs selected ADI libraries: libiio, pyadi, libm2k, libad9361, libad9166,
+gr-m2k</p></li>
+<li><p>Installs selected ADI applications: iio-oscilloscope, iio-fm-radio,
+fru_tools, jesd-eye-scan-gtk, colorimeter, Scopy</p></li>
 <li><p>Installs non-ADI applications: GNU Radio</p></li>
 <li><p>Clones Linux scripts repository</p></li>
 <li><p>Creates log file with installed tools, branches, and commit hashes</p></li>
@@ -241,7 +242,8 @@ is not yet bootable.</p>
 <p><strong>Related config options</strong>: Multiple tool-specific options</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">CONFIG_LIBIIO</span></code>, <code class="docutils literal notranslate"><span class="pre">CONFIG_PYADI</span></code>, <code class="docutils literal notranslate"><span class="pre">CONFIG_LIBM2K</span></code>, etc.</p></li>
-<li><p>See <a class="reference internal" href="configuration.html"><span class="doc">ADI Libraries and Tools</span></a>, <a class="reference internal" href="configuration.html"><span class="doc">ADI Applications</span></a> and <a class="reference internal" href="configuration.html"><span class="doc">Non-ADI Applications</span></a> in Configuration section</p></li>
+<li><p>See <a class="reference internal" href="configuration.html"><span class="doc">ADI Libraries and Tools</span></a>, <a class="reference internal" href="configuration.html"><span class="doc">ADI Applications</span></a> and <a class="reference internal" href="configuration.html"><span class="doc">Non-ADI Applications</span></a> in
+Configuration section</p></li>
 </ul>
 </section>
 <hr class="docutils" />
@@ -269,7 +271,8 @@ is not yet bootable.</p>
 <ul class="simple">
 <li><p>Runs custom user scripts (if specified)</p></li>
 <li><p>Installs Raspberry Pi specific packages (if configured)</p></li>
-<li><p>Installs Raspberry Pi WiFi firmware (if Raspberry Pi boot files are configured)</p></li>
+<li><p>Installs Raspberry Pi WiFi firmware (if Raspberry Pi boot files are
+configured)</p></li>
 </ul>
 <p><strong>Related config options</strong>:</p>
 <ul class="simple">

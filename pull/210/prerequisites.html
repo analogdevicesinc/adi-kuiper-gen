@@ -8,8 +8,8 @@
 
     <title>Prerequisites &#8212; Kuiper  documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8e8a900e" />
-    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=37266688" />
-    <script async="async" src="_static/app.umd.js?v=8f62bab2"></script>
+    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=8d0b0339" />
+    <script async="async" src="_static/app.umd.js?v=1a06b6a7"></script>
     <link rel="icon" href="_static/icon.png"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -122,7 +122,6 @@ Content on this topic
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Prerequisites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quick-start.html#building-your-own-image">Building Your Own Image</a></li>
 <li class="toctree-l1"><a class="reference internal" href="use-kuiper-image.html">Using Kuiper Images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hardware-configuration.html">Hardware Configuration</a></li>
 </ul>
@@ -163,10 +162,12 @@ Content on this topic
 <section id="build-environment">
 <h2>Build Environment<a class="headerlink" href="#build-environment" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p><strong>Operating System</strong>: Ubuntu 22.04 LTS is recommended. Other Linux distributions or versions may not work as expected.</p></li>
+<li><p><strong>Operating System</strong>: Ubuntu 22.04 LTS is recommended. Other Linux
+distributions or versions may not work as expected.</p></li>
 <li><p><strong>Important</strong>: Windows is not supported.</p></li>
 <li><p><strong>Space Requirements</strong>: At least 10GB of free disk space for building images.</p></li>
-<li><p><strong>Note</strong>: Ensure you clone this repository to a path <strong>without spaces</strong>. Paths with spaces are not supported by debootstrap.</p></li>
+<li><p><strong>Note</strong>: Ensure you clone this repository to a path <strong>without spaces</strong>.
+Paths with spaces are not supported by debootstrap.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
@@ -176,7 +177,8 @@ Content on this topic
 <li><p><strong>Docker</strong>:</p>
 <ul class="simple">
 <li><p>Docker version 24.0.6 or compatible is required to build Kuiper images.</p></li>
-<li><p>If you don’t have Docker installed, follow the installation steps at: <a class="icon link reference external" href="https://docs.docker.com/engine/install/" target="_blank">https://docs.docker.com/engine/install/</a></p></li>
+<li><p>If you don’t have Docker installed, follow the installation steps at:
+<a class="icon link reference external" href="https://docs.docker.com/engine/install/" target="_blank">https://docs.docker.com/engine/install/</a></p></li>
 </ul>
 </li>
 <li><p><strong>Cross-Architecture Support</strong>:</p>
@@ -184,7 +186,8 @@ Content on this topic
 <li><p>These packages are necessary to build ARM-based images on x86 systems:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">qemu-user-static</span></code>: For emulating ARM architecture</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">binfmt_misc</span></code>: Kernel module to run binaries from different architectures</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">binfmt_misc</span></code>: Kernel module to run binaries from different
+architectures</p></li>
 </ul>
 </li>
 </ul>

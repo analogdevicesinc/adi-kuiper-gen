@@ -29,8 +29,8 @@ Extract it using:
 Writing the Image to an SD Card
 -------------------------------
 
-Using Balena Etcher (Recommended)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Using Balena Etcher
+~~~~~~~~~~~~~~~~~~~
 
 `Balena Etcher <https://www.balena.io/etcher/>`_ provides a simple, graphical 
 interface for writing images to SD cards and is the recommended method:
@@ -51,7 +51,7 @@ For users who prefer command line tools:
 
    .. code-block:: bash
 
-      sudo fdisk -l
+      lsblk
 
    Look for a device like ``/dev/sdX`` or ``/dev/mmcblkX`` (where X is a 
    letter or number) that matches your SD card's size.
@@ -73,17 +73,29 @@ For users who prefer command line tools:
    Replace ``/dev/sdX`` with your actual device path, and update the image 
    filename accordingly.
 
-5. **Ensure all data is written**:
-
-   .. code-block:: bash
-
-      sudo sync
-
-6. **Eject the SD card**:
+5. **Eject the SD card**:
 
    .. code-block:: bash
 
       sudo eject /dev/sdX
+
+Alternative Image Writing Tools
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+While Balena Etcher is recommended for its simplicity and cross-platform 
+support, you can also use these alternatives:
+
+**Linux alternatives:**
+- GNOME Disks (pre-installed on most GNOME-based distributions)
+- Ubuntu Disk Image Writer
+- Popsicle
+
+**Windows alternatives:**  
+- Win32 Disk Imager
+- Rufus
+
+**All platforms:**
+- Raspberry Pi Imager (works with any .img file, not just Pi images)
 
 ----
 
@@ -93,7 +105,8 @@ Booting Your Device
 1. **Insert the SD card** into your target device.
 2. **Connect required peripherals** (power, display, keyboard if needed).
 3. **Power on the device**.
-4. The first boot may take longer as the system automatically resizes the root partition to use the full SD card capacity.
+4. The first boot may take longer as the system automatically resizes the 
+   root partition to use the full SD card capacity.
 
 ----
 
@@ -133,7 +146,8 @@ VNC Access (If desktop environment was enabled)
 If you built your image with ``CONFIG_DESKTOP=y``, you can access the 
 graphical environment via VNC:
 
-1. Connect to your device using a VNC client (like RealVNC, TigerVNC, or Remmina).
+1. Connect to your device using a VNC client (like RealVNC, TigerVNC, or 
+   Remmina).
 2. Use the device's IP address and port 5900 (e.g., ``192.168.1.100:5900``).
 
 ----

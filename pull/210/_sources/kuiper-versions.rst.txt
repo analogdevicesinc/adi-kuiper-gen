@@ -8,11 +8,13 @@ and substages will be included. Here are the common build configurations:
 
 ----
 
+.. _kuiper-versions-basic-image:
+
 Basic Image (Default)
 ----------------------
 
-The default configuration includes only the essential packages and configuration 
-needed for a functional system:
+The default configuration includes only the essential packages and 
+configuration needed for a functional system:
 
 - **01.bootstrap** - Core filesystem setup
 - **02.set-locale-and-timezone** - Basic system localization
@@ -69,7 +71,8 @@ These components can be added on top of the basic image:
   - **07.extra-tweaks**
 
     - Substage **01.extra-scripts** - Custom script execution
-  - For detailed instructions, see the :doc:`Custom Script Integration <customization>` section.
+  - For detailed instructions, see the :doc:`Custom Script Integration 
+    <customization>` section.
 
 - **Raspberry Pi Packages** (``INSTALL_RPI_PACKAGES=y``):
 

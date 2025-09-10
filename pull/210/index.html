@@ -8,8 +8,8 @@
 
     <title>ADI Kuiper Linux &#8212; Kuiper  documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8e8a900e" />
-    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=37266688" />
-    <script async="async" src="_static/app.umd.js?v=8f62bab2"></script>
+    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=8d0b0339" />
+    <script async="async" src="_static/app.umd.js?v=1a06b6a7"></script>
     <link rel="icon" href="_static/icon.png"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -131,7 +131,6 @@ Content on this topic
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quick-start.html#building-your-own-image">Building Your Own Image</a></li>
 <li class="toctree-l1"><a class="reference internal" href="use-kuiper-image.html">Using Kuiper Images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hardware-configuration.html">Hardware Configuration</a></li>
 </ul>
@@ -181,10 +180,12 @@ system configuration.</p>
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
 <p>Get up and running with Kuiper on Raspberry Pi:</p>
 <ol class="arabic">
-<li><p><a class="reference internal" href="prerequisites.html"><span class="doc">Check prerequisites</span></a> (Ubuntu 22.04 + Docker for building)</p></li>
+<li><p><a class="reference internal" href="prerequisites.html"><span class="doc">Check prerequisites</span></a> (Ubuntu 22.04 + Docker for
+building)</p></li>
 <li><p>Get Kuiper image:</p>
 <ul class="simple">
-<li><p><strong>Quick option</strong>: Download pre-built from <a class="icon git reference external" href="https://github.com/analogdevicesinc/adi-kuiper-gen/actions/workflows/kuiper2_0-build.yml" target="_blank">GitHub Actions</a></p></li>
+<li><p><strong>Quick option</strong>: Download pre-built from <a class="icon git reference external" href="https://github.com/analogdevicesinc/adi-kuiper-gen/actions/workflows/kuiper2_0-build.yml" target="_blank">GitHub
+Actions</a></p></li>
 <li><p><strong>Custom option</strong>: Clone repository and build your own</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>https://github.com/analogdevicesinc/adi-kuiper-gen
@@ -196,13 +197,13 @@ sudo<span class="w"> </span>./build-docker.sh
 </li>
 <li><p><a class="reference internal" href="use-kuiper-image.html"><span class="doc">Write the image to an SD card and boot your device</span></a></p></li>
 </ol>
-<p><strong>For ADI evaluation boards</strong>: See <a class="reference internal" href="hardware-configuration.html"><span class="doc">Hardware Configuration</span></a>
-for setup instructions.</p>
+<p><strong>For ADI evaluation boards</strong>: See <a class="reference internal" href="hardware-configuration.html"><span class="doc">Hardware Configuration</span></a> for setup instructions.</p>
 </section>
 <hr class="docutils" />
 <section id="what-s-included">
 <h2>What’s Included<a class="headerlink" href="#what-s-included" title="Link to this heading"></a></h2>
-<p>Kuiper provides a configurable development environment tailored for ADI hardware:</p>
+<p>Kuiper provides a configurable development environment tailored for ADI
+hardware:</p>
 <dl class="simple">
 <dt><strong>Core System</strong></dt><dd><p>Debian Bookworm base with optimized configurations for ARM devices</p>
 </dd>
@@ -215,13 +216,15 @@ for setup instructions.</p>
 <dt><strong>Desktop Environment (Optional)</strong></dt><dd><p>XFCE desktop with VNC access for graphical applications</p>
 </dd>
 </dl>
-<p>All optional components are configurable - build exactly what you need for your project.</p>
+<p>All optional components are configurable - build exactly what you need for your
+project.</p>
 </section>
 <hr class="docutils" />
 <section id="build-configurations">
 <h2>Build Configurations<a class="headerlink" href="#build-configurations" title="Link to this heading"></a></h2>
 <p>Kuiper offers three main configurations to suit different needs. You can either
-download pre-built images or create custom builds using the configuration system.</p>
+download pre-built images or create custom builds using the configuration
+system.</p>
 <p>For detailed stage breakdowns and component lists, see <a class="reference internal" href="kuiper-versions.html"><span class="doc">Kuiper Versions</span></a>.</p>
 <section id="basic-image-default">
 <h3>Basic Image (Default)<a class="headerlink" href="#basic-image-default" title="Link to this heading"></a></h3>
@@ -232,8 +235,10 @@ download pre-built images or create custom builds using the configuration system
 <li><p>User account setup (analog/analog) with sudo access</p></li>
 <li><p>Network configuration and SSH access</p></li>
 </ul>
-<p><strong>Perfect for:</strong> Headless applications, foundation for custom development, resource-constrained environments</p>
-<p><strong>Get it:</strong> Download pre-built from <a class="icon git reference external" href="https://github.com/analogdevicesinc/adi-kuiper-gen/actions/workflows/kuiper2_0-build.yml" target="_blank">GitHub Actions</a> or build using the default config file.</p>
+<p><strong>Perfect for:</strong> Headless applications, foundation for custom development,
+resource-constrained environments</p>
+<p><strong>Get it:</strong> Download pre-built from <a class="icon git reference external" href="https://github.com/analogdevicesinc/adi-kuiper-gen/actions/workflows/kuiper2_0-build.yml" target="_blank">GitHub Actions</a> or build using the default config
+file.</p>
 </section>
 <section id="full-image">
 <h3>Full Image<a class="headerlink" href="#full-image" title="Link to this heading"></a></h3>
@@ -245,8 +250,10 @@ download pre-built images or create custom builds using the configuration system
 <li><p>ADI applications (IIO Oscilloscope, Scopy), GNU Radio</p></li>
 <li><p>Development tools and utilities</p></li>
 </ul>
-<p><strong>Perfect for:</strong> Complete development workstations, evaluation and testing, learning ADI ecosystem</p>
-<p><strong>Get it:</strong> Download pre-built from <a class="icon git reference external" href="https://github.com/analogdevicesinc/adi-kuiper-gen/actions/workflows/kuiper2_0-build.yml" target="_blank">GitHub Actions</a> or enable all options in the config file.</p>
+<p><strong>Perfect for:</strong> Complete development workstations, evaluation and testing,
+learning ADI ecosystem</p>
+<p><strong>Get it:</strong> Download pre-built from <a class="icon git reference external" href="https://github.com/analogdevicesinc/adi-kuiper-gen/actions/workflows/kuiper2_0-build.yml" target="_blank">GitHub Actions</a> or enable all options in the config
+file.</p>
 </section>
 <section id="custom-image">
 <h3>Custom Image<a class="headerlink" href="#custom-image" title="Link to this heading"></a></h3>
@@ -257,8 +264,10 @@ download pre-built images or create custom builds using the configuration system
 <li><p>Optional desktop environment and development packages</p></li>
 <li><p>Tailored boot configuration for your target hardware</p></li>
 </ul>
-<p><strong>Perfect for:</strong> Production deployments, specialized applications, specific tool combinations</p>
-<p><strong>Get it:</strong> Modify the <a class="reference internal" href="configuration.html"><span class="doc">config file</span></a> and run the build process locally.</p>
+<p><strong>Perfect for:</strong> Production deployments, specialized applications, specific
+tool combinations</p>
+<p><strong>Get it:</strong> Modify the <a class="reference internal" href="configuration.html"><span class="doc">config file</span></a> and run the build
+process locally.</p>
 </section>
 </section>
 <hr class="docutils" />
@@ -287,13 +296,7 @@ download pre-built images or create custom builds using the configuration system
 </li>
 <li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="quick-start.html#choose-your-path">Choose Your Path</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="quick-start.html#building-your-own-image">Building Your Own Image</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="quick-start.html#clone-the-repository">1. Clone the Repository</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quick-start.html#review-default-configuration">2. Review Default Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quick-start.html#build-the-image">3. Build the Image</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quick-start.html#locate-the-output">4. Locate the Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick-start.html#building-your-own-image">Building Your Own Image</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quick-start.html#next-steps">Next Steps</a></li>
 </ul>
 </li>

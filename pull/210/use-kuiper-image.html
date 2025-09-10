@@ -8,8 +8,8 @@
 
     <title>Using Kuiper Images &#8212; Kuiper  documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8e8a900e" />
-    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=37266688" />
-    <script async="async" src="_static/app.umd.js?v=8f62bab2"></script>
+    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=8d0b0339" />
+    <script async="async" src="_static/app.umd.js?v=1a06b6a7"></script>
     <link rel="icon" href="_static/icon.png"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -91,8 +91,9 @@
 <li><a class="reference internal" href="#">Using Kuiper Images</a><ul>
 <li><a class="reference internal" href="#extracting-the-image">Extracting the Image</a></li>
 <li><a class="reference internal" href="#writing-the-image-to-an-sd-card">Writing the Image to an SD Card</a><ul>
-<li><a class="reference internal" href="#using-balena-etcher-recommended">Using Balena Etcher (Recommended)</a></li>
+<li><a class="reference internal" href="#using-balena-etcher">Using Balena Etcher</a></li>
 <li><a class="reference internal" href="#using-command-line-on-linux">Using Command Line on Linux</a></li>
+<li><a class="reference internal" href="#alternative-image-writing-tools">Alternative Image Writing Tools</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#booting-your-device">Booting Your Device</a></li>
@@ -136,7 +137,6 @@ Content on this topic
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quick-start.html#building-your-own-image">Building Your Own Image</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Using Kuiper Images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hardware-configuration.html">Hardware Configuration</a></li>
 </ul>
@@ -195,8 +195,8 @@ unzip<span class="w"> </span>image_YYYY-MM-DD-ADI-Kuiper-Linux-<span class="o">[
 <hr class="docutils" />
 <section id="writing-the-image-to-an-sd-card">
 <h2>Writing the Image to an SD Card<a class="headerlink" href="#writing-the-image-to-an-sd-card" title="Link to this heading"></a></h2>
-<section id="using-balena-etcher-recommended">
-<h3>Using Balena Etcher (Recommended)<a class="headerlink" href="#using-balena-etcher-recommended" title="Link to this heading"></a></h3>
+<section id="using-balena-etcher">
+<h3>Using Balena Etcher<a class="headerlink" href="#using-balena-etcher" title="Link to this heading"></a></h3>
 <p><a class="icon link reference external" href="https://www.balena.io/etcher/" target="_blank">Balena Etcher</a> provides a simple, graphical
 interface for writing images to SD cards and is the recommended method:</p>
 <ol class="arabic simple">
@@ -213,7 +213,7 @@ interface for writing images to SD cards and is the recommended method:</p>
 <ol class="arabic">
 <li><p><strong>Insert your SD card</strong> into your computer.</p></li>
 <li><p><strong>Identify the device name</strong> of your SD card:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>fdisk<span class="w"> </span>-l
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lsblk
 </pre></div>
 </div>
 <p>Look for a device like <code class="docutils literal notranslate"><span class="pre">/dev/sdX</span></code> or <code class="docutils literal notranslate"><span class="pre">/dev/mmcblkX</span></code> (where X is a
@@ -232,17 +232,26 @@ letter or number) that matches your SD card’s size.</p>
 <p>Replace <code class="docutils literal notranslate"><span class="pre">/dev/sdX</span></code> with your actual device path, and update the image
 filename accordingly.</p>
 </li>
-<li><p><strong>Ensure all data is written</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>sync
-</pre></div>
-</div>
-</li>
 <li><p><strong>Eject the SD card</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>eject<span class="w"> </span>/dev/sdX
 </pre></div>
 </div>
 </li>
 </ol>
+</section>
+<section id="alternative-image-writing-tools">
+<h3>Alternative Image Writing Tools<a class="headerlink" href="#alternative-image-writing-tools" title="Link to this heading"></a></h3>
+<p>While Balena Etcher is recommended for its simplicity and cross-platform
+support, you can also use these alternatives:</p>
+<p><strong>Linux alternatives:</strong>
+- GNOME Disks (pre-installed on most GNOME-based distributions)
+- Ubuntu Disk Image Writer
+- Popsicle</p>
+<p><strong>Windows alternatives:</strong>
+- Win32 Disk Imager
+- Rufus</p>
+<p><strong>All platforms:</strong>
+- Raspberry Pi Imager (works with any .img file, not just Pi images)</p>
 </section>
 </section>
 <hr class="docutils" />
@@ -252,7 +261,8 @@ filename accordingly.</p>
 <li><p><strong>Insert the SD card</strong> into your target device.</p></li>
 <li><p><strong>Connect required peripherals</strong> (power, display, keyboard if needed).</p></li>
 <li><p><strong>Power on the device</strong>.</p></li>
-<li><p>The first boot may take longer as the system automatically resizes the root partition to use the full SD card capacity.</p></li>
+<li><p>The first boot may take longer as the system automatically resizes the
+root partition to use the full SD card capacity.</p></li>
 </ol>
 </section>
 <hr class="docutils" />
@@ -285,7 +295,8 @@ in directly as root.</p>
 <p>If you built your image with <code class="docutils literal notranslate"><span class="pre">CONFIG_DESKTOP=y</span></code>, you can access the
 graphical environment via VNC:</p>
 <ol class="arabic simple">
-<li><p>Connect to your device using a VNC client (like RealVNC, TigerVNC, or Remmina).</p></li>
+<li><p>Connect to your device using a VNC client (like RealVNC, TigerVNC, or
+Remmina).</p></li>
 <li><p>Use the device’s IP address and port 5900 (e.g., <code class="docutils literal notranslate"><span class="pre">192.168.1.100:5900</span></code>).</p></li>
 </ol>
 </section>

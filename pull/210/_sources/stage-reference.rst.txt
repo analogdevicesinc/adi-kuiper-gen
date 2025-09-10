@@ -85,8 +85,10 @@ Stage 05: ADI Tools
 
 **Key operations**:
 
-- Installs selected ADI libraries: libiio, pyadi, libm2k, libad9361, libad9166, gr-m2k
-- Installs selected ADI applications: iio-oscilloscope, iio-fm-radio, fru_tools, jesd-eye-scan-gtk, colorimeter, Scopy
+- Installs selected ADI libraries: libiio, pyadi, libm2k, libad9361, libad9166, 
+  gr-m2k
+- Installs selected ADI applications: iio-oscilloscope, iio-fm-radio, 
+  fru_tools, jesd-eye-scan-gtk, colorimeter, Scopy
 - Installs non-ADI applications: GNU Radio
 - Clones Linux scripts repository
 - Creates log file with installed tools, branches, and commit hashes
@@ -94,7 +96,9 @@ Stage 05: ADI Tools
 **Related config options**: Multiple tool-specific options
 
 - ``CONFIG_LIBIIO``, ``CONFIG_PYADI``, ``CONFIG_LIBM2K``, etc.
-- See :doc:`ADI Libraries and Tools <configuration>`, :doc:`ADI Applications <configuration>` and :doc:`Non-ADI Applications <configuration>` in Configuration section
+- See :doc:`ADI Libraries and Tools <configuration>`, :doc:`ADI Applications 
+  <configuration>` and :doc:`Non-ADI Applications <configuration>` in 
+  Configuration section
 
 ----
 
@@ -126,7 +130,8 @@ Stage 07: Extra Tweaks
 
 - Runs custom user scripts (if specified)
 - Installs Raspberry Pi specific packages (if configured)
-- Installs Raspberry Pi WiFi firmware (if Raspberry Pi boot files are configured)
+- Installs Raspberry Pi WiFi firmware (if Raspberry Pi boot files are 
+  configured)
 
 **Related config options**:
 
