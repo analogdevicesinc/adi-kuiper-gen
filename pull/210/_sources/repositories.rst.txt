@@ -45,7 +45,7 @@ each supported architecture family:
      - ``adi-arria10-boot``
    * - Cyclone 5 SoC Kit, DE10-Nano, Arradio board
      - ``adi-cyclone5-boot``
-   * - Raspberry Pi (all versions)
+   * - Raspberry Pi
      - ``adi-rpi-boot``
 
 ADI packages follow standard Debian conventions with consistent package names 

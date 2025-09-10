@@ -86,15 +86,18 @@ While Balena Etcher is recommended for its simplicity and cross-platform
 support, you can also use these alternatives:
 
 **Linux alternatives:**
+
 - GNOME Disks (pre-installed on most GNOME-based distributions)
 - Ubuntu Disk Image Writer
 - Popsicle
 
 **Windows alternatives:**  
+
 - Win32 Disk Imager
 - Rufus
 
 **All platforms:**
+
 - Raspberry Pi Imager (works with any .img file, not just Pi images)
 
 ----
