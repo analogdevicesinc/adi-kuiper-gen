@@ -2,3 +2,5 @@ kuiper-volume/*
 .pc
 *-pc
 apt-cacher-ng/
+
+docs/_build/
