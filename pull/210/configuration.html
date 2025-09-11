@@ -96,13 +96,15 @@
 <li><a class="reference internal" href="#adi-libraries-and-tools">ADI Libraries and Tools</a></li>
 <li><a class="reference internal" href="#adi-applications">ADI Applications</a></li>
 <li><a class="reference internal" href="#non-adi-applications">Non-ADI Applications</a></li>
-<li><a class="reference internal" href="#boot-configuration">Boot Configuration</a></li>
-<li><a class="reference internal" href="#platform-specific-configuration">Platform-Specific Configuration</a></li>
+<li><a class="reference internal" href="#boot-files-configuration">Boot Files Configuration</a></li>
+<li><a class="reference internal" href="#hardware-targeting-configuration">Hardware Targeting Configuration</a></li>
+<li><a class="reference internal" href="#platform-specific-packages">Platform-Specific Packages</a></li>
 <li><a class="reference internal" href="#customization">Customization</a></li>
 <li><a class="reference internal" href="#common-configuration-examples">Common Configuration Examples</a><ul>
 <li><a class="reference internal" href="#building-a-64-bit-image-with-desktop-environment">Building a 64-bit image with desktop environment</a></li>
 <li><a class="reference internal" href="#including-iio-tools-and-libraries">Including IIO tools and libraries</a></li>
 <li><a class="reference internal" href="#building-for-a-specific-adi-evaluation-board">Building for a specific ADI evaluation board</a></li>
+<li><a class="reference internal" href="#building-with-specific-architecture-boot-files-only">Building with specific architecture boot files only</a></li>
 <li><a class="reference internal" href="#complete-development-environment-with-gnu-radio">Complete development environment with GNU Radio</a></li>
 </ul>
 </li>
@@ -453,9 +455,9 @@ Libad9166_IIO, and Libad9361_IIO</p></td>
 </div>
 </section>
 <hr class="docutils" />
-<section id="boot-configuration">
-<h2>Boot Configuration<a class="headerlink" href="#boot-configuration" title="Link to this heading"></a></h2>
-<p>These options control boot files and configurations:</p>
+<section id="boot-files-configuration">
+<h2>Boot Files Configuration<a class="headerlink" href="#boot-files-configuration" title="Link to this heading"></a></h2>
+<p>These options control which boot files are included in your image:</p>
 <div class="table-wrapper bold-header docutils container">
 <table class="bold-header docutils align-default">
 <thead>
@@ -470,35 +472,79 @@ Libad9166_IIO, and Libad9361_IIO</p></td>
 <td><p>Include Raspberry Pi boot files (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>) -
 <strong>Enabled by default</strong></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">BRANCH_RPI_BOOT_FILES</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">rpi-6.1.y</span></code></p></td>
-<td><p>Git branch for Raspberry Pi boot files</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">USE_ADI_REPO_RPI_BOOT</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_CARRIERS_ALL</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">y</span></code></p></td>
-<td><p>Install Raspberry Pi boot files from ADI repository (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>)</p></td>
+<td><p>Install boot files for all supported carrier architectures (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).
+When enabled, includes boot files for Zynq, ZynqMP, Versal, Arria10,
+and Cyclone5 platforms - <strong>Enabled by default</strong></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_XILINX_INTEL_BOOT_FILES</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">y</span></code></p></td>
-<td><p>Include Xilinx and Intel boot files (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>) -
-<strong>Enabled by default</strong></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_ZYNQ</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">n</span></code></p></td>
+<td><p>Install Zynq architecture boot files only (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).
+Only used when <code class="docutils literal notranslate"><span class="pre">CONFIG_CARRIERS_ALL=n</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">RELEASE_XILINX_INTEL_BOOT_FILES</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">2022_r2</span></code></p></td>
-<td><p>Release version of Xilinx/Intel boot files</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_ZYNQMP</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">n</span></code></p></td>
+<td><p>Install ZynqMP architecture boot files only (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).
+Only used when <code class="docutils literal notranslate"><span class="pre">CONFIG_CARRIERS_ALL=n</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">USE_ADI_REPO_CARRIERS_BOOT</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">y</span></code></p></td>
-<td><p>Install carriers boot files from ADI repository (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>)</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_VERSAL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">n</span></code></p></td>
+<td><p>Install Versal architecture boot files only (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).
+Only used when <code class="docutils literal notranslate"><span class="pre">CONFIG_CARRIERS_ALL=n</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_ARRIA10</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">n</span></code></p></td>
+<td><p>Install Arria10 architecture boot files only (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).
+Only used when <code class="docutils literal notranslate"><span class="pre">CONFIG_CARRIERS_ALL=n</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_CYCLONE5</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">n</span></code></p></td>
+<td><p>Install Cyclone5 architecture boot files only (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).
+Only used when <code class="docutils literal notranslate"><span class="pre">CONFIG_CARRIERS_ALL=n</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Choosing Boot Files Strategy:</strong></p>
+<p>For most users, the default settings (<code class="docutils literal notranslate"><span class="pre">CONFIG_RPI_BOOT_FILES=y</span></code> and
+<code class="docutils literal notranslate"><span class="pre">CONFIG_CARRIERS_ALL=y</span></code>) provide comprehensive hardware support. If you want
+to reduce image size and only need specific architectures, set
+<code class="docutils literal notranslate"><span class="pre">CONFIG_CARRIERS_ALL=n</span></code> and enable only the <code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_*</span></code> options you
+need.</p>
+<p><strong>Architecture to Hardware Mapping:</strong></p>
+<div class="table-wrapper bold-header docutils container">
+<table class="bold-header docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Architecture</p></th>
+<th class="head"><p>Hardware Platform Examples</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">zynq</span></code></p></td>
+<td><p>ZedBoard, ZC702, ZC706, Cora Z7s, ADRV9361-Z7035, ADRV9364-Z7020</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">zynqmp</span></code></p></td>
+<td><p>ZCU102, ADRV9009-ZU11EG, Jupiter SDR</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">versal</span></code></p></td>
+<td><p>VCK190, VPK180</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">arria10</span></code></p></td>
+<td><p>Arria10 SoC Development Kit</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cyclone5</span></code></p></td>
+<td><p>Cyclone 5 SoC Kit, DE10-Nano, Arradio board</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </section>
 <hr class="docutils" />
-<section id="platform-specific-configuration">
-<h2>Platform-Specific Configuration<a class="headerlink" href="#platform-specific-configuration" title="Link to this heading"></a></h2>
-<p>These options configure the target board and project:</p>
+<section id="hardware-targeting-configuration">
+<h2>Hardware Targeting Configuration<a class="headerlink" href="#hardware-targeting-configuration" title="Link to this heading"></a></h2>
+<p>These options configure your image for specific hardware during the build
+process:</p>
 <div class="table-wrapper bold-header docutils container">
 <table class="bold-header docutils align-default">
 <thead>
@@ -511,13 +557,34 @@ Libad9166_IIO, and Libad9361_IIO</p></td>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ADI_EVAL_BOARD</span></code></p></td>
 <td><p><em>(empty)</em></p></td>
 <td><p>Configure which ADI evaluation board project the image will run.
-Requires <code class="docutils literal notranslate"><span class="pre">CONFIG_XILINX_INTEL_BOOT_FILES=y</span></code></p></td>
+When set, the image will be pre-configured for this specific project.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CARRIER</span></code></p></td>
 <td><p><em>(empty)</em></p></td>
-<td><p>Configure which board the image will boot on. Used together
-with <code class="docutils literal notranslate"><span class="pre">ADI_EVAL_BOARD</span></code></p></td>
+<td><p>Configure which carrier board the image will boot on. Used together
+with <code class="docutils literal notranslate"><span class="pre">ADI_EVAL_BOARD</span></code> to create a ready-to-use hardware configuration</p></td>
 </tr>
+</tbody>
+</table>
+</div>
+<p><strong>Note:</strong> Setting <code class="docutils literal notranslate"><span class="pre">ADI_EVAL_BOARD</span></code> and <code class="docutils literal notranslate"><span class="pre">CARRIER</span></code> is optional. You can leave
+these empty and configure your hardware later using the runtime
+<code class="docutils literal notranslate"><span class="pre">configure-setup.sh</span></code> script. See <a class="reference internal" href="hardware-configuration.html"><span class="doc">Hardware Configuration</span></a> for details.</p>
+</section>
+<hr class="docutils" />
+<section id="platform-specific-packages">
+<h2>Platform-Specific Packages<a class="headerlink" href="#platform-specific-packages" title="Link to this heading"></a></h2>
+<p>These options add platform-specific software packages beyond the basic boot
+files:</p>
+<div class="table-wrapper bold-header docutils container">
+<table class="bold-header docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">INSTALL_RPI_PACKAGES</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">n</span></code></p></td>
 <td><p>Install Raspberry Pi specific packages (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>) including:
@@ -582,10 +649,21 @@ during build for additional customization</p></td>
 </div>
 </div>
 </section>
-<section id="complete-development-environment-with-gnu-radio">
-<h3>Complete development environment with GNU Radio<a class="headerlink" href="#complete-development-environment-with-gnu-radio" title="Link to this heading"></a></h3>
+<section id="building-with-specific-architecture-boot-files-only">
+<h3>Building with specific architecture boot files only<a class="headerlink" href="#building-with-specific-architecture-boot-files-only" title="Link to this heading"></a></h3>
 <div class="literal-block-wrapper docutils container" id="id5">
 <div class="code-block-caption"><span class="caption-number">Listing 5 </span><span class="caption-text">config file settings</span><a class="headerlink" href="#id5" title="Link to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">CONFIG_CARRIERS_ALL</span><span class="o">=</span>n
+<span class="nv">CONFIG_ARCH_ZYNQ</span><span class="o">=</span>y<span class="w">        </span><span class="c1"># Only include Zynq boot files</span>
+<span class="nv">CONFIG_ARCH_ZYNQMP</span><span class="o">=</span>y<span class="w">      </span><span class="c1"># Only include ZynqMP boot files</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="complete-development-environment-with-gnu-radio">
+<h3>Complete development environment with GNU Radio<a class="headerlink" href="#complete-development-environment-with-gnu-radio" title="Link to this heading"></a></h3>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-number">Listing 6 </span><span class="caption-text">config file settings</span><a class="headerlink" href="#id6" title="Link to this code"></a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">CONFIG_DESKTOP</span><span class="o">=</span>y
 <span class="nv">CONFIG_LIBIIO</span><span class="o">=</span>y
 <span class="nv">CONFIG_LIBM2K</span><span class="o">=</span>y
