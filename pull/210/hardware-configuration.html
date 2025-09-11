@@ -110,8 +110,6 @@
 <li><a class="reference internal" href="#finding-the-correct-partition-for-preloader">Finding the Correct Partition for Preloader</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#file-location-reference">File Location Reference</a></li>
-<li><a class="reference internal" href="#verification-and-testing">Verification and Testing</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#next-steps">Next Steps</a></li>
@@ -562,8 +560,8 @@ FAT32 partition:</p>
 <li><p><cite>&lt;target&gt;/socfpga_arria10_socdk_sdmmc.dtb</cite> - Device tree</p></li>
 <li><p><cite>&lt;target&gt;/u-boot.img</cite> - U-Boot proper</p></li>
 <li><p><cite>socfpga_arria10_common/zImage</cite> - Kernel image</p></li>
-<li><p>Create an <cite>extlinux</cite> folder and copy
-<cite>socfpga_arria10_common/extlinux.conf</cite> into it</p></li>
+<li><p>Create an <cite>extlinux</cite> folder and copy <cite>socfpga_arria10_common/extlinux.conf</cite>
+into it</p></li>
 </ol>
 <p>Then write the preloader:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write preloader to the bootloader partition (replace mmcblkXp3 with your actual device)</span>
@@ -595,12 +593,18 @@ sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><
 partition. To identify it:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find your SD card device</span>
 lsblk
-
-<span class="c1"># Look for a device like /dev/mmcblkX with multiple partitions</span>
-<span class="c1"># The third partition (mmcblkXp3) is typically the 4MB bootloader partition</span>
 </pre></div>
 </div>
-<p>Example output:</p>
+<p>Example output on PC:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sdb      8:16   1  29.7G  0 disk
+├─sdb1   8:17   1   256M  0 part /media/user/BOOT
+├─sdb2   8:18   1  29.2G  0 part /media/user/rootfs
+└─sdb3   8:19   1     4M  0 part
+</pre></div>
+</div>
+<p>In this case, <cite>/dev/sdb3</cite> is the 4MB bootloader partition.</p>
+<p>Example output on target board:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
 mmcblk0     179:0    0 29.7G  0 disk
 ├─mmcblk0p1 179:1    0  256M  0 part /mnt/BOOT
@@ -608,66 +612,8 @@ mmcblk0     179:0    0 29.7G  0 disk
 └─mmcblk0p3 179:3    0    4M  0 part
 </pre></div>
 </div>
-<p>In this case, <cite>/dev/mmcblk0p3</cite> is the bootloader partition.</p>
+<p>In this case, <cite>/dev/mmcblk0p3</cite> is the 4MB bootloader partition.</p>
 </section>
-</section>
-<section id="file-location-reference">
-<h3>File Location Reference<a class="headerlink" href="#file-location-reference" title="Link to this heading"></a></h3>
-<p>When manually configuring, you’ll find the required files in your <cite>/boot</cite>
-directory organized like this:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>/boot/
-├── zynq-common/          # Shared Zynq files
-│   ├── uImage
-│   └── uEnv.txt
-├── zynqmp-common/        # Shared ZynqMP files
-│   ├── Image
-│   └── uEnv.txt
-├── versal-common/        # Shared Versal files
-│   └── Image
-├── socfpga_arria10_common/   # Shared Arria10 files
-│   ├── zImage
-│   └── extlinux.conf
-├── &lt;project_name&gt;/       # Project-specific files
-│   ├── BOOT.BIN
-│   ├── devicetree.dtb or system.dtb
-│   └── other project files
-└── *.json                # Configuration metadata
-</pre></div>
-</div>
-</section>
-<section id="verification-and-testing">
-<h3>Verification and Testing<a class="headerlink" href="#verification-and-testing" title="Link to this heading"></a></h3>
-<p>After manual configuration, verify your setup:</p>
-<p><strong>1. Check Boot Messages</strong></p>
-<p>Connect to the serial console (115200 baud) and watch for successful boot
-messages. You should see:</p>
-<ul class="simple">
-<li><p>U-Boot loading and executing</p></li>
-<li><p>Kernel starting</p></li>
-<li><p>Root filesystem mounting</p></li>
-<li><p>Kuiper Linux login prompt</p></li>
-</ul>
-<p><strong>2. Verify Hardware Detection</strong></p>
-<p>Once booted, check if your hardware is properly detected:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List IIO devices (if your project includes IIO devices)</span>
-iio_info
-
-<span class="c1"># Check kernel boot messages</span>
-dmesg<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;your_device_name&quot;</span>
-
-<span class="c1"># Verify device tree loading</span>
-ls<span class="w"> </span>/sys/firmware/devicetree/base/
-</pre></div>
-</div>
-<p><strong>3. Network and System Check</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verify system information</span>
-cat<span class="w"> </span>/etc/os-release
-uname<span class="w"> </span>-a
-
-<span class="c1"># Check network (if configured)</span>
-ip<span class="w"> </span>addr<span class="w"> </span>show
-</pre></div>
-</div>
 </section>
 </section>
 <hr class="docutils" />
