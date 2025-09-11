@@ -469,49 +469,31 @@ Libad9166_IIO, and Libad9361_IIO</p></td>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_RPI_BOOT_FILES</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">y</span></code></p></td>
-<td><p>Include Raspberry Pi boot files (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>) -
-<strong>Enabled by default</strong></p></td>
+<td><p>Include Raspberry Pi boot files (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>) - <strong>Enabled by default</strong></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_CARRIERS_ALL</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_ZYNQ</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">y</span></code></p></td>
-<td><p>Install boot files for all supported carrier architectures (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).
-When enabled, includes boot files for Zynq, ZynqMP, Versal, Arria10,
-and Cyclone5 platforms - <strong>Enabled by default</strong></p></td>
+<td><p>Install Zynq architecture boot files (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_ZYNQ</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">n</span></code></p></td>
-<td><p>Install Zynq architecture boot files only (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).
-Only used when <code class="docutils literal notranslate"><span class="pre">CONFIG_CARRIERS_ALL=n</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_ZYNQMP</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">y</span></code></p></td>
+<td><p>Install ZynqMP architecture boot files (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_ZYNQMP</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">n</span></code></p></td>
-<td><p>Install ZynqMP architecture boot files only (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).
-Only used when <code class="docutils literal notranslate"><span class="pre">CONFIG_CARRIERS_ALL=n</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_VERSAL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">y</span></code></p></td>
+<td><p>Install Versal architecture boot files (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_VERSAL</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">n</span></code></p></td>
-<td><p>Install Versal architecture boot files only (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).
-Only used when <code class="docutils literal notranslate"><span class="pre">CONFIG_CARRIERS_ALL=n</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_ARRIA10</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">y</span></code></p></td>
+<td><p>Install Arria10 architecture boot files (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_ARRIA10</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">n</span></code></p></td>
-<td><p>Install Arria10 architecture boot files only (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).
-Only used when <code class="docutils literal notranslate"><span class="pre">CONFIG_CARRIERS_ALL=n</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_CYCLONE5</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">n</span></code></p></td>
-<td><p>Install Cyclone5 architecture boot files only (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).
-Only used when <code class="docutils literal notranslate"><span class="pre">CONFIG_CARRIERS_ALL=n</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_CYCLONE5</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">y</span></code></p></td>
+<td><p>Install Cyclone5 architecture boot files (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p><strong>Choosing Boot Files Strategy:</strong></p>
-<p>For most users, the default settings (<code class="docutils literal notranslate"><span class="pre">CONFIG_RPI_BOOT_FILES=y</span></code> and
-<code class="docutils literal notranslate"><span class="pre">CONFIG_CARRIERS_ALL=y</span></code>) provide comprehensive hardware support. If you want
-to reduce image size and only need specific architectures, set
-<code class="docutils literal notranslate"><span class="pre">CONFIG_CARRIERS_ALL=n</span></code> and enable only the <code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_*</span></code> options you
-need.</p>
 <p><strong>Architecture to Hardware Mapping:</strong></p>
 <div class="table-wrapper bold-header docutils container">
 <table class="bold-header docutils align-default">

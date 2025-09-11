@@ -250,41 +250,22 @@ These options control which boot files are included in your image:
      - Description
    * - ``CONFIG_RPI_BOOT_FILES``
      - ``y``
-     - Include Raspberry Pi boot files (``y``/``n``) - 
-       **Enabled by default**
-   * - ``CONFIG_CARRIERS_ALL``
-     - ``y``
-     - Install boot files for all supported carrier architectures (``y``/``n``).
-       When enabled, includes boot files for Zynq, ZynqMP, Versal, Arria10, 
-       and Cyclone5 platforms - **Enabled by default**
+     - Include Raspberry Pi boot files (``y``/``n``) - **Enabled by default**
    * - ``CONFIG_ARCH_ZYNQ``
-     - ``n``
-     - Install Zynq architecture boot files only (``y``/``n``). 
-       Only used when ``CONFIG_CARRIERS_ALL=n``
+     - ``y``
+     - Install Zynq architecture boot files (``y``/``n``).
    * - ``CONFIG_ARCH_ZYNQMP``
-     - ``n``
-     - Install ZynqMP architecture boot files only (``y``/``n``). 
-       Only used when ``CONFIG_CARRIERS_ALL=n``
+     - ``y``
+     - Install ZynqMP architecture boot files (``y``/``n``).
    * - ``CONFIG_ARCH_VERSAL``
-     - ``n``
-     - Install Versal architecture boot files only (``y``/``n``). 
-       Only used when ``CONFIG_CARRIERS_ALL=n``
+     - ``y``
+     - Install Versal architecture boot files (``y``/``n``).
    * - ``CONFIG_ARCH_ARRIA10``
-     - ``n``
-     - Install Arria10 architecture boot files only (``y``/``n``). 
-       Only used when ``CONFIG_CARRIERS_ALL=n``
+     - ``y``
+     - Install Arria10 architecture boot files (``y``/``n``).
    * - ``CONFIG_ARCH_CYCLONE5``
-     - ``n``
-     - Install Cyclone5 architecture boot files only (``y``/``n``). 
-       Only used when ``CONFIG_CARRIERS_ALL=n``
-
-**Choosing Boot Files Strategy:**
-
-For most users, the default settings (``CONFIG_RPI_BOOT_FILES=y`` and 
-``CONFIG_CARRIERS_ALL=y``) provide comprehensive hardware support. If you want 
-to reduce image size and only need specific architectures, set 
-``CONFIG_CARRIERS_ALL=n`` and enable only the ``CONFIG_ARCH_*`` options you 
-need.
+     - ``y``
+     - Install Cyclone5 architecture boot files (``y``/``n``).
 
 **Architecture to Hardware Mapping:**
 
