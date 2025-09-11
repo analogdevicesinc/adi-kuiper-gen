@@ -406,14 +406,14 @@ Platform-Specific Manual Steps
 
    Manual configuration requires working with the SD card's boot partition. 
    Always ensure the SD card is properly unmounted from your target hardware 
-   before modifying files on a host PC. Use the **EJECT** function when 
-   removing the SD card from the reader to prevent corruption.
+   before modifying files on a host PC.
 
-.. warning::
+.. note::
 
-   Manual configuration bypasses the automated validation performed by 
-   configure-setup.sh. Ensure you're using compatible file versions for your 
-   specific hardware combination.
+   If the required boot files are missing from your Kuiper image, you can 
+   install them using the ADI package repository. See the :doc:`Repositories 
+   <repositories>` section for detailed instructions on installing 
+   architecture-specific boot packages.
 
 AMD/Xilinx Platforms
 +++++++++++++++++++++
@@ -464,7 +464,7 @@ Then write the preloader:
 .. code-block:: bash
 
    # Write preloader to the bootloader partition (replace mmcblkXp3 with your actual device)
-   sudo dd if=<target>/fit_spl_fpga.itb of=/dev/mmcblk0p3 status=progress
+   sudo dd if=<target>/fit_spl_fpga.itb of=/dev/mmcblk0p3 oflag=sync status=progress
 
 **For Cyclone5 projects** (DE10-Nano, Cyclone V SoC Kit, etc.), copy these 
 files to the root of the BOOT FAT32 partition:
@@ -481,10 +481,8 @@ Then write the preloader:
 
 .. code-block:: bash
 
-   # Clear the partition first
-   sudo dd if=/dev/zero of=/dev/mmcblk0p3 oflag=sync status=progress bs=64k || true
-   # Write preloader
-   sudo dd if=<target>/u-boot-with-spl.sfp of=/dev/mmcblk0p3 oflag=sync status=progress bs=64k
+   # Write preloader to bootloader partition (replace mmcblkXp3 with your actual device)
+   sudo dd if=<target>/u-boot-with-spl.sfp of=/dev/mmcblk0p3 oflag=sync status=progress
 
 Finding the Correct Partition for Preloader
 +++++++++++++++++++++++++++++++++++++++++++

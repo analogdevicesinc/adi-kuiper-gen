@@ -411,7 +411,7 @@ Building with specific architecture boot files only
    :caption: config file settings
 
    CONFIG_CARRIERS_ALL=n
-   CONFIG_ARCH_ZYNQ=y        # Only include Zynq boot files
+   CONFIG_ARCH_VERSAL=y      # Only include Zynq boot files
    CONFIG_ARCH_ZYNQMP=y      # Only include ZynqMP boot files
 
 Complete development environment with GNU Radio

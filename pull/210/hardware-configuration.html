@@ -511,14 +511,13 @@ troubleshooting automated configuration failures.</p>
 <p class="admonition-title">Important</p>
 <p>Manual configuration requires working with the SD card’s boot partition.
 Always ensure the SD card is properly unmounted from your target hardware
-before modifying files on a host PC. Use the <strong>EJECT</strong> function when
-removing the SD card from the reader to prevent corruption.</p>
+before modifying files on a host PC.</p>
 </div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Manual configuration bypasses the automated validation performed by
-configure-setup.sh. Ensure you’re using compatible file versions for your
-specific hardware combination.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the required boot files are missing from your Kuiper image, you can
+install them using the ADI package repository. See the <a class="reference internal" href="repositories.html"><span class="doc">Repositories</span></a> section for detailed instructions on installing
+architecture-specific boot packages.</p>
 </div>
 <section id="amd-xilinx-platforms">
 <h4>AMD/Xilinx Platforms<a class="headerlink" href="#amd-xilinx-platforms" title="Link to this heading"></a></h4>
@@ -565,7 +564,7 @@ into it</p></li>
 </ol>
 <p>Then write the preloader:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write preloader to the bootloader partition (replace mmcblkXp3 with your actual device)</span>
-sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>&lt;target&gt;/fit_spl_fpga.itb<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/mmcblk0p3<span class="w"> </span><span class="nv">status</span><span class="o">=</span>progress
+sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>&lt;target&gt;/fit_spl_fpga.itb<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/mmcblk0p3<span class="w"> </span><span class="nv">oflag</span><span class="o">=</span>sync<span class="w"> </span><span class="nv">status</span><span class="o">=</span>progress
 </pre></div>
 </div>
 <p><strong>For Cyclone5 projects</strong> (DE10-Nano, Cyclone V SoC Kit, etc.), copy these
@@ -580,10 +579,8 @@ files to the root of the BOOT FAT32 partition:</p>
 <cite>socfpga_cyclone5_common/extlinux.conf</cite> into it</p></li>
 </ol>
 <p>Then write the preloader:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clear the partition first</span>
-sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>/dev/zero<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/mmcblk0p3<span class="w"> </span><span class="nv">oflag</span><span class="o">=</span>sync<span class="w"> </span><span class="nv">status</span><span class="o">=</span>progress<span class="w"> </span><span class="nv">bs</span><span class="o">=</span>64k<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
-<span class="c1"># Write preloader</span>
-sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>&lt;target&gt;/u-boot-with-spl.sfp<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/mmcblk0p3<span class="w"> </span><span class="nv">oflag</span><span class="o">=</span>sync<span class="w"> </span><span class="nv">status</span><span class="o">=</span>progress<span class="w"> </span><span class="nv">bs</span><span class="o">=</span>64k
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write preloader to bootloader partition (replace mmcblkXp3 with your actual device)</span>
+sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>&lt;target&gt;/u-boot-with-spl.sfp<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/mmcblk0p3<span class="w"> </span><span class="nv">oflag</span><span class="o">=</span>sync<span class="w"> </span><span class="nv">status</span><span class="o">=</span>progress
 </pre></div>
 </div>
 </section>
