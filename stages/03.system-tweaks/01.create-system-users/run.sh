@@ -24,8 +24,8 @@ chroot "${BUILD_DIR}" << EOF
 	done
 
 	# Set the name of the machine to 'analog'
-	echo "analog" > /etc/hostname
-	echo "127.0.1.1 analog" >> /etc/hosts
+	echo "linux-workshop" > /etc/hostname
+	echo "127.0.1.1 linux-workshop" >> /etc/hosts
 
 	# Set root PATH to all users for the desktop environment
 	echo 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin' > /etc/environment
