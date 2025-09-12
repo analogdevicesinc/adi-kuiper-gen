@@ -18,7 +18,7 @@ export GITHUB_ANALOG_DEVICES="https://github.com/analogdevicesinc"
 export ADI_REPOS="ADI_repos_git_info.txt"
 export TARGET_ARCHITECTURE=${TARGET_ARCHITECTURE:-armhf}
 export BUILD_DIR=${TARGET_ARCHITECTURE}_rootfs
-export IMG_FILE="image_"$(date +%Y-%m-%d)"-ADI-Kuiper-Linux-$TARGET_ARCHITECTURE.img" 
+export IMG_FILE="image_"$(date +%Y-%m-%d)"-ADI-Kuiper-Linux-$TARGET_ARCHITECTURE.img"
 export NUM_JOBS=${NUM_JOBS:-$(nproc)}
 
 export CONFIG_DESKTOP=${CONFIG_DESKTOP:-n}
@@ -37,7 +37,6 @@ export CONFIG_JESD_EYE_SCAN_GTK=${CONFIG_JESD_EYE_SCAN_GTK:-n}
 export CONFIG_COLORIMETER=${CONFIG_COLORIMETER:-n}
 export CONFIG_LINUX_SCRIPTS=${CONFIG_LINUX_SCRIPTS:-n}
 export CONFIG_RPI_BOOT_FILES=${CONFIG_RPI_BOOT_FILES:-n}
-export CONFIG_XILINX_INTEL_BOOT_FILES=${CONFIG_XILINX_INTEL_BOOT_FILES:-n}
 export EXPORT_SOURCES=${EXPORT_SOURCES:-n}
 
 export CONFIG_LIBIIO_CMAKE_ARGS=${CONFIG_LIBIIO_CMAKE_ARGS:-""}
@@ -60,9 +59,13 @@ export BRANCH_JESD_EYE_SCAN_GTK=${BRANCH_JESD_EYE_SCAN_GTK:-main}
 export BRANCH_COLORIMETER=${BRANCH_COLORIMETER:-main}
 export BRANCH_GRM2K=${BRANCH_GRM2K:-main}
 export BRANCH_LINUX_SCRIPTS=${BRANCH_LINUX_SCRIPTS:-kuiper2.0}
-export RELEASE_XILINX_INTEL_BOOT_FILES=${RELEASE_XILINX_INTEL_BOOT_FILES:-2022_r2}
 
-export USE_ADI_REPO_CARRIERS_BOOT=${USE_ADI_REPO_CARRIERS_BOOT:-n}
+export CONFIG_ARCH_ZYNQ=${CONFIG_ARCH_ZYNQ:-n}
+export CONFIG_ARCH_ZYNQMP=${CONFIG_ARCH_ZYNQMP:-n}
+export CONFIG_ARCH_VERSAL=${CONFIG_ARCH_VERSAL:-n}
+export CONFIG_ARCH_ARRIA10=${CONFIG_ARCH_ARRIA10:-n}
+export CONFIG_ARCH_CYCLONE5=${CONFIG_ARCH_CYCLONE5:-n}
+
 export ADI_EVAL_BOARD=${ADI_EVAL_BOARD:-""}
 export CARRIER=${CARRIER:-""}
 export EXTRA_SCRIPT=${EXTRA_SCRIPT:-""}
@@ -128,11 +131,11 @@ export -f install_packages
 # The packages are located in '00.install-packages' directory in every substage.
 for script in $(find stages -type f -name run.sh | sort); do
 	echo "${MAGENTA}Start stage ${script:7:-7}${RESET}"
-	
+
 	if [ -e "${script%%/run.sh}"/00.install-packages ]; then
 		install_packages "${script%%/run.sh}"/00.install-packages
 	fi
-	
+
 	bash -e ${script}
 	echo "End stage ${script:7:-7}"
 done
