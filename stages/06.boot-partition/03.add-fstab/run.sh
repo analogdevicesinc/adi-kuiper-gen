@@ -7,3 +7,4 @@
 # Author: Larisa Radu <larisa.radu@analog.com>
 
 install -v -m 644 "${BASH_SOURCE%%/run.sh}"/files/fstab "${BUILD_DIR}/etc/fstab"
+install -v -m 644 "${BASH_SOURCE%%/run.sh}"/files/README.txt "${BUILD_DIR}/boot/"
