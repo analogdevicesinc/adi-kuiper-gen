@@ -227,6 +227,12 @@ EXTRA_SCRIPT=
 #
 #
 #
+# [DOCKER]
+# Install docker engine, docker compose, docker buildx, as per the official Debian instructions.
+CONFIG_DOCKER=y
+#
+#
+#
 # [HACKS]
 # Various tweaks to speed up / workaround the build process.
 #
