@@ -33,12 +33,17 @@ if [ "${CONFIG_RPI_BOOT_FILES}" = y ]; then
 		# install package from adi-repo
 chroot "${BUILD_DIR}" << EOF
 		apt-get install adi-rpi-boot
+
+		# adi-rpi-boot installs in /boot, move everything to /boot/firmware after
+		mv /boot /tmp/boot
+		mkdir -p /boot
+		mv /tmp/boot /boot/firmware
 EOF
 
 	elif [[ ! -z ${ARTIFACTORY_RPI} ]]; then
-		wget -r -q --progress=bar:force:noscroll -nH --cut-dirs=5 -np -R "index.html*" "-l inf" ${ARTIFACTORY_RPI} -P "${BUILD_DIR}/boot"
-		tar -xf "${BUILD_DIR}/boot/${RPI_MODULES_ARCHIVE_NAME}" -C "${BUILD_DIR}/lib/modules" --no-same-owner
-		rm -rf "${BUILD_DIR}/boot/${RPI_MODULES_ARCHIVE_NAME}"
+		wget -r -q --progress=bar:force:noscroll -nH --cut-dirs=5 -np -R "index.html*" "-l inf" ${ARTIFACTORY_RPI} -P "${BUILD_DIR}/boot/firmware"
+		tar -xf "${BUILD_DIR}/boot/firmware/${RPI_MODULES_ARCHIVE_NAME}" -C "${BUILD_DIR}/lib/modules" --no-same-owner
+		rm -rf "${BUILD_DIR}/boot/firmware/${RPI_MODULES_ARCHIVE_NAME}"
 	else
 		# Get Raspberry Pi properties file corresponding to boot files
 		wget --progress=bar:force:noscroll "$SERVER/$RPI_SPATH/$BRANCH_RPI_BOOT_FILES/$RPI_PROPERTIES"
@@ -76,7 +81,7 @@ EOF
 	
 		# Check if the archives were downloaded correctly and then extract files
 		if [[ $checksum_properties_modules = $checksum_modules && $checksum_properties_boot_files = $checksum_boot_files ]]; then
-			tar -xf $RPI_ARCHIVE_NAME -C "${BUILD_DIR}"/boot --no-same-owner
+			tar -xf $RPI_ARCHIVE_NAME -C "${BUILD_DIR}"/boot/firmware --no-same-owner
 			tar -xf $RPI_MODULES_ARCHIVE_NAME -C "${BUILD_DIR}"/lib/modules --no-same-owner
 		else
 			echo "Something went wrong while downloading the boot files - Aborting."
@@ -84,12 +89,12 @@ EOF
 		fi
 		rm $RPI_ARCHIVE_NAME
 		rm $RPI_MODULES_ARCHIVE_NAME
-		mv $RPI_PROPERTIES "${BUILD_DIR}"/boot
+		mv $RPI_PROPERTIES "${BUILD_DIR}"/boot/firmware
 	fi
 
 	# Add custom files for Raspberry Pi
-	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/cmdline.txt 			 "${BUILD_DIR}/boot/cmdline.txt"
-	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/${TARGET_ARCHITECTURE}/config.txt "${BUILD_DIR}/boot/config.txt"
+	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/cmdline.txt 			 "${BUILD_DIR}/boot/firmware/cmdline.txt"
+	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/${TARGET_ARCHITECTURE}/config.txt "${BUILD_DIR}/boot/firmware/config.txt"
 	
 	# Install Raspberry Pi boot files: start*.elf, fixup*.dat, bootcode.bin and LICENCE.broadcom. 
 	# These files are downloaded as a package from the Raspberry Pi apt repository.
