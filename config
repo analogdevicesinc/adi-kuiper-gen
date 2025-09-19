@@ -233,6 +233,16 @@ CONFIG_DOCKER=y
 #
 #
 #
+# [OPENOCD]
+# Openocd is a tool for on-chip programming and debugging, used when flashing ADI microcontrollers.
+# Github: https://github.com/analogdevicesinc/openocd
+CONFIG_OPENOCD=y
+CONFIG_OPENOCD_CONFIGURE_ARGS="--disable-werror \
+			--enable-cmsis-dap \
+			--enable-linuxgpiod"
+#
+#
+#
 # [HACKS]
 # Various tweaks to speed up / workaround the build process.
 #

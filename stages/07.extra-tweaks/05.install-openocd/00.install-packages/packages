@@ -1,0 +1,11 @@
+libtool
+build-essential
+automake
+autoconf
+texinfo
+libusb-1.0-0-dev
+pkg-config
+libjim-dev
+libhidapi-dev
+gpiod
+libgpiod-dev
