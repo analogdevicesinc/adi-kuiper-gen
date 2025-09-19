@@ -11,6 +11,7 @@ RUN apt-get -y update && \
         build-essential gcc-arm-linux-gnueabihf \
         u-boot-tools gcc-aarch64-linux-gnu gnupg \
         binfmt-support ca-certificates qemu-utils fdisk \
+        git \
     && rm -rf /var/lib/apt/lists/*
     
 COPY . .
