@@ -1,0 +1,4 @@
+[Unit]
+Requires=slcan.service
+After=slcan.service
+

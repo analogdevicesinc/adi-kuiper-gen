@@ -5,7 +5,7 @@
 # This image can be customized by adding one or more of the following libraries and tools.
 #
 # Set the architecture for Kuiper. Options: armhf (for 32 bits), arm64 (for 64 bits).
-TARGET_ARCHITECTURE=armhf
+TARGET_ARCHITECTURE=arm64
 #
 # Set the Debian version for Kuiper. Options: bullseye, bookworm.
 DEBIAN_VERSION=bookworm
@@ -20,23 +20,23 @@ PRESERVE_CONTAINER=n
 #
 # [DESKTOP ENVIRONMENT]
 # Contains XFCE4 desktop environment and X11VNC server.
-CONFIG_DESKTOP=n
+CONFIG_DESKTOP=y
 #
 #
 #
 # [LIBIIO]
 # Libiio is an Analog Devices library for interfacing with Linux IIO devices.
 # Github: https://github.com/analogdevicesinc/libiio
-CONFIG_LIBIIO=n
+CONFIG_LIBIIO=y
 CONFIG_LIBIIO_CMAKE_ARGS="-DWITH_HWMON=ON \
 			-DWITH_SERIAL_BACKEND=ON \
 			-DWITH_MAN=ON \
-			-DWITH_EXAMPLES=ON \
+			-DWITH_EXAMPLES=OFF \
 			-DPYTHON_BINDINGS=ON \
 			-DCMAKE_BUILD_TYPE=Release \
 			-DCMAKE_COLOR_MAKEFILE=OFF \
 			-Bbuild -H."
-BRANCH_LIBIIO=libiio-v0
+BRANCH_LIBIIO=main
 #
 #
 #
@@ -192,9 +192,9 @@ CONFIG_RPI_BOOT_FILES=y
 # Contains boot files for Intel and Xilinx.
 #
 # For armhf:
-CONFIG_ARCH_ZYNQ=y
-CONFIG_ARCH_ARRIA10=y
-CONFIG_ARCH_CYCLONE5=y
+CONFIG_ARCH_ZYNQ=n
+CONFIG_ARCH_ARRIA10=n
+CONFIG_ARCH_CYCLONE5=n
 #
 # For arm64:
 CONFIG_ARCH_ZYNQMP=n
@@ -213,7 +213,7 @@ CARRIER=
 # [RASPBERRY PI SPECIFIC PACKAGES]
 # Install the following RaspberryPi specific packages: raspi-config, GPIO related (pigpio, python3-gpio, raspi-gpio, python3-rpi.gpio),
 # VideoCore debugging related (vcdbg), sense-hat, sense-emu.
-INSTALL_RPI_PACKAGES=n
+INSTALL_RPI_PACKAGES=y
 #
 #
 #
@@ -247,12 +247,19 @@ CONFIG_OPENOCD_CONFIGURE_ARGS="--disable-werror \
 # Various tweaks to speed up / workaround the build process.
 #
 # Temporarily replace /usr/bin/ischroot with a link to /bin/true just during the image build. Workaround for raspi-firmware post-install error.
-HACK_ISCHROOT_TRUE=n
+HACK_ISCHROOT_TRUE=y
 #
 # Temporarily configure dpkg force-unsafe-io just during the image build. Greatly speeds up package
 # installs when on slow storage (e.g. building on a raspberry pi with SD card storage) by not sync-ing
 # the fs between each package.
-HACK_DPKG_UNSAFE_IO=n
+HACK_DPKG_UNSAFE_IO=y
+#
+#
+#
+# [AD-R1M]
+# Robotics reference application
+# Github: https://github.com/analogdevicesinc/openocd
+CONFIG_AD_R1M=y
 #
 #
 #
