@@ -15,7 +15,7 @@
 # - Current directory is '/' (root) of the Kuiper rootfs.
 # - If a file needs to be copied, it should be placed inside 'adi-kuiper-gen'.
 # - If a variable from the configuration file is needed, source the config file to access its value.
-# - At this stage the Kuiper image is not yet partitioned. In order to modify what will be in the boot partition access /boot folder.
+# - At this stage the Kuiper image is not yet partitioned. In order to modify what will be in the boot partition access /boot/firmware folder.
 # - This script will not be in the resulted image. If this is necessary it should be copied manually.
 
 ############## EXAMPLES ##############

@@ -86,9 +86,9 @@ until BOOTLOADER_DEV=$(losetup --show -f -o "${BOOTLOADER_OFFSET}" --sizelimit "
 	fi
 done
 
-echo "/boot: offset ${BOOT_OFFSET}, length ${BOOT_LENGTH}"
-echo "/:     offset ${ROOT_OFFSET}, length ${ROOT_LENGTH}"
-echo "blder: offset ${BOOTLOADER_OFFSET}, length ${BOOTLOADER_LENGTH}"
+echo "/boot/firmware: offset ${BOOT_OFFSET}, length ${BOOT_LENGTH}"
+echo "/:              offset ${ROOT_OFFSET}, length ${ROOT_LENGTH}"
+echo "blder:          offset ${BOOTLOADER_OFFSET}, length ${BOOTLOADER_LENGTH}"
 
 ROOT_FEATURES="^huge_file"
 for FEATURE in metadata_csum 64bit; do
@@ -102,8 +102,8 @@ mkfs.ext4 -L rootfs -O "${ROOT_FEATURES}" "${ROOT_DEV}" > /dev/null
 
 mkdir -p "${EXPORT_ROOTFS_DIR}"
 mount -v "${ROOT_DEV}" "${EXPORT_ROOTFS_DIR}" -t ext4
-mkdir -p "${EXPORT_ROOTFS_DIR}/boot"
-mount -v "${BOOT_DEV}" "${EXPORT_ROOTFS_DIR}/boot" -t vfat
+mkdir -p "${EXPORT_ROOTFS_DIR}/boot/firmware"
+mount -v "${BOOT_DEV}" "${EXPORT_ROOTFS_DIR}/boot/firmware" -t vfat
 
 # Extract UUID of the image
 IMGID="$(dd if="${IMG_FILE}" skip=440 bs=1 count=4 2>/dev/null | xxd -e | cut -f 2 -d' ')"
@@ -115,7 +115,7 @@ sed -i "s/BOOTDEV/PARTUUID=${BOOT_PARTUUID}/" "${BUILD_DIR}/etc/fstab"
 sed -i "s/ROOTDEV/PARTUUID=${ROOT_PARTUUID}/" "${BUILD_DIR}/etc/fstab"
 
 if [ "${CONFIG_RPI_BOOT_FILES}" = y ]; then
-	sed -i "s/ROOTDEV/PARTUUID=${ROOT_PARTUUID}/" "${BUILD_DIR}/boot/cmdline.txt"
+	sed -i "s/ROOTDEV/PARTUUID=${ROOT_PARTUUID}/" "${BUILD_DIR}/boot/firmware/cmdline.txt"
 fi
 
 # Configure setup for a specific project and board
@@ -139,7 +139,7 @@ else
 fi
 
 rsync -aHAXx --exclude /var/cache/apt/archives --inplace --exclude /boot "${BUILD_DIR}/" "${EXPORT_ROOTFS_DIR}/"
-rsync -rtx --inplace "${BUILD_DIR}/boot/" "${EXPORT_ROOTFS_DIR}/boot/"
+rsync -rtx --inplace "${BUILD_DIR}/boot/firmware/" "${EXPORT_ROOTFS_DIR}/boot/firmware/"
 
 sync
 

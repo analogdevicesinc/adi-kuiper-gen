@@ -61,7 +61,7 @@ else
 
 	# Check if the archive was downloaded correctly and then extract files
 	if [ $checksum_latest_boot = $checksum_current_boot ]; then
-		tar xf $XILINX_INTEL_ARCHIVE_NAME -C "${BUILD_DIR}"/boot --no-same-owner
+		tar xf $XILINX_INTEL_ARCHIVE_NAME -C "${BUILD_DIR}"/boot/firmware --no-same-owner
 	else
 		echo "Something went wrong while downloading the boot files - Aborting."
 		exit 1

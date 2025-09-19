@@ -32,8 +32,8 @@ if [ "${EXPORT_SOURCES}" = y ]; then
 	# Check if Xilinx and Intel boot files were downloaded or installed via ADI APT Package Repository
 	if [[ "${CONFIG_XILINX_INTEL_BOOT_FILES}" = y && "${USE_ADI_REPO_CARRIERS_BOOT}" = n ]]; then
 		# Extract SHAs for Linux and HDL boot files in order to download the sources of the binaries from the same commit they were built.
-		LINUX_SHA=$(sed -n 9p "${BUILD_DIR}/boot/$XILINX_INTEL_PROPERTIES" |cut -d"'" -f2)
-		HDL_SHA=$(sed -n 5p "${BUILD_DIR}/boot/$XILINX_INTEL_PROPERTIES" |cut -d"'" -f2)
+		LINUX_SHA=$(sed -n 9p "${BUILD_DIR}/boot/firmware/$XILINX_INTEL_PROPERTIES" |cut -d"'" -f2)
+		HDL_SHA=$(sed -n 5p "${BUILD_DIR}/boot/firmware/$XILINX_INTEL_PROPERTIES" |cut -d"'" -f2)
 		wget --progress=bar:force:noscroll -O /kuiper-volume/sources/adi-boot/linux_${RELEASE_XILINX_INTEL_BOOT_FILES}.zip \
 		https://github.com/analogdevicesinc/linux/archive/${LINUX_SHA}.zip
 		wget --progress=bar:force:noscroll -O /kuiper-volume/sources/adi-boot/hdl_${RELEASE_XILINX_INTEL_BOOT_FILES}.zip \
@@ -43,9 +43,9 @@ if [ "${EXPORT_SOURCES}" = y ]; then
 	# Check if RPI boot files were downloaded or installed via ADI APT Package Repository
 	if [[ "${CONFIG_RPI_BOOT_FILES}" = y && "${USE_ADI_REPO_RPI_BOOT}" = n ]]; then
 		if [[ ! -z ${ARTIFACTORY_RPI} ]]; then
-			RPI_SHA=$(sed -n 2p "${BUILD_DIR}/boot/$RPI_ARTIFACTORY_PROPERTIES" |cut -d'=' -f2)
+			RPI_SHA=$(sed -n 2p "${BUILD_DIR}/boot/firmware/$RPI_ARTIFACTORY_PROPERTIES" |cut -d'=' -f2)
 		else
-			RPI_SHA=$(sed -n 6p "${BUILD_DIR}/boot/$RPI_PROPERTIES" |cut -d'=' -f2)
+			RPI_SHA=$(sed -n 6p "${BUILD_DIR}/boot/firmware/$RPI_PROPERTIES" |cut -d'=' -f2)
 		fi
 		wget --progress=bar:force:noscroll -O /kuiper-volume/sources/adi-boot/rpi_"${BRANCH_RPI_BOOT_FILES}".zip \
 		https://github.com/analogdevicesinc/linux/archive/${RPI_SHA}.zip

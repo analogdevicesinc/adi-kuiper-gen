@@ -33,7 +33,7 @@ EOF
 		echo -e "ADI Eval Board\tCarrier"
 
 		# Print projects and boards
-		find /boot -type f -name "*.json" | while read -r file; do
+		find /boot/firmware -type f -name "*.json" | while read -r file; do
 			jq -r '
 			.projects[]?
 			| select(has("name") and has("board"))
@@ -70,7 +70,7 @@ BOOTLOADER_DEV=${3:-"/dev/mmcblk0p3"}
 if [[ ! -z "${ADI_EVAL_BOARD}"  && ! -z "${CARRIER}" ]]; then
 
 	# Extract project description from .json by selecting the project set in the configuration file
-	PROJECT_DESCRIPTION=$(find /boot -type f -name "*.json" \
+	PROJECT_DESCRIPTION=$(find /boot/firmware -type f -name "*.json" \
 		-exec jq -c '.projects[]? | select(.name=="'${ADI_EVAL_BOARD}'" and .board=="'${CARRIER}'")' {} + \
 		| head -n 1)
 
@@ -82,7 +82,7 @@ if [[ ! -z "${ADI_EVAL_BOARD}"  && ! -z "${CARRIER}" ]]; then
 		kernel=$(echo "$PROJECT_DESCRIPTION" | jq -r '.kernel')
 
 		# Copy kernel to Kuiper boot directory
-		cp -v ${kernel} /boot
+		cp -v ${kernel} /boot/firmware
 		if [ $? -ne 0 ]; then
 			echo "Something went wrong while copying the kernel. Boot partition can't be configured."
 			exit
@@ -92,7 +92,7 @@ if [[ ! -z "${ADI_EVAL_BOARD}"  && ! -z "${CARRIER}" ]]; then
 		paths=$(echo "$PROJECT_DESCRIPTION" | jq -r '.files[].path')
 
 		# Add the correct prefix for all paths and copy them to Kuiper boot directory
-		cp -v $paths /boot
+		cp -v $paths /boot/firmware
 		if [ $? -ne 0 ]; then
 			echo "Something went wrong while copying boot files. Boot partition can't be configured."
 			exit
@@ -102,7 +102,7 @@ if [[ ! -z "${ADI_EVAL_BOARD}"  && ! -z "${CARRIER}" ]]; then
 		if [[ ! -z $(echo "$PROJECT_DESCRIPTION" | jq 'select(.platform == "intel")') ]]; then
 
 			# Create folder if it doesn't exist and move copied extlinux.conf to extlinux folder
-			mkdir -p /boot/extlinux/ && mv -v /boot/extlinux.conf /boot/extlinux/
+			mkdir -p /boot/firmware/extlinux/ && mv -v /boot/firmware/extlinux.conf /boot/firmware/extlinux/
 
 			# Extract preloader file from the project description
 			preloader=$(echo "$PROJECT_DESCRIPTION" | jq -r '.preloader')
