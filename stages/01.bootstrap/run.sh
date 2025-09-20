@@ -6,7 +6,9 @@
 # Copyright (c) 2024 Analog Devices, Inc.
 # Author: Larisa Radu <larisa.radu@analog.com>
 
-update-binfmts --enable qemu-arm
+if [[ "$(uname -m)" != "aarch64" && "$(uname -m)" != "arm*" ]]; then
+	update-binfmts --enable qemu-arm
+fi
 
 mkdir "${BUILD_DIR}"
 debootstrap --arch=${TARGET_ARCHITECTURE} \
@@ -14,7 +16,9 @@ debootstrap --arch=${TARGET_ARCHITECTURE} \
 			--include=ca-certificates \
 			--keyring "/usr/share/keyrings/debian-archive-"${DEBIAN_VERSION}"-stable.gpg" "${DEBIAN_VERSION}" "${BUILD_DIR}"
 
-cp /usr/bin/qemu-arm-static "${BUILD_DIR}"/usr/bin
+if [[ "$(uname -m)" != "aarch64" && "$(uname -m)" != "arm*" ]]; then
+	cp /usr/bin/qemu-arm-static "${BUILD_DIR}"/usr/bin
+fi
 
 # Add adi-repo.list to sources.list
 install -m 644 "${BASH_SOURCE%%/run.sh}"/files/adi-repo.list "${BUILD_DIR}/etc/apt/sources.list.d/adi-repo.list"
