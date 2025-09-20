@@ -46,3 +46,4 @@ EOF
 mkdir "${BUILD_DIR}"/stages
 cp -r /stages "${BUILD_DIR}"/
 cp config "${BUILD_DIR}"/
+
