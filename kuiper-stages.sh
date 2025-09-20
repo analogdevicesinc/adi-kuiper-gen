@@ -72,6 +72,7 @@ export EXTRA_SCRIPT=${EXTRA_SCRIPT:-""}
 export INSTALL_RPI_PACKAGES=${INSTALL_RPI_PACKAGES:-n}
 
 export HACK_ISCHROOT_TRUE=${HACK_ISCHROOT_TRUE:-n}
+export HACK_DPKG_UNSAFE_IO=${HACK_DPKG_UNSAFE_IO:-n}
 
 # Check if architecture is supported
 if [[ ! ${TARGET_ARCHITECTURE} = armhf && ! ${TARGET_ARCHITECTURE} = arm64 ]]; then

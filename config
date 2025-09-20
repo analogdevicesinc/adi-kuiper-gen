@@ -233,6 +233,11 @@ EXTRA_SCRIPT=
 # Temporarily replace /usr/bin/ischroot with a link to /bin/true just during the image build. Workaround for raspi-firmware post-install error.
 HACK_ISCHROOT_TRUE=n
 #
+# Temporarily configure dpkg force-unsafe-io just during the image build. Greatly speeds up package
+# installs when on slow storage (e.g. building on a raspberry pi with SD card storage) by not sync-ing
+# the fs between each package.
+HACK_DPKG_UNSAFE_IO=n
+#
 #
 #
 # [SOURCES]
