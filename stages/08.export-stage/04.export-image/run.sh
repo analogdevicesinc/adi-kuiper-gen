@@ -9,7 +9,7 @@
 EXPORT_ROOTFS_DIR="export_rootfs_dir"
 
 BOOTLOADER_SIZE="$((8 * 1024 * 1024))"
-BOOT_SIZE="$((2048 * 1024 * 1024))"
+BOOT_SIZE="$((128 * 1024 * 1024))"
 ROOT_SIZE=$(du --apparent-size -s "${BUILD_DIR}" --exclude var/cache/apt/archives --exclude boot --block-size=1 | cut -f 1)
 ALIGN="$((4 * 1024 * 1024))"
 ROOT_MARGIN="$(echo "(${ROOT_SIZE} * 0.2 + 200 * 1024 * 1024) / 1" | bc)"
