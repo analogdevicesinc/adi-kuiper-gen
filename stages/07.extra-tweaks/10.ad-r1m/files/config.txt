@@ -58,6 +58,6 @@ dtoverlay=rpi-regulator
 dtoverlay=adis16475,device=adis16470,drdy_pin=4,reset_pin=25,sync_mode=0
 
 # UART0 = slcan, UART4 = CRSF
-dtoverlay=uart0
+dtoverlay=uart0,ctsrts
 dtoverlay=uart4
 
