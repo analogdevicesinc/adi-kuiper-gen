@@ -12,13 +12,6 @@ if [ "${CONFIG_AD_R1M}" = y ]; then
 	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/99-ad-r1m-uarts.rules "${BUILD_DIR}/etc/udev/rules.d/"
 	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/60-com.rules          "${BUILD_DIR}/etc/udev/rules.d/"
 
-	# Add systemctl unit to bring up slcan communication
-	install -m 744 "${BASH_SOURCE%%/run.sh}"/files/setup-slcan.sh             "${BUILD_DIR}/usr/local/bin/"
-	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/slcan.service              "${BUILD_DIR}/etc/systemd/system/"
-	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/slcan.target               "${BUILD_DIR}/etc/systemd/system/"
-	install -m 755 -d                                                         "${BUILD_DIR}/etc/systemd/system/docker.service.d/"
-	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/docker-slcan-override.conf "${BUILD_DIR}/etc/systemd/system/docker.service.d/override.conf"
-
 	# Add chrony config allowing EVAL-ADTF3175D ToF camera module to sync its clock to ours
 	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/chrony-allow-aditof.conf "${BUILD_DIR}/etc/chrony/conf.d/"
 
