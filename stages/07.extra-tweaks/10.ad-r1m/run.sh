@@ -31,7 +31,8 @@ if [ "${CONFIG_AD_R1M}" = y ]; then
 
 	# Add application management scripts
 	ANALOG_UID=$(chroot "${BUILD_DIR}" <<<"id -u analog")
-	install -o $ANALOG_UID -m 755 "${BASH_SOURCE%%/run.sh}"/files/user_scripts/* "${BUILD_DIR}/home/analog/"
+	ANALOG_GID=$(chroot "${BUILD_DIR}" <<<"id -g analog")
+	install -o $ANALOG_UID -g $ANALOG_GID -m 755 "${BASH_SOURCE%%/run.sh}"/files/user_scripts/* "${BUILD_DIR}/home/analog/"
 
 	# Add systemctl unit to start robot at boot time. Needs to be enabled manually
 	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/ros_app.service "${BUILD_DIR}/etc/systemd/system/"
