@@ -1,6 +1,6 @@
 [Unit]
 Description=AD-R1M ROS 2 app
-Requires=docker.service slcan.target
+Requires=docker.service
 
 [Service]
 ExecStart=/home/analog/bringup.sh

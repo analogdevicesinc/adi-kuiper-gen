@@ -34,8 +34,9 @@ if [ "${CONFIG_AD_R1M}" = y ]; then
 	ANALOG_GID=$(chroot "${BUILD_DIR}" <<<"id -g analog")
 	install -o $ANALOG_UID -g $ANALOG_GID -m 755 "${BASH_SOURCE%%/run.sh}"/files/user_scripts/* "${BUILD_DIR}/home/analog/"
 
-	# Add systemctl unit to start robot at boot time. Needs to be enabled manually
+	# Add systemctl unit to start robot at boot time. At first boot, it will likely fail in the background, but having it on by default is easier for users, I think
 	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/ros_app.service "${BUILD_DIR}/etc/systemd/system/"
+	chroot "${BUILD_DIR}" <<<"systemctl enable ros_app.service"
 
 else
         echo "AD-R1M specific setup won't be done because CONFIG_AD_R1M is set to 'n'. Are you on the right adi-kuiper-gen branch?"
