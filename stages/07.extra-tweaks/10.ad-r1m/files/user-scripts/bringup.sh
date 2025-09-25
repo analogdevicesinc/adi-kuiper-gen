@@ -8,7 +8,7 @@ docker compose down
 gpioset 0 24=1
 
 # Reset all CANopen devices - sure way to halt drives and such
-cansend can0 000#8100 # Reset all CANopen devices
+cansend can0 000#8100
 sleep 0.1
 
 # CAN reset

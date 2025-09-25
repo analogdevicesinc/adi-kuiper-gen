@@ -21,9 +21,9 @@ if [ "${CONFIG_AD_R1M}" = y ]; then
 
 	# Add custom kernel, modules, bootfiles
 	# Packaged as tar archive with contents of /boot and /lib/modules/...
-	tar -xpf "${BASH_SOURCE%%/run.sh}"/files/ad-r1m-kernel.tar.gz -C "${BUILD_DIR}/" --keep-directory-symlink
-	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/config.txt        "${BUILD_DIR}/boot/firmware/"
-	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/cmdline.txt       "${BUILD_DIR}/boot/firmware/"
+	tar -xpf "${BASH_SOURCE%%/run.sh}"/files/bootfiles/ad-r1m-kernel.tar.gz -C "${BUILD_DIR}/" --keep-directory-symlink
+	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/bootfiles/config.txt        "${BUILD_DIR}/boot/firmware/"
+	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/bootfiles/cmdline.txt       "${BUILD_DIR}/boot/firmware/"
 
 	# Change hostname to ad-r1m
 	sed -i s/analog/ad-r1m/g "${BUILD_DIR}/etc/hostname"
@@ -32,7 +32,7 @@ if [ "${CONFIG_AD_R1M}" = y ]; then
 	# Add application management scripts
 	ANALOG_UID=$(chroot "${BUILD_DIR}" <<<"id -u analog")
 	ANALOG_GID=$(chroot "${BUILD_DIR}" <<<"id -g analog")
-	install -o $ANALOG_UID -g $ANALOG_GID -m 755 "${BASH_SOURCE%%/run.sh}"/files/user_scripts/* "${BUILD_DIR}/home/analog/"
+	install -o $ANALOG_UID -g $ANALOG_GID -m 755 "${BASH_SOURCE%%/run.sh}"/files/user-scripts/* "${BUILD_DIR}/home/analog/"
 
 	# Add systemctl unit to start robot at boot time. At first boot, it will likely fail in the background, but having it on by default is easier for users, I think
 	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/ros_app.service "${BUILD_DIR}/etc/systemd/system/"
