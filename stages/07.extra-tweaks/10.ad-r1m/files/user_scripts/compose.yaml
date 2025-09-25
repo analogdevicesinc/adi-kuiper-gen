@@ -1,0 +1,84 @@
+services:
+  motors:
+    image: working
+    command: ros2 launch adrd_demo_ros2 just_motors.launch.py can_iface:=slcan0
+    network_mode: host
+    ipc: host
+    pid: host
+    cap_add: [NET_ADMIN]
+  teleop:
+    image: working
+    command: ros2 launch adrd_demo_ros2 just_crsf.launch.py
+    network_mode: host
+    ipc: host
+    pid: host
+    devices: [/dev/ttyCRSF]
+  imu:
+    image: working
+    command: ros2 launch adrd_demo_ros2 just_imu.launch.py
+    network_mode: host
+    ipc: host
+    pid: host
+    privileged: true # for sysfs
+  tof:
+    image: working
+    command: ros2 launch adrd_demo_ros2 depthimage_to_laserscan-launch.py
+    network_mode: host
+    ipc: host
+    pid: host
+  mapping:
+    image: working
+    command: ros2 launch adrd_demo_ros2 online_async_launch.py params_file:=/ros_data/mapping_params.yaml
+    network_mode: host
+    ipc: host
+    pid: host
+    volumes:
+      - ros_data:/ros_data
+    profiles:
+      - mapping
+  localization:
+    image: working
+    command: ros2 launch adrd_demo_ros2 localization_launch.py map:=/ros_data/maps/map.yaml
+    network_mode: host
+    ipc: host
+    pid: host
+    volumes:
+      - ros_data:/ros_data
+    profiles:
+      - navigation
+  nav2:
+    image: working
+    command: ros2 launch adrd_demo_ros2 navigation_launch.py params_file:=/ros_data/navigation_params.yaml
+    network_mode: host
+    ipc: host
+    pid: host
+    volumes:
+      - ros_data:/ros_data
+    profiles:
+      - navigation
+
+## Rviz is useful but we didn't figure out how to properly enable hardware acceleration and VNC-only operation on the Raspberry Pi 5, so it has terrible performance (1-2 cores used up just to do CPU rendering). We recommend using rviz on an external machine connected to the network. Or to help us figure out how to launch rviz on the robot directly without tanking the CPU :)
+#  rviz:
+#    image: astanea/adi_ros2:humble-arm64-desktop
+#   command: rviz2 -d /ros_data/main.rviz
+#   network_mode: host
+#   privileged: true
+#   environment:
+#     - DISPLAY=:0
+#     - QT_X11_NO_MITSHM=1
+#     - LIBGL_ALWAYS_INDIRECT=0
+#     - MESA_LOADER_DRIVER_OVERRIDE=vc4
+#   ipc: host
+#   pid: host
+#   volumes:
+#     - ./ros_data:/ros_data
+#     - /tmp/.X11-unix:/tmp/.X11-unix:rw
+#   devices:
+#     - /dev/dri:/dev/dri
+#   profiles:
+#     - rviz
+# Candump for debugging
+#  candump:
+#    image: working
+#    command: candump  -c -c -ta -x can0 slcan0
+#    network_mode: host
