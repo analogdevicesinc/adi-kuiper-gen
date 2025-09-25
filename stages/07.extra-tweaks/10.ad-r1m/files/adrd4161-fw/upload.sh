@@ -3,7 +3,7 @@
 SCRIPT_DIR=$(readlink -f $(dirname $0))
 
 if [ $# != 1 ]; then
-	echo "Usage: $0 firmware.hex"
+	echo "Usage: $0 path/to/firmware.hex/elf"
 	exit 1
 fi
 
