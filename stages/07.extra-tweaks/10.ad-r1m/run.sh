@@ -38,6 +38,10 @@ if [ "${CONFIG_AD_R1M}" = y ]; then
 	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/ros_app.service "${BUILD_DIR}/etc/systemd/system/"
 	chroot "${BUILD_DIR}" <<<"systemctl enable ros_app.service"
 
+	# Add morse code LED script and services
+	install -m 755 "${BASH_SOURCE%%/run.sh}"/files/led-morse/led-morse.sh            "${BUILD_DIR}/usr/local/bin/"
+	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/led-morse/led-morse-Linux.service "${BUILD_DIR}/etc/systemd/system/"
+	chroot "${BUILD_DIR}" <<<"systemctl enable led-morse-Linux.service"
 else
         echo "AD-R1M specific setup won't be done because CONFIG_AD_R1M is set to 'n'. Are you on the right adi-kuiper-gen branch?"
 fi
