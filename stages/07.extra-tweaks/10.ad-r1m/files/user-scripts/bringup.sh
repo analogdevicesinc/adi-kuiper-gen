@@ -18,7 +18,7 @@ sleep 0.1
 ./recan.sh
 
 # Set IMU frequency
-iio_attr -u ip:localhost -d adis16470 sampling_frequency 100
+iio_attr -u ip:localhost -d adis16470 sampling_frequency 200
 systemctl restart iiod.service
 
 docker compose up
