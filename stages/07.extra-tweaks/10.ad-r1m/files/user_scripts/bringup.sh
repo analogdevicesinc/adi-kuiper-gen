@@ -5,7 +5,7 @@ pushd $(dirname $0)
 docker compose down
 
 # Power on CRSF transceiver, if not already up
-gpioset 0 21=1
+gpioset 0 24=1
 
 # Reset all CANopen devices - sure way to halt drives and such
 cansend can0 000#8100 # Reset all CANopen devices
