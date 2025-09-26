@@ -19,6 +19,18 @@ if [ "${CONFIG_AD_R1M}" = y ]; then
 	install -m 755 -d                                            "${BUILD_DIR}/opt/adrd4161-fw"
 	install -m 755 "${BASH_SOURCE%%/run.sh}"/files/adrd4161-fw/* "${BUILD_DIR}/opt/adrd4161-fw"
 
+	# Add ADRD3161 scripts and prepare venv
+	install -m 755 -d                                         "${BUILD_DIR}/opt/adrd3161"
+	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/adrd3161/* "${BUILD_DIR}/opt/adrd3161"
+	chroot "${BUILD_DIR}" /bin/bash -x <<EOF
+		cd /opt/adrd3161
+		python3 -m venv venv
+		source venv/bin/activate
+		pip install -U pip
+		pip install -r requirements.txt
+EOF
+	chmod 755 "${BUILD_DIR}"/opt/adrd3161/*.sh
+
 	# Add custom kernel, modules, bootfiles
 	# Packaged as tar archive with contents of /boot and /lib/modules/...
 	tar -xpf "${BASH_SOURCE%%/run.sh}"/files/bootfiles/ad-r1m-kernel.tar.gz -C "${BUILD_DIR}/" --keep-directory-symlink
