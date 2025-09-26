@@ -1,1 +1,1 @@
-console=tty1 root=ROOTDEV rootfstype=ext4 fsck.repair=yes rootwait splash cfg80211.ieee80211_regdom=RO
+console=tty1 root=ROOTDEV rootfstype=ext4 fsck.repair=yes rootwait splash

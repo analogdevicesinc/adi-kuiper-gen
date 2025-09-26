@@ -2,13 +2,13 @@
 id=Wired connection 1
 type=ethernet
 autoconnect-priority=10
+autoconnect-retries=3
 interface-name=eth0
 
 [ethernet]
 
 [ipv4]
-dhcp-timeout=5
-link-local=1
+dhcp-timeout=3
 may-fail=false
 method=auto
 
