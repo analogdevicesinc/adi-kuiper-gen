@@ -8,6 +8,7 @@ interface-name=eth0
 
 [ipv4]
 method=link-local
+link-local=enabled
 
 [ipv6]
 addr-gen-mode=default
