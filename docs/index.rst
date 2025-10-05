@@ -22,7 +22,7 @@ system configuration.
 Quick Start
 -----------
 
-Get up and running with Kuiper on Raspberry Pi:
+Get up and running with Kuiper:
 
 #. :doc:`Check prerequisites <prerequisites>` (Ubuntu 22.04 + Docker for 
    building)
@@ -41,9 +41,6 @@ Get up and running with Kuiper on Raspberry Pi:
    For detailed instructions, see the :doc:`Quick Start <quick-start>` section.
 
 #. :doc:`Write the image to an SD card and boot your device <use-kuiper-image>`
-
-**For ADI evaluation boards**: See :doc:`Hardware Configuration 
-<hardware-configuration>` for setup instructions.
 
 ----
 
