@@ -1,7 +1,7 @@
 .. _quick-start:
 
 Quick Start
-============
+===========
 
 This guide will help you get a Kuiper image quickly, either by downloading 
 a pre-built image or building your own with custom settings.
@@ -63,8 +63,8 @@ included in this basic build, see :ref:`kuiper-versions-basic-image`.
 
 For ADI evaluation boards, you can configure your target hardware now by 
 setting ``ADI_EVAL_BOARD`` and ``CARRIER`` in the config file, or configure 
-later after deployment. See :doc:`Hardware Configuration 
-<hardware-configuration>` for further information.
+later after deployment. See :ref:`ADI Evaluation Boards Configuration
+<hardware-configuration-adi-eval-boards>` for further information.
 
 For customization options, see the :doc:`Configuration <configuration>` 
 section.
@@ -98,16 +98,9 @@ follow the pattern ``image_YYYY-MM-DD-ADI-Kuiper-Linux-[arch].zip``.
 
 ----
 
-Next Steps
-----------
+Using the Kuiper Image
+----------------------
 
-- To write the image to an SD card and boot your device, see the :doc:`Using 
-  Kuiper Images <use-kuiper-image>` section
-- To customize your build with additional tools or settings, see the 
-  :doc:`Configuration <configuration>` section
-- To configure your built image for specific ADI evaluation boards, see 
-  :doc:`Hardware Configuration <hardware-configuration>`
-- To understand how the build process works, see the :doc:`Build Flow 
-  <build-flow>` section
-- For troubleshooting build issues, see the :doc:`Troubleshooting 
-  <troubleshooting>` section
+Now that you obtained a bootable image, you can follow the steps in :doc:`Using 
+Kuiper Images <use-kuiper-image>` section in order to write the image to an SD 
+card and boot your device.

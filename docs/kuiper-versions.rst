@@ -11,7 +11,7 @@ and substages will be included. Here are the common build configurations:
 .. _kuiper-versions-basic-image:
 
 Basic Image (Default)
-----------------------
+---------------------
 
 The default configuration includes only the essential packages and 
 configuration needed for a functional system:

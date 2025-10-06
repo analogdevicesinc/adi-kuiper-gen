@@ -39,7 +39,7 @@ each supported architecture family:
      - ``adi-zynq-boot``
    * - ZCU102, ADRV9009-ZU11EG, Jupiter SDR
      - ``adi-zynqmp-boot``
-   * - VCK190, VPK180
+   * - VCK190, VPK180, VHK158
      - ``adi-versal-boot``
    * - Arria10 SoC Development Kit
      - ``adi-arria10-boot``

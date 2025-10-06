@@ -23,8 +23,6 @@ Whether you're prototyping with an ADI evaluation board, developing embedded app
 
 3. **Write the image** to an SD card and boot your device ([see Using Kuiper Images](https://analogdevicesinc.github.io/adi-kuiper-gen/use-kuiper-image.html))
 
-**For ADI evaluation boards**: See [Hardware Configuration](https://analogdevicesinc.github.io/adi-kuiper-gen/hardware-configuration.html) for setup instructions.
-
 ## Build Configurations
 
 ### 🔧 Basic Image (Default)
