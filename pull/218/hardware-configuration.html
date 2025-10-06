@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Configure Kuiper images for ADI evaluation boards and Raspberry Pi platforms with automated tools and manual options for flexible deployment" name="description" />
+
+    <title>Hardware Configuration &#8212; Kuiper  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8e8a900e" />
+    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=85dade36" />
+    <script async="async" src="_static/app.umd.js?v=6a7eec22"></script>
+    <link rel="icon" href="_static/icon.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Configuration" href="configuration.html" />
+    <link rel="prev" title="Using Kuiper Images" href="use-kuiper-image.html" />
+   
+  
+  
+  <meta name="repository" content="adi-kuiper-gen">
+  <meta name="version" content="latest">
+  
+    <meta name="page_source_suffix" content=".rst">
+  
+  
+  
+
+
+<style>
+  body {
+    
+  }
+
+  body.dark {
+    
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body:not(.light) {
+      
+    }
+  }
+</style>
+  </head>
+  
+    <body>
+  
+  <input type="checkbox" id="input-show-toc">
+  <input type="checkbox" id="input-show-localtoc">
+  <input type="checkbox" id="input-show-repotoc">
+
+  
+  <div class="search-area">
+    <form action="" method="get">
+      <input type="text" name="q" aria-labelledby="search-documentation" value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="search" placeholder="Search"/>
+      <button class="icon"></button>
+    </form>
+  </div>
+  
+
+  <header>
+    <div id="left">
+      <label id="show-sidebar" class="icon" for="input-show-toc" title="Show/hide index"></label>
+    </div>
+    <div id="right">
+      <span>
+        <a id="logo-org" href="https://analog.com" aria-label="Analog Devices Inc. landing page"></a>
+        <div class="vertical-divider"></div>
+        
+        <label id="show-repotoc" for="input-show-repotoc" title="Show/hide docs" tabindex="0">Docs</label>
+        
+        <a id="logo" href="index.html">
+          <div>Kuiper</div>
+        </a>
+      </span>
+      <span class="reverse">
+        <label id="show-localtoc" class="icon" for="input-show-localtoc" title="Show/hide contents"></label>
+      </span>
+    </div>
+  </header>
+
+
+  <div class="repotoc-tree overlay">
+    <root>
+  <a href="./index.html" class="current">Kuiper</a>
+</root>
+
+  </div>
+    <div class="localtoc">
+      <div class="tocwrapper">
+        <div class="header localtoc-header">
+          <a id="scroll-up" href="#top-anchor" title="Back to top"></a>
+        </div>
+        <nav>
+          <ul>
+<li><a class="reference internal" href="#">Hardware Configuration</a><ul>
+<li><a class="reference internal" href="#adi-evaluation-boards">ADI Evaluation Boards</a><ul>
+<li><a class="reference internal" href="#when-to-configure-hardware">When to Configure Hardware</a></li>
+<li><a class="reference internal" href="#common-workflows">Common Workflows</a></li>
+<li><a class="reference internal" href="#automated-hardware-reconfiguration">Automated Hardware Reconfiguration</a><ul>
+<li><a class="reference internal" href="#discovering-available-hardware">Discovering Available Hardware</a></li>
+<li><a class="reference internal" href="#reconfiguration-process">Reconfiguration Process</a></li>
+<li><a class="reference internal" href="#what-happens-during-reconfiguration">What Happens During Reconfiguration</a></li>
+<li><a class="reference internal" href="#configuration-examples">Configuration Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#manual-configuration-advanced">Manual Configuration (Advanced)</a><ul>
+<li><a class="reference internal" href="#understanding-what-configure-setup-sh-does">Understanding What configure-setup.sh Does</a></li>
+<li><a class="reference internal" href="#platform-specific-manual-steps">Platform-Specific Manual Steps</a><ul>
+<li><a class="reference internal" href="#amd-xilinx-platforms">AMD/Xilinx Platforms</a></li>
+<li><a class="reference internal" href="#intel-altera-platforms">Intel/Altera Platforms</a></li>
+<li><a class="reference internal" href="#finding-the-bootloader-partition">Finding the Bootloader Partition</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#raspberry-pi">Raspberry Pi</a><ul>
+<li><a class="reference internal" href="#device-tree-overlays">Device Tree Overlays</a><ul>
+<li><a class="reference internal" href="#method-1-persistent-configuration">Method 1: Persistent Configuration</a></li>
+<li><a class="reference internal" href="#method-2-dynamic-loading">Method 2: Dynamic Loading</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#available-overlays">Available Overlays</a></li>
+<li><a class="reference internal" href="#common-overlay-use-cases">Common Overlay Use Cases</a></li>
+<li><a class="reference internal" href="#removing-overlays">Removing Overlays</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </nav>
+      </div>
+    </div>
+
+  
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+    <a id="logo" href="index.html">
+      <img class="only-light" src="_static/logo_light.png"/>
+      <img class="only-dark" src="_static/logo_dark.png"/>
+    </a><input id="input-switch-toc" type="checkbox">
+<label id="show-repotoc" for="input-switch-toc">
+All content
+</label>
+<label id="show-toc" for="input-switch-toc">
+Content on this topic
+</label>
+<div class="repotoc-tree">
+  <root>
+  <a href="./index.html" class="current">Kuiper</a>
+</root>
+
+</div>
+<div class="toc-tree">
+  <html>
+  <body><p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use-kuiper-image.html">Using Kuiper Images</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Hardware Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration &amp; Building</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kuiper-versions.html">Kuiper Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-flow.html">Build Flow</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="stage-reference.html">Stage Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customization.html">Custom Script Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="repositories.html">Repositories</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</body>
+</html>
+
+</div>
+        </div>
+      </div>
+
+  <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper" id="top-anchor">
+          <div class="body-header">
+  <nav class="breadcrumb empty"><ol></ol></nav>
+</div>
+          <div class="body" role="main">
+            
+  <section id="hardware-configuration">
+<span id="id1"></span><h1>Hardware Configuration<a class="headerlink" href="#hardware-configuration" title="Link to this heading"></a></h1>
+<p>Kuiper supports multiple hardware platforms, each with different setup
+requirements:</p>
+<dl class="simple">
+<dt><strong>ADI Evaluation Boards</strong></dt><dd><p>Require configuration to specify which evaluation board and carrier
+combination you’re using. This can be done during the build process or
+after deployment. Check out the <a class="reference internal" href="#hardware-configuration-adi-eval-boards"><span class="std std-ref">ADI Evaluation Boards</span></a>
+dedicated section.</p>
+</dd>
+<dt><strong>Raspberry Pi</strong></dt><dd><p>Works immediately after flashing with no configuration required. This
+section documents optional customizations like device tree overlays. Check
+out the <a class="reference internal" href="#hardware-configuration-raspberry-pi"><span class="std std-ref">Raspberry Pi</span></a> dedicated section.</p>
+</dd>
+</dl>
+<hr class="docutils" />
+<section id="adi-evaluation-boards">
+<span id="hardware-configuration-adi-eval-boards"></span><h2>ADI Evaluation Boards<a class="headerlink" href="#adi-evaluation-boards" title="Link to this heading"></a></h2>
+<p>ADI evaluation boards require configuration to work with Kuiper images.
+You must specify both your evaluation board (e.g., AD9361-FMCOMMS2) and
+carrier platform (e.g., ZedBoard, ZC706) so the system can load the
+correct boot files.</p>
+<p>Kuiper provides flexible configuration options:</p>
+<dl class="simple">
+<dt><strong>Build-Time Configuration (Optional)</strong></dt><dd><p>Set <code class="docutils literal notranslate"><span class="pre">ADI_EVAL_BOARD</span></code> and <code class="docutils literal notranslate"><span class="pre">CARRIER</span></code> parameters in your config file
+before building. Your image will be automatically configured for that
+hardware combination during the build process.</p>
+</dd>
+<dt><strong>Runtime Reconfiguration (Always Available)</strong></dt><dd><p>Use the <code class="docutils literal notranslate"><span class="pre">configure-setup.sh</span></code> script to configure or reconfigure your
+image for different hardware combinations after deployment. This script
+is always installed and available.</p>
+</dd>
+</dl>
+<p><strong>Key Benefits</strong></p>
+<ul class="simple">
+<li><p>Set defaults at build time for your primary hardware target</p></li>
+<li><p>Reconfigure anytime for testing different evaluation boards</p></li>
+<li><p>Use the same image across multiple hardware platforms</p></li>
+<li><p>No rebuilding required when switching hardware configurations</p></li>
+</ul>
+<section id="when-to-configure-hardware">
+<h3>When to Configure Hardware<a class="headerlink" href="#when-to-configure-hardware" title="Link to this heading"></a></h3>
+<p>Hardware configuration is useful when you need to:</p>
+<ul class="simple">
+<li><p>Set up your primary hardware during the build process for immediate use</p></li>
+<li><p>Test multiple evaluation boards with the same Kuiper installation</p></li>
+<li><p>Switch between development and production hardware without rebuilding</p></li>
+<li><p>Explore different ADI evaluation projects on various carrier boards</p></li>
+<li><p>Use a single image across multiple hardware setups</p></li>
+</ul>
+</section>
+<section id="common-workflows">
+<h3>Common Workflows<a class="headerlink" href="#common-workflows" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><strong>Single Hardware Target</strong></dt><dd><p>Set <code class="docutils literal notranslate"><span class="pre">ADI_EVAL_BOARD</span></code> and <code class="docutils literal notranslate"><span class="pre">CARRIER</span></code> during build for automatic
+configuration. Your image boots ready to use.</p>
+</dd>
+<dt><strong>Multi-Hardware Development</strong></dt><dd><p>Build with your primary hardware configured, then use runtime
+reconfiguration to test other combinations as needed.</p>
+</dd>
+<dt><strong>Flexible Lab Image</strong></dt><dd><p>Build without specifying hardware (leave <code class="docutils literal notranslate"><span class="pre">ADI_EVAL_BOARD</span></code> and
+<code class="docutils literal notranslate"><span class="pre">CARRIER</span></code> empty), then configure each deployment using the runtime
+script.</p>
+</dd>
+</dl>
+</section>
+<section id="automated-hardware-reconfiguration">
+<h3>Automated Hardware Reconfiguration<a class="headerlink" href="#automated-hardware-reconfiguration" title="Link to this heading"></a></h3>
+<p>The recommended method for configuring your Kuiper image is the
+<code class="docutils literal notranslate"><span class="pre">configure-setup.sh</span></code> script. This script handles all technical details
+of copying files, updating configurations, and preparing your system for
+different hardware combinations.</p>
+<section id="discovering-available-hardware">
+<h4>Discovering Available Hardware<a class="headerlink" href="#discovering-available-hardware" title="Link to this heading"></a></h4>
+<p>Before reconfiguring, you need to know what combinations your Kuiper
+image supports. The configuration script includes a discovery feature.</p>
+<p>To see available hardware combinations:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>--help
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Usage:
+  sudo configure-setup.sh [OPTIONS] [ARGUMENTS]
+
+Description:
+  Script that prepares Kuiper image to boot on a carrier board.
+
+Arguments:
+  eval-board        Name of the project
+  carrier   Carrier board name
+
+Options:
+  -h, --help        Show this help message
+
+Example:
+  sudo configure-setup.sh ad4003 zed
+
+
+Available projects in your Kuiper image:
+
+ADI Eval Board    Carrier
+ad9361-fmcomms2   zed
+ad9361-fmcomms2   zc706
+ad4003            zed
+adrv9009-zu11eg   adrv9009-zu11eg-revb
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>This output shows all evaluation board and carrier combinations that your
+specific Kuiper image supports.</p>
+</section>
+<section id="reconfiguration-process">
+<h4>Reconfiguration Process<a class="headerlink" href="#reconfiguration-process" title="Link to this heading"></a></h4>
+<p>Hardware reconfiguration requires root access (the <code class="docutils literal notranslate"><span class="pre">analog</span></code> user has
+sudo privileges) and that your system runs from an SD card or storage
+device. The process varies depending on whether you’re switching to
+different physical hardware or reconfiguring for the same hardware.</p>
+<p>Follow these steps:</p>
+<ol class="arabic">
+<li><p><strong>Log into your current Kuiper system</strong> via console, SSH, or VNC.</p></li>
+<li><p><strong>Check available configurations</strong> (if you haven’t already):</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>--help
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div></li>
+<li><p><strong>Run the configuration command</strong> with your desired hardware
+combination:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>&lt;eval-board&gt;<span class="w"> </span>&lt;carrier&gt;
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>For example, to configure for AD9361-FMCOMMS2 on ZedBoard:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>ad9361-fmcomms2<span class="w"> </span>zed
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Successfully prepared boot partition for running project ad9361-fmcomms2 on zedboard.
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div></li>
+<li><p><strong>Shutdown your system</strong> (for hardware changes) or <strong>reboot</strong> (for
+same hardware):</p>
+<p>For different hardware platforms:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>shutdown<span class="w"> </span>-h<span class="w"> </span>now
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>For same hardware reconfiguration:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>reboot
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div></li>
+<li><p><strong>Move the SD card</strong> (only if switching to different hardware):</p>
+<ul class="simple">
+<li><p>Remove the SD card from your current hardware</p></li>
+<li><p>Insert it into your target hardware platform</p></li>
+<li><p>Skip this step if reconfiguring for the same hardware</p></li>
+</ul>
+</li>
+<li><p><strong>Boot your target system</strong>:</p>
+<ul class="simple">
+<li><p>Power on the target hardware</p></li>
+<li><p>The system will boot with the new configuration</p></li>
+</ul>
+</li>
+</ol>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<ul class="simple">
+<li><p>Configuration changes take effect only after a complete boot cycle.</p></li>
+<li><p>When switching between different carrier boards (e.g., ZedBoard to
+ZC706), physically move the SD card to the new hardware.</p></li>
+<li><p>For same-hardware reconfigurations, use <code class="docutils literal notranslate"><span class="pre">reboot</span></code> instead of the
+full shutdown/move/boot process.</p></li>
+<li><p>Always use <code class="docutils literal notranslate"><span class="pre">shutdown</span> <span class="pre">-h</span> <span class="pre">now</span></code> when moving to different physical
+hardware to ensure proper system state.</p></li>
+</ul>
+</div>
+</section>
+<section id="what-happens-during-reconfiguration">
+<h4>What Happens During Reconfiguration<a class="headerlink" href="#what-happens-during-reconfiguration" title="Link to this heading"></a></h4>
+<p>When you run the configuration script, it automatically handles all
+technical details:</p>
+<dl class="simple">
+<dt><strong>File Management</strong></dt><dd><p>The script identifies and copies all required files for your specific
+hardware combination, including kernels, device trees, and boot
+configurations.</p>
+</dd>
+<dt><strong>Platform Adaptation</strong></dt><dd><p>Different hardware platforms require different boot procedures. The
+script handles these variations automatically, including special
+requirements for Intel-based systems.</p>
+</dd>
+<dt><strong>Verification and Feedback</strong></dt><dd><p>The script reports success or failure for each operation, allowing you
+to confirm configuration completed properly before rebooting.</p>
+</dd>
+</dl>
+</section>
+<section id="configuration-examples">
+<h4>Configuration Examples<a class="headerlink" href="#configuration-examples" title="Link to this heading"></a></h4>
+<p><strong>Same Hardware Reconfiguration</strong></p>
+<p>When testing different evaluation board projects on the same carrier
+board, use the simple reboot workflow since no physical hardware changes:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>ad4003<span class="w"> </span>zed
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Successfully prepared boot partition for running project ad4003 on zed.
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>reboot
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>Later, switch to a different project:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>ad9361-fmcomms2<span class="w"> </span>zed
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Successfully prepared boot partition for running project ad9361-fmcomms2 on zedboard.
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>reboot
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p><strong>Different Hardware Platforms</strong></p>
+<p>When switching between different carrier boards, follow the complete
+shutdown/move/boot workflow:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>ad9361-fmcomms2<span class="w"> </span>zed
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Successfully prepared boot partition for running project ad9361-fmcomms2 on zedboard.
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>shutdown<span class="w"> </span>-h<span class="w"> </span>now
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>After shutdown, remove the SD card from the ZedBoard and insert it into
+your ZC706 carrier board, then power on the ZC706.</p>
+<p>Later, reconfigure for the same project on ZC706:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>ad9361-fmcomms2<span class="w"> </span>zc706
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Successfully prepared boot partition for running project ad9361-fmcomms2 on zc706.
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>shutdown<span class="w"> </span>-h<span class="w"> </span>now
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>Again, move the SD card from ZC706 to your target hardware and power on.</p>
+<p><strong>Development and Testing Workflow</strong></p>
+<p>A common development workflow combines both scenarios - testing on
+development hardware, then deploying to production hardware:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Development phase: test different projects on ZedBoard</span>
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>ad9361-fmcomms2<span class="w"> </span>zed
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>reboot
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>Run development tests, then:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>ad4003<span class="w"> </span>zed
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>reboot
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>When ready for production deployment:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>ad9361-fmcomms2<span class="w"> </span>zc706
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>shutdown<span class="w"> </span>-h<span class="w"> </span>now
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>Remove SD card from ZedBoard, insert into ZC706 production hardware, and
+power on.</p>
+<p>On production hardware, verify configuration:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>--help
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>Confirm your project shows in the available list.</p>
+</section>
+</section>
+<section id="manual-configuration-advanced">
+<h3>Manual Configuration (Advanced)<a class="headerlink" href="#manual-configuration-advanced" title="Link to this heading"></a></h3>
+<p>While the automated <code class="docutils literal notranslate"><span class="pre">configure-setup.sh</span></code> script handles most
+configuration scenarios, manual configuration may be necessary when:</p>
+<ul class="simple">
+<li><p>The automated script fails or reports errors</p></li>
+<li><p>You need custom modifications with specific file versions</p></li>
+<li><p>Your Kuiper system is not functioning and the script is unavailable</p></li>
+<li><p>You’re working on a host PC to prepare SD cards before deployment</p></li>
+<li><p>You need to understand the boot process for development or debugging</p></li>
+</ul>
+<p>The manual process involves the same file operations that the automated
+script performs, but gives you direct control over each step.</p>
+<section id="understanding-what-configure-setup-sh-does">
+<h4>Understanding What configure-setup.sh Does<a class="headerlink" href="#understanding-what-configure-setup-sh-does" title="Link to this heading"></a></h4>
+<p>For manual configuration, it helps to understand the technical process
+that the automated script performs:</p>
+<ol class="arabic simple">
+<li><p><strong>Project Discovery</strong>: Searches <code class="docutils literal notranslate"><span class="pre">/boot</span></code> for JSON files containing
+metadata about available hardware combinations, matching your
+specified evaluation board and carrier.</p></li>
+<li><p><strong>File Selection</strong>: Extracts file paths from the JSON metadata,
+identifying which kernel (Image/uImage/zImage), device tree, and boot
+files are needed for your specific hardware.</p></li>
+<li><p><strong>Boot Partition Updates</strong>: Copies all required files to <code class="docutils literal notranslate"><span class="pre">/boot</span></code>,
+including platform-specific files like BOOT.BIN, device trees, and
+common files like kernel images and U-Boot configurations.</p></li>
+<li><p><strong>Platform-Specific Operations</strong>: For Intel platforms, creates
+extlinux directories and writes preloader files to the dedicated
+bootloader partition (typically <code class="docutils literal notranslate"><span class="pre">/dev/mmcblk0p3</span></code>) using low-level
+disk operations.</p></li>
+<li><p><strong>Validation</strong>: Verifies each file operation completed successfully
+and reports any errors that would prevent proper booting.</p></li>
+</ol>
+<p>Understanding these steps helps when performing manual configuration or
+troubleshooting automated configuration failures.</p>
+</section>
+<section id="platform-specific-manual-steps">
+<h4>Platform-Specific Manual Steps<a class="headerlink" href="#platform-specific-manual-steps" title="Link to this heading"></a></h4>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Manual configuration requires working with the SD card’s boot
+partition. Always ensure the SD card is properly unmounted from your
+target hardware before modifying files on a host PC.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If required boot files are missing from your Kuiper image, install
+them using the ADI package repository. See the <a class="reference internal" href="repositories.html"><span class="doc">Repositories</span></a> section for detailed instructions.</p>
+</div>
+<section id="amd-xilinx-platforms">
+<h5>AMD/Xilinx Platforms<a class="headerlink" href="#amd-xilinx-platforms" title="Link to this heading"></a></h5>
+<p><strong>For Zynq projects</strong> (ZedBoard, ZC702, ZC706), copy these files to the
+root of the BOOT FAT32 partition:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;target&gt;/BOOT.BIN</span></code> - First stage bootloader with FPGA bitstream</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;target&gt;/&lt;specific_folder&gt;/devicetree.dtb</span></code> - Device tree for your
+specific project</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">zynq-common/uImage</span></code> - Kernel image for Zynq platforms</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">zynq-common/uEnv.txt</span></code> - U-Boot environment configuration</p></li>
+</ol>
+<p><strong>For ZynqMP projects</strong> (ZCU102, ADRV9009-ZU11EG), copy these files to
+the root of the BOOT FAT32 partition:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;target&gt;/BOOT.BIN</span></code> - First stage bootloader with FPGA bitstream</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;target&gt;/&lt;specific_folder&gt;/system.dtb</span></code> - Device tree for your
+specific project</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">zynqmp-common/Image</span></code> - Kernel image for ZynqMP platforms</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">zynqmp-common/uEnv.txt</span></code> - U-Boot environment configuration</p></li>
+</ol>
+<p><strong>For Versal projects</strong> (VCK190, VPK180), copy these files to the root
+of the BOOT FAT32 partition:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;target&gt;/BOOT.BIN</span></code> - Platform Loader and Manager (PLM) and boot
+components</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;target&gt;/&lt;specific_folder&gt;/system.dtb</span></code> - Device tree for your
+specific project</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;target&gt;/boot.scr</span></code> - U-Boot script for Versal boot sequence</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">versal-common/Image</span></code> - Kernel image for Versal platforms</p></li>
+</ol>
+</section>
+<section id="intel-altera-platforms">
+<h5>Intel/Altera Platforms<a class="headerlink" href="#intel-altera-platforms" title="Link to this heading"></a></h5>
+<p>Intel platforms require additional steps beyond copying files to the boot
+partition. You must also write preloader files to a dedicated bootloader
+partition.</p>
+<p><strong>For Arria10 SoC projects</strong>, copy these files to the root of the BOOT
+FAT32 partition:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;target&gt;/fit_spl_fpga.itb</span></code> - FPGA configuration and SPL image</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;target&gt;/socfpga_arria10_socdk_sdmmc.dtb</span></code> - Device tree</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;target&gt;/u-boot.img</span></code> - U-Boot proper</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">socfpga_arria10_common/zImage</span></code> - Kernel image</p></li>
+<li><p>Create an <code class="docutils literal notranslate"><span class="pre">extlinux</span></code> folder and copy
+<code class="docutils literal notranslate"><span class="pre">socfpga_arria10_common/extlinux.conf</span></code> into it</p></li>
+</ol>
+<p>Then write the preloader:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>&lt;target&gt;/fit_spl_fpga.itb<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/mmcblk0p3<span class="w"> </span><span class="nv">bs</span><span class="o">=</span><span class="m">512</span><span class="w"> </span><span class="nv">status</span><span class="o">=</span>progress
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>Replace <code class="docutils literal notranslate"><span class="pre">mmcblk0p3</span></code> with your actual bootloader partition device.</p>
+<p><strong>For Cyclone5 projects</strong> (DE10-Nano, Cyclone V SoC Kit), copy these
+files to the root of the BOOT FAT32 partition:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;target&gt;/soc_system.rbf</span></code> - FPGA bitstream</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;target&gt;/socfpga.dtb</span></code> - Device tree</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;target&gt;/u-boot.scr</span></code> - U-Boot script</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;target&gt;/u-boot-with-spl.sfp</span></code> - SPL and U-Boot combined</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">socfpga_cyclone5_common/zImage</span></code> - Kernel image</p></li>
+<li><p>Create an <code class="docutils literal notranslate"><span class="pre">extlinux</span></code> folder and copy
+<code class="docutils literal notranslate"><span class="pre">socfpga_cyclone5_common/extlinux.conf</span></code> into it</p></li>
+</ol>
+<p>Then write the preloader:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>&lt;target&gt;/u-boot-with-spl.sfp<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/mmcblk0p3<span class="w"> </span><span class="nv">bs</span><span class="o">=</span><span class="m">512</span><span class="w"> </span><span class="nv">status</span><span class="o">=</span>progress
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>Replace <code class="docutils literal notranslate"><span class="pre">mmcblk0p3</span></code> with your actual bootloader partition device.</p>
+</section>
+<section id="finding-the-bootloader-partition">
+<h5>Finding the Bootloader Partition<a class="headerlink" href="#finding-the-bootloader-partition" title="Link to this heading"></a></h5>
+<p>For Intel platforms, identify the correct partition for the preloader.</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lsblk
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>Example output on PC:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lsblk
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sdb      8:16   1  29.7G  0 disk
+├─sdb1   8:17   1   256M  0 part /media/user/BOOT
+├─sdb2   8:18   1  29.2G  0 part /media/user/rootfs
+└─sdb3   8:19   1     4M  0 part
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>In this case, <code class="docutils literal notranslate"><span class="pre">/dev/sdb3</span></code> is the 4MB bootloader partition.</p>
+<p>Example output on target board:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lsblk
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+mmcblk0     179:0    0 29.7G  0 disk
+├─mmcblk0p1 179:1    0  256M  0 part /mnt/BOOT
+├─mmcblk0p2 179:2    0 29.2G  0 part
+└─mmcblk0p3 179:3    0    4M  0 part
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>In this case, <code class="docutils literal notranslate"><span class="pre">/dev/mmcblk0p3</span></code> is the 4MB bootloader partition.</p>
+<hr class="docutils" />
+</section>
+</section>
+</section>
+</section>
+<section id="raspberry-pi">
+<span id="hardware-configuration-raspberry-pi"></span><h2>Raspberry Pi<a class="headerlink" href="#raspberry-pi" title="Link to this heading"></a></h2>
+<p>Raspberry Pi images work out-of-box without configuration. The SD card
+boots immediately after flashing - no setup required.</p>
+<p>This section covers optional customizations you can make after your
+system is running.</p>
+<section id="device-tree-overlays">
+<h3>Device Tree Overlays<a class="headerlink" href="#device-tree-overlays" title="Link to this heading"></a></h3>
+<p>Raspberry Pi uses device tree overlays to enable additional hardware
+features or configure peripherals. There are two methods to load
+overlays.</p>
+<section id="method-1-persistent-configuration">
+<h4>Method 1: Persistent Configuration<a class="headerlink" href="#method-1-persistent-configuration" title="Link to this heading"></a></h4>
+<p>Edit <code class="docutils literal notranslate"><span class="pre">/boot/config.txt</span></code> to automatically load overlays on every boot.</p>
+<ol class="arabic">
+<li><p>Open the configuration file and add a new line with your overlay:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dtoverlay=&lt;overlay_name&gt;[,&lt;overlay_arguments&gt;]
+</pre></div>
+</div>
+<p>For example:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dtoverlay=spi0-1cs
+</pre></div>
+</div>
+</li>
+<li><p>Save the file and reboot:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>reboot
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div></li>
+</ol>
+<p>Changes take effect after reboot.</p>
+</section>
+<section id="method-2-dynamic-loading">
+<h4>Method 2: Dynamic Loading<a class="headerlink" href="#method-2-dynamic-loading" title="Link to this heading"></a></h4>
+<p>Load overlays at runtime without rebooting or modifying configuration
+files. Raspberry Pi package <code class="docutils literal notranslate"><span class="pre">libraspberrypi-bin</span></code> needs to be installed for
+this method.</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>dtoverlay<span class="w"> </span>&lt;overlay_name&gt;<span class="o">[</span>,&lt;overlay_arguments&gt;<span class="o">]</span>
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>For example:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>dtoverlay<span class="w"> </span>spi0-1cs
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Dynamically loaded overlays are lost on reboot. Use Method 1 for
+permanent configuration.</p>
+</div>
+</section>
+</section>
+<section id="available-overlays">
+<h3>Available Overlays<a class="headerlink" href="#available-overlays" title="Link to this heading"></a></h3>
+<p>Overlay binaries (<code class="docutils literal notranslate"><span class="pre">*.dtbo</span></code>) are located in <code class="docutils literal notranslate"><span class="pre">/boot/overlays</span></code>.</p>
+<p>To list available overlays:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>/boot/overlays/
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>rpi-ad7091r8.dtbo
+rpi-ad7124-8-all-diff.dtbo
+rpi-ad7124.dtbo
+rpi-ad7173.dtbo
+rpi-ad7190.dtbo
+rpi-ad7191.dtbo
+rpi-ad7293.dtbo
+...
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Specify only the overlay name without extension or path. For example,
+use <code class="docutils literal notranslate"><span class="pre">dtoverlay=my-overlay</span></code> not
+<code class="docutils literal notranslate"><span class="pre">dtoverlay=/boot/overlays/my-overlay.dtbo</span></code>.</p>
+</div>
+</section>
+<section id="common-overlay-use-cases">
+<h3>Common Overlay Use Cases<a class="headerlink" href="#common-overlay-use-cases" title="Link to this heading"></a></h3>
+<p>Here are typical scenarios for using device tree overlays:</p>
+<p><strong>Enable SPI Interface</strong></p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>dtoverlay<span class="w"> </span>spi0-1cs
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>Or in <code class="docutils literal notranslate"><span class="pre">/boot/config.txt</span></code>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dtoverlay=spi0-1cs
+</pre></div>
+</div>
+<p><strong>Load ADI Evaluation Board Overlay</strong></p>
+<p>For ADI-specific overlays (assuming they exist in <code class="docutils literal notranslate"><span class="pre">/boot/overlays</span></code>):</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>dtoverlay<span class="w"> </span>rpi-ad7191
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>Or in <code class="docutils literal notranslate"><span class="pre">/boot/config.txt</span></code>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dtoverlay=rpi-ad7191
+</pre></div>
+</div>
+</section>
+<section id="removing-overlays">
+<h3>Removing Overlays<a class="headerlink" href="#removing-overlays" title="Link to this heading"></a></h3>
+<p>To remove a dynamically loaded overlay:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>dtoverlay<span class="w"> </span>-r<span class="w"> </span>&lt;overlay_name&gt;
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>For overlays in <code class="docutils literal notranslate"><span class="pre">/boot/config.txt</span></code>, comment out or delete the line and
+reboot.</p>
+</section>
+</section>
+</section>
+
+
+          </div>
+              <div class="related">
+                &nbsp;
+    <a href="use-kuiper-image.html" title="Previous document (Alt+Shift+LeftArrow)" class="prev">Using Kuiper Images</a>
+    <a href="configuration.html" title="Next document (Alt+Shift+RightArrow)" class="next">Configuration</a>
+              </div>
+          
+        </div>
+      </div>
+  </div>
+
+  <label id="cancel-area-show-toc" for="input-show-toc"></label>
+  <label id="cancel-area-show-localtoc" for="input-show-localtoc"></label>
+    <footer>
+      &#169;2025, Analog Devices, Inc.
+      
+      |
+      Made with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+      &amp; <a href="https://github.com/analogdevicesinc/doctools">Doctools</a>
+      
+    </footer>
+  </body>
+</html>
