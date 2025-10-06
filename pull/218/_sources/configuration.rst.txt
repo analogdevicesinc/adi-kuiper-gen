@@ -284,7 +284,7 @@ These options control which boot files are included in your image:
    * - ``zynqmp``
      - ZCU102, ADRV9009-ZU11EG, Jupiter SDR
    * - ``versal``
-     - VCK190, VPK180
+     - VCK190, VPK180, VHK158
 
 ----
 

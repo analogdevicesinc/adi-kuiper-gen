@@ -377,7 +377,7 @@ the root of the BOOT FAT32 partition:
 #. ``zynqmp-common/Image`` - Kernel image for ZynqMP platforms
 #. ``zynqmp-common/uEnv.txt`` - U-Boot environment configuration
 
-**For Versal projects** (VCK190, VPK180), copy these files to the root
+**For Versal projects** (VCK190, VPK180, VHK158), copy these files to the root
 of the BOOT FAT32 partition:
 
 #. ``<target>/BOOT.BIN`` - Platform Loader and Manager (PLM) and boot
