@@ -10,20 +10,34 @@ show_help() {
 
 cat << EOF
 Usage:
-  sudo $(basename "$0") [OPTIONS] [ARGUMENTS]
+  sudo $(basename "$0") [OPTIONS] <eval-board> <carrier> [bootloader-dev]
 
 Description:
   Script that prepares Kuiper image to boot on a carrier board.
 
 Arguments:
-  eval-board	Name of the project
-  carrier	Carrier board name
+  eval-board            Name of the project
+  carrier               Carrier board name
+  bootloader-dev        Bootloader device (default: /dev/mmcblk0p3)
 
 Options:
-  -h, --help	Show this help message
+  -b, --boot-partition PATH     Path to boot partition (default: /boot)
+  -h, --help                    Show this help message
 
-Example:
+Notes:
+  - Options must be specified before positional arguments.
+  - The -b option affects which projects are listed by --help. To see projects
+    on an attached SD card, use: sudo $(basename "$0") -b /media/\$USER/BOOT --help
+
+Examples:
+  # Running directly on the board:
   sudo $(basename "$0") ad4003 zed
+  sudo $(basename "$0") --help
+
+  # Configuring SD card from PC:
+  sudo $(basename "$0") -b /media/\$USER/BOOT ad4003 zed
+  sudo $(basename "$0") -b /media/\$USER/BOOT --help
+  sudo $(basename "$0") -b /media/\$USER/BOOT <eval-board> <intel-carrier> /dev/sdb3
 EOF
 
 	echo -e "\n\nAvailable projects in your Kuiper image:\n"
@@ -33,7 +47,7 @@ EOF
 		echo -e "ADI Eval Board\tCarrier"
 
 		# Print projects and boards
-		find /boot -type f -name "*.json" | while read -r file; do
+		find ${BOOT_PARTITION} -type f -name "*.json" 2>/dev/null | while read -r file; do
 			jq -r '
 			.projects[]?
 			| select(has("name") and has("board"))
@@ -50,15 +64,37 @@ if [ "$(id -u)" != "0" ] ; then
 	exit 1
 fi
 
-# Handle -h / --help first
-if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
-	show_help
-	exit 0
-fi
+BOOT_PARTITION="/boot"
+
+# Parse optional flags and their arguments, stopping at the first positional argument
+while [[ $# -gt 0 ]]; do
+	case $1 in
+		-h|--help)
+			show_help
+			exit 0
+			;;
+		-b|--boot-partition)
+			if [[ -z "$2" || "$2" == -* ]]; then
+				echo "Error: --boot-partition requires a path argument" >&2
+				exit 2
+			fi
+			BOOT_PARTITION="$2"
+			shift 2
+			;;
+		-*)
+			echo "Error: Unknown option $1" >&2
+			show_help
+			exit 2
+			;;
+		*)
+			break
+			;;
+	esac
+done
 
 # Validate positional arguments
 if [[ $# -lt 2 ]]; then
-	echo -e "Error: Missing arguments.\n" >&2
+	echo -e "Error: Missing required arguments.\n" >&2
 	show_help
 	exit 2
 fi
@@ -70,7 +106,7 @@ BOOTLOADER_DEV=${3:-"/dev/mmcblk0p3"}
 if [[ ! -z "${ADI_EVAL_BOARD}"  && ! -z "${CARRIER}" ]]; then
 
 	# Extract project description from .json by selecting the project set in the configuration file
-	PROJECT_DESCRIPTION=$(find /boot -type f -name "*.json" \
+	PROJECT_DESCRIPTION=$(find ${BOOT_PARTITION} -type f -name "*.json" \
 		-exec jq -c '.projects[]? | select(.name=="'${ADI_EVAL_BOARD}'" and .board=="'${CARRIER}'")' {} + \
 		| head -n 1)
 
@@ -78,21 +114,21 @@ if [[ ! -z "${ADI_EVAL_BOARD}"  && ! -z "${CARRIER}" ]]; then
 	if [[ -z "${PROJECT_DESCRIPTION}" ]]; then
 		echo "Cannot find project ${ADI_EVAL_BOARD} for board ${CARRIER}. Setup not configured."
 	else
-		# Extract kernel path from the project description
-		kernel=$(echo "$PROJECT_DESCRIPTION" | jq -r '.kernel')
+		# Extract kernel path from the project description and adjust for boot partition location
+		kernel=$(echo "$PROJECT_DESCRIPTION" | jq -r '.kernel' | sed "s|^/boot|${BOOT_PARTITION}|")
 
 		# Copy kernel to Kuiper boot directory
-		cp -v ${kernel} /boot
+		cp -v ${kernel} ${BOOT_PARTITION}
 		if [ $? -ne 0 ]; then
 			echo "Something went wrong while copying the kernel. Boot partition can't be configured."
 			exit
 		fi
 
-		# Extract paths with boot files from the project description
-		paths=$(echo "$PROJECT_DESCRIPTION" | jq -r '.files[].path')
+		# Extract paths with boot files from the project description and adjust for boot partition location
+		paths=$(echo "$PROJECT_DESCRIPTION" | jq -r '.files[].path' | sed "s|^/boot|${BOOT_PARTITION}|")
 
 		# Add the correct prefix for all paths and copy them to Kuiper boot directory
-		cp -v $paths /boot
+		cp -v $paths ${BOOT_PARTITION}
 		if [ $? -ne 0 ]; then
 			echo "Something went wrong while copying boot files. Boot partition can't be configured."
 			exit
@@ -102,10 +138,10 @@ if [[ ! -z "${ADI_EVAL_BOARD}"  && ! -z "${CARRIER}" ]]; then
 		if [[ ! -z $(echo "$PROJECT_DESCRIPTION" | jq 'select(.platform == "intel")') ]]; then
 
 			# Create folder if it doesn't exist and move copied extlinux.conf to extlinux folder
-			mkdir -p /boot/extlinux/ && mv -v /boot/extlinux.conf /boot/extlinux/
+			mkdir -p ${BOOT_PARTITION}/extlinux/ && mv -v ${BOOT_PARTITION}/extlinux.conf ${BOOT_PARTITION}/extlinux/
 
-			# Extract preloader file from the project description
-			preloader=$(echo "$PROJECT_DESCRIPTION" | jq -r '.preloader')
+			# Extract preloader file from the project description and adjust for boot partition location
+			preloader=$(echo "$PROJECT_DESCRIPTION" | jq -r '.preloader' | sed "s|^/boot|${BOOT_PARTITION}|")
 
 			# Write preloader file to corresponding image partition
 			dd if=${preloader} of=${BOOTLOADER_DEV} status=progress
@@ -119,4 +155,3 @@ if [[ ! -z "${ADI_EVAL_BOARD}"  && ! -z "${CARRIER}" ]]; then
 else
 	echo "Setup won't be configured because setup variables are null."
 fi
-
