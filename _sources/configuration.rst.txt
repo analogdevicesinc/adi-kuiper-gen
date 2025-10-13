@@ -254,18 +254,18 @@ These options control which boot files are included in your image:
    * - ``CONFIG_ARCH_ZYNQ``
      - ``y``
      - Install Zynq architecture boot files (``y``/``n``).
-   * - ``CONFIG_ARCH_ZYNQMP``
-     - ``y``
-     - Install ZynqMP architecture boot files (``y``/``n``).
-   * - ``CONFIG_ARCH_VERSAL``
-     - ``y``
-     - Install Versal architecture boot files (``y``/``n``).
    * - ``CONFIG_ARCH_ARRIA10``
      - ``y``
      - Install Arria10 architecture boot files (``y``/``n``).
    * - ``CONFIG_ARCH_CYCLONE5``
      - ``y``
      - Install Cyclone5 architecture boot files (``y``/``n``).
+   * - ``CONFIG_ARCH_ZYNQMP``
+     - ``n``
+     - Install ZynqMP architecture boot files (``y``/``n``).
+   * - ``CONFIG_ARCH_VERSAL``
+     - ``n``
+     - Install Versal architecture boot files (``y``/``n``).
 
 **Architecture to Hardware Mapping:**
 
@@ -277,16 +277,18 @@ These options control which boot files are included in your image:
      - Hardware Platform Examples
    * - ``zynq``
      - ZedBoard, ZC702, ZC706, Cora Z7s, ADRV9361-Z7035, ADRV9364-Z7020
-   * - ``zynqmp``
-     - ZCU102, ADRV9009-ZU11EG, Jupiter SDR
-   * - ``versal``
-     - VCK190, VPK180
    * - ``arria10``
      - Arria10 SoC Development Kit
    * - ``cyclone5``
      - Cyclone 5 SoC Kit, DE10-Nano, Arradio board
+   * - ``zynqmp``
+     - ZCU102, ADRV9009-ZU11EG, Jupiter SDR
+   * - ``versal``
+     - VCK190, VPK180, VHK158
 
 ----
+
+.. _configuration-hardware-targeting:
 
 Hardware Targeting Configuration
 --------------------------------
@@ -385,15 +387,18 @@ Building for a specific ADI evaluation board
    ADI_EVAL_BOARD=ad9361-fmcomms2
    CARRIER=zedboard
 
-Building with specific architecture boot files only
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Building only 64-bit boot files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
    :caption: config file settings
 
-   CONFIG_CARRIERS_ALL=n
-   CONFIG_ARCH_VERSAL=y
+   CONFIG_ARCH_ZYNQ=n
+   CONFIG_ARCH_ARRIA10=n
+   CONFIG_ARCH_CYCLONE5=n
+
    CONFIG_ARCH_ZYNQMP=y
+   CONFIG_ARCH_VERSAL=y
 
 Complete development environment with GNU Radio
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

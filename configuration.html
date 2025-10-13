@@ -8,8 +8,8 @@
 
     <title>Configuration &#8212; Kuiper  documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8e8a900e" />
-    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=8d0b0339" />
-    <script async="async" src="_static/app.umd.js?v=2f9373fc"></script>
+    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=85dade36" />
+    <script async="async" src="_static/app.umd.js?v=3a4867e9"></script>
     <link rel="icon" href="_static/icon.png"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -42,7 +42,10 @@
     }
   }
 </style>
-  </head><body>
+  </head>
+  
+    <body>
+  
   <input type="checkbox" id="input-show-toc">
   <input type="checkbox" id="input-show-localtoc">
   <input type="checkbox" id="input-show-repotoc">
@@ -107,7 +110,7 @@
 <li><a class="reference internal" href="#building-a-64-bit-image-with-desktop-environment">Building a 64-bit image with desktop environment</a></li>
 <li><a class="reference internal" href="#including-iio-tools-and-libraries">Including IIO tools and libraries</a></li>
 <li><a class="reference internal" href="#building-for-a-specific-adi-evaluation-board">Building for a specific ADI evaluation board</a></li>
-<li><a class="reference internal" href="#building-with-specific-architecture-boot-files-only">Building with specific architecture boot files only</a></li>
+<li><a class="reference internal" href="#building-only-64-bit-boot-files">Building only 64-bit boot files</a></li>
 <li><a class="reference internal" href="#complete-development-environment-with-gnu-radio">Complete development environment with GNU Radio</a></li>
 </ul>
 </li>
@@ -480,14 +483,6 @@ Libad9166_IIO, and Libad9361_IIO</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">y</span></code></p></td>
 <td><p>Install Zynq architecture boot files (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_ZYNQMP</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">y</span></code></p></td>
-<td><p>Install ZynqMP architecture boot files (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_VERSAL</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">y</span></code></p></td>
-<td><p>Install Versal architecture boot files (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).</p></td>
-</tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_ARRIA10</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">y</span></code></p></td>
 <td><p>Install Arria10 architecture boot files (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).</p></td>
@@ -495,6 +490,14 @@ Libad9166_IIO, and Libad9361_IIO</p></td>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_CYCLONE5</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">y</span></code></p></td>
 <td><p>Install Cyclone5 architecture boot files (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_ZYNQMP</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">n</span></code></p></td>
+<td><p>Install ZynqMP architecture boot files (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CONFIG_ARCH_VERSAL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">n</span></code></p></td>
+<td><p>Install Versal architecture boot files (<code class="docutils literal notranslate"><span class="pre">y</span></code>/<code class="docutils literal notranslate"><span class="pre">n</span></code>).</p></td>
 </tr>
 </tbody>
 </table>
@@ -511,25 +514,25 @@ Libad9166_IIO, and Libad9361_IIO</p></td>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">zynq</span></code></p></td>
 <td><p>ZedBoard, ZC702, ZC706, Cora Z7s, ADRV9361-Z7035, ADRV9364-Z7020</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">zynqmp</span></code></p></td>
-<td><p>ZCU102, ADRV9009-ZU11EG, Jupiter SDR</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">versal</span></code></p></td>
-<td><p>VCK190, VPK180</p></td>
-</tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">arria10</span></code></p></td>
 <td><p>Arria10 SoC Development Kit</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cyclone5</span></code></p></td>
 <td><p>Cyclone 5 SoC Kit, DE10-Nano, Arradio board</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">zynqmp</span></code></p></td>
+<td><p>ZCU102, ADRV9009-ZU11EG, Jupiter SDR</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">versal</span></code></p></td>
+<td><p>VCK190, VPK180, VHK158</p></td>
+</tr>
 </tbody>
 </table>
 </div>
-</section>
 <hr class="docutils" />
+</section>
 <section id="hardware-targeting-configuration">
-<h2>Hardware Targeting Configuration<a class="headerlink" href="#hardware-targeting-configuration" title="Link to this heading"></a></h2>
+<span id="configuration-hardware-targeting"></span><h2>Hardware Targeting Configuration<a class="headerlink" href="#hardware-targeting-configuration" title="Link to this heading"></a></h2>
 <p>These options configure your image for specific hardware during the build
 process:</p>
 <div class="table-wrapper bold-header docutils container">
@@ -636,13 +639,16 @@ during build for additional customization</p></td>
 </div>
 </div>
 </section>
-<section id="building-with-specific-architecture-boot-files-only">
-<h3>Building with specific architecture boot files only<a class="headerlink" href="#building-with-specific-architecture-boot-files-only" title="Link to this heading"></a></h3>
+<section id="building-only-64-bit-boot-files">
+<h3>Building only 64-bit boot files<a class="headerlink" href="#building-only-64-bit-boot-files" title="Link to this heading"></a></h3>
 <div class="literal-block-wrapper docutils container" id="id5">
 <div class="code-block-caption"><span class="caption-number">Listing 5 </span><span class="caption-text">config file settings</span><a class="headerlink" href="#id5" title="Link to this code"></a></div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">CONFIG_CARRIERS_ALL</span><span class="o">=</span>n
-<span class="nv">CONFIG_ARCH_VERSAL</span><span class="o">=</span>y
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">CONFIG_ARCH_ZYNQ</span><span class="o">=</span>n
+<span class="nv">CONFIG_ARCH_ARRIA10</span><span class="o">=</span>n
+<span class="nv">CONFIG_ARCH_CYCLONE5</span><span class="o">=</span>n
+
 <span class="nv">CONFIG_ARCH_ZYNQMP</span><span class="o">=</span>y
+<span class="nv">CONFIG_ARCH_VERSAL</span><span class="o">=</span>y
 </pre></div>
 </div>
 </div>
