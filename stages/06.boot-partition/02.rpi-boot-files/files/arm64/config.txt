@@ -14,7 +14,7 @@ hdmi_force_hotplug=1
 display_auto_detect=1
 
 # Enable DRM VC4 V3D driver
-dtoverlay=vc4-fkms-v3d
+dtoverlay=vc4-kms-v3d
 max_framebuffers=2
 
 # Run in 64-bit mode
@@ -31,3 +31,12 @@ arm_boost=1
 dtoverlay=dwc2,dr_mode=host
 
 autologin-user=analog
+
+[pi5]
+dtoverlay=gmsl-pi5
+dtoverlay=rpi-regulator
+
+[pi4]
+dtoverlay=gmsl-pi4
+
+[all]
