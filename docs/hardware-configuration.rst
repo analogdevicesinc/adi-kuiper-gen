@@ -12,7 +12,7 @@ Kuiper supports multiple hardware platforms, each with different setup
 requirements:
 
 **ADI Evaluation Boards**
-   Require configuration to specify which evaluation board and carrier
+   Require configuration to specify which evaluation board and carrier board
    combination you're using. This can be done during the build process or
    after deployment. Check out the :ref:`hardware-configuration-adi-eval-boards`
    dedicated section.
@@ -31,113 +31,113 @@ ADI Evaluation Boards
 
 ADI evaluation boards require configuration to work with Kuiper images.
 You must specify both your evaluation board (e.g., AD9361-FMCOMMS2) and
-carrier platform (e.g., ZedBoard, ZC706) so the system can load the
+carrier board (e.g., ZedBoard, ZC706) so the system can load the
 correct boot files.
 
-Kuiper provides flexible configuration options:
+Configuration Methods
+~~~~~~~~~~~~~~~~~~~~~
 
-**Build-Time Configuration (Optional)**
+Kuiper provides three configuration approaches:
+
+**Build-Time Configuration**
    Set ``ADI_EVAL_BOARD`` and ``CARRIER`` parameters in your config file
-   before building. Your image will be automatically configured for that
-   hardware combination during the build process.
+   before building. Your image will be pre-configured for that hardware
+   combination.
 
-**Runtime Reconfiguration (Always Available)**
-   Use the ``configure-setup.sh`` script to configure or reconfigure your
-   image for different hardware combinations after deployment. This script
-   is always installed and available.
+**On-Device Configuration**
+   Use the ``configure-setup.sh`` script on your running Kuiper system
+   to configure or switch between different hardware combinations.
 
-**Key Benefits**
+**PC-Based Configuration**
+   Use the ``configure-setup.sh`` script from your PC to prepare SD cards
+   before deployment. Ideal for batch preparation or when the target device
+   isn't accessible.
 
-* Set defaults at build time for your primary hardware target
-* Reconfigure anytime for testing different evaluation boards
-* Use the same image across multiple hardware platforms
-* No rebuilding required when switching hardware configurations
+Automated Configuration
+~~~~~~~~~~~~~~~~~~~~~~~
 
-When to Configure Hardware
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+The ``configure-setup.sh`` script is the recommended method for configuring
+your Kuiper image. The script handles all technical details automatically,
+including copying files, updating configurations, and writing bootloaders
+for Intel platforms.
 
-Hardware configuration is useful when you need to:
+.. note::
 
-* Set up your primary hardware during the build process for immediate use
-* Test multiple evaluation boards with the same Kuiper installation
-* Switch between development and production hardware without rebuilding
-* Explore different ADI evaluation projects on various carrier boards
-* Use a single image across multiple hardware setups
-
-Common Workflows
-~~~~~~~~~~~~~~~~
-
-**Single Hardware Target**
-   Set ``ADI_EVAL_BOARD`` and ``CARRIER`` during build for automatic
-   configuration. Your image boots ready to use.
-
-**Multi-Hardware Development**
-   Build with your primary hardware configured, then use runtime
-   reconfiguration to test other combinations as needed.
-
-**Flexible Lab Image**
-   Build without specifying hardware (leave ``ADI_EVAL_BOARD`` and
-   ``CARRIER`` empty), then configure each deployment using the runtime
-   script.
-
-Automated Hardware Reconfiguration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The recommended method for configuring your Kuiper image is the
-``configure-setup.sh`` script. This script handles all technical details
-of copying files, updating configurations, and preparing your system for
-different hardware combinations.
+   For PC users: The script is located at ``/usr/local/bin/configure-setup.sh``
+   on your Kuiper image. Access it by mounting the SD card's rootfs partition,
+   or download it from :git-adi-kuiper-gen:`here
+   <blob/main/stages/08.export-stage/04.export-image/files/configure-setup.sh+>`.
 
 Discovering Available Hardware
 ++++++++++++++++++++++++++++++
 
-Before reconfiguring, you need to know what combinations your Kuiper
-image supports. The configuration script includes a discovery feature.
+Before configuring, check which hardware combinations your Kuiper image
+supports.
 
-To see available hardware combinations:
+On device:
 
 .. shell::
 
    $sudo configure-setup.sh --help
-    Usage:
-      sudo configure-setup.sh [OPTIONS] [ARGUMENTS]
 
-    Description:
-      Script that prepares Kuiper image to boot on a carrier board.
+From PC with mounted SD card:
 
-    Arguments:
-      eval-board	Name of the project
-      carrier	Carrier board name
+.. shell::
 
-    Options:
-      -h, --help	Show this help message
+   $sudo configure-setup.sh --boot-partition /media/$USER/BOOT --help
 
-    Example:
-      sudo configure-setup.sh ad4003 zed
+Example output:
+
+.. shell::
+
+   Usage:
+     sudo configure-setup.sh [OPTIONS] <eval-board> <carrier> [bootloader-dev]
+
+   Description:
+     Script that prepares Kuiper image to boot on a carrier board.
+
+   Arguments:
+     eval-board            Name of the project
+     carrier               Carrier board name
+     bootloader-dev        Bootloader device (default: /dev/mmcblk0p3)
+
+   Options:
+     -b, --boot-partition PATH     Path to boot partition (default: /boot)
+     -h, --help                    Show this help message
+
+   Note: Options must be specified before positional arguments.
+
+   Examples:
+     # Running directly on the board:
+     sudo configure-setup.sh ad4003 zed
+     sudo configure-setup.sh --help
+
+     # Configuring SD card from PC:
+     sudo configure-setup.sh -b /media/$USER/BOOT ad4003 zed
+     sudo configure-setup.sh -b /media/$USER/BOOT --help
+     sudo configure-setup.sh -b /media/$USER/BOOT <intel-project> <intel-carrier> /dev/sdb3
 
 
-    Available projects in your Kuiper image:
+   Available projects in your Kuiper image:
 
-    ADI Eval Board    Carrier
-    ad9361-fmcomms2   zed
-    ad9361-fmcomms2   zc706
-    ad4003            zed
-    adrv9009-zu11eg   adrv9009-zu11eg-revb
+   ADI Eval Board    Carrier
+   ad9361-fmcomms2   zed
+   ad9361-fmcomms2   zc706
+   ad4003            zed
+   adrv9009-zu11eg   adrv9009-zu11eg-revb
 
-This output shows all evaluation board and carrier combinations that your
-specific Kuiper image supports.
+This output shows all evaluation board and carrier board combinations that
+your specific Kuiper image supports.
 
-Reconfiguration Process
+On-Device Configuration
 +++++++++++++++++++++++
 
-Hardware reconfiguration requires root access (the ``analog`` user has
-sudo privileges) and that your system runs from an SD card or storage
-device. The process varies depending on whether you're switching to
-different physical hardware or reconfiguring for the same hardware.
+Configure your hardware directly on a running Kuiper system. The ``analog``
+user has sudo privileges.
 
 Follow these steps:
 
-#. **Log into your current Kuiper system** via console, SSH, or VNC.
+#. **Log into your Kuiper system** via console, SSH, or VNC.
 
 #. **Check available configurations** (if you haven't already):
 
@@ -145,8 +145,7 @@ Follow these steps:
 
       $sudo configure-setup.sh --help
 
-#. **Run the configuration command** with your desired hardware
-   combination:
+#. **Run the configuration command**:
 
    .. shell::
 
@@ -157,71 +156,116 @@ Follow these steps:
    .. shell::
 
       $sudo configure-setup.sh ad9361-fmcomms2 zed
-       Successfully prepared boot partition for running project ad9361-fmcomms2 on zedboard.
+       Successfully prepared boot partition for running project ad9361-fmcomms2 on zed.
 
-#. **Shutdown your system** (for hardware changes) or **reboot** (for
-   same hardware):
+#. **Reboot or shutdown**:
 
-   For different hardware platforms:
-
-   .. shell::
-
-      $sudo shutdown -h now
-
-   For same hardware reconfiguration:
+   **If staying on the same carrier board** (just switching evaluation boards):
 
    .. shell::
 
       $sudo reboot
 
-#. **Move the SD card** (only if switching to different hardware):
+   **If moving SD card to a different carrier board**:
 
-   * Remove the SD card from your current hardware
-   * Insert it into your target hardware platform
-   * Skip this step if reconfiguring for the same hardware
+   .. shell::
 
-#. **Boot your target system**:
+      $sudo shutdown -h now
 
-   * Power on the target hardware
-   * The system will boot with the new configuration
+   Then remove the SD card, insert it into the new carrier board, and power on.
 
 .. important::
 
-   * Configuration changes take effect only after a complete boot cycle.
-   * When switching between different carrier boards (e.g., ZedBoard to
-     ZC706), physically move the SD card to the new hardware.
-   * For same-hardware reconfigurations, use ``reboot`` instead of the
-     full shutdown/move/boot process.
-   * Always use ``shutdown -h now`` when moving to different physical
-     hardware to ensure proper system state.
+   **Why different shutdown procedures?**
+   
+   * **Reboot** is safe and fast when the SD card stays in the same hardware
+   * **Shutdown** ensures all pending writes complete before physically moving
+     the card between devices, preventing potential corruption
+   * Configuration changes take effect only after a complete boot cycle
 
-What Happens During Reconfiguration
-+++++++++++++++++++++++++++++++++++
+PC-Based Configuration
+++++++++++++++++++++++
 
-When you run the configuration script, it automatically handles all
-technical details:
+Configure SD cards from your PC before deploying to hardware.
 
-**File Management**
-   The script identifies and copies all required files for your specific
-   hardware combination, including kernels, device trees, and boot
-   configurations.
+#. **Insert SD card into your PC** and identify the boot partition mount
+   point (typically ``/media/$USER/BOOT``).
 
-**Platform Adaptation**
-   Different hardware platforms require different boot procedures. The
-   script handles these variations automatically, including special
-   requirements for Intel-based systems.
+#. **Check available configurations**:
 
-**Verification and Feedback**
-   The script reports success or failure for each operation, allowing you
-   to confirm configuration completed properly before rebooting.
+   .. shell::
+
+      $sudo configure-setup.sh --boot-partition /media/$USER/BOOT --help
+
+#. **Configure for your target hardware**:
+
+   For AMD/Xilinx platforms (Zynq, ZynqMP, Versal):
+
+   .. shell::
+
+      $sudo configure-setup.sh --boot-partition /media/$USER/BOOT <eval-board> <carrier>
+
+   Example:
+
+   .. shell::
+
+      $sudo configure-setup.sh -b /media/$USER/BOOT ad9361-fmcomms2 zed
+       Successfully prepared boot partition for running project ad9361-fmcomms2 on zed.
+
+   For Intel platforms (Arria10, Cyclone5) - you must specify the bootloader device:
+
+   .. shell::
+
+      $sudo configure-setup.sh -b /media/$USER/BOOT <eval-board> <carrier> /dev/sdb3
+
+   Example:
+
+   .. shell::
+
+      $sudo configure-setup.sh -b /media/$USER/BOOT de10-nano socdk /dev/sdb3
+       Successfully prepared boot partition for running project de10-nano on socdk.
+
+   .. note::
+
+      Intel platforms require writing a preloader to a dedicated bootloader
+      partition. When configuring from a PC, identify the correct device:
+
+      * Use ``lsblk`` to find your SD card (typically ``/dev/sdb`` or ``/dev/sdc``)
+      * The bootloader partition is the small 4MB partition (e.g., ``/dev/sdb3``)
+      * On the device itself, this is always ``/dev/mmcblk0p3`` (the default)
+      * AMD/Xilinx platforms don't need this parameter
+
+#. **Safely eject the SD card** from your PC.
+
+#. **Insert into target hardware** and power on.
+
+What Happens During Configuration
++++++++++++++++++++++++++++++++++
+
+When you run the configuration script, it performs these operations:
+
+#. **Identifies required files** for your specific evaluation board and
+   carrier board combination
+
+#. **Copies boot files** to the boot partition, including:
+
+   * Kernel image (Image, uImage, or zImage depending on platform)
+   * Device tree files
+   * Platform-specific files (BOOT.BIN, boot.scr, U-Boot configurations)
+
+#. **For Intel platforms only**, performs additional steps:
+
+   * Creates the ``extlinux/`` directory structure
+   * Writes the preloader to the bootloader partition
+
+#. **Verifies each operation** and reports success or failure
 
 Configuration Examples
 ++++++++++++++++++++++
 
-**Same Hardware Reconfiguration**
+**Switching Evaluation Boards on Same Carrier**
 
-When testing different evaluation board projects on the same carrier
-board, use the simple reboot workflow since no physical hardware changes:
+Testing different evaluation boards on the same carrier board:
 
 .. shell::
 
@@ -229,117 +273,96 @@ board, use the simple reboot workflow since no physical hardware changes:
     Successfully prepared boot partition for running project ad4003 on zed.
    $sudo reboot
 
-Later, switch to a different project:
+Later, switch to a different evaluation board:
 
 .. shell::
 
    $sudo configure-setup.sh ad9361-fmcomms2 zed
-    Successfully prepared boot partition for running project ad9361-fmcomms2 on zedboard.
+    Successfully prepared boot partition for running project ad9361-fmcomms2 on zed.
    $sudo reboot
 
-**Different Hardware Platforms**
+**Moving Between Different Carrier Boards**
 
-When switching between different carrier boards, follow the complete
-shutdown/move/boot workflow:
+When switching to a different carrier board:
 
 .. shell::
 
    $sudo configure-setup.sh ad9361-fmcomms2 zed
-    Successfully prepared boot partition for running project ad9361-fmcomms2 on zedboard.
+    Successfully prepared boot partition for running project ad9361-fmcomms2 on zed.
    $sudo shutdown -h now
 
-After shutdown, remove the SD card from the ZedBoard and insert it into
-your ZC706 carrier board, then power on the ZC706.
-
-Later, reconfigure for the same project on ZC706:
-
-.. shell::
-
-   $sudo configure-setup.sh ad9361-fmcomms2 zc706
-    Successfully prepared boot partition for running project ad9361-fmcomms2 on zc706.
-   $sudo shutdown -h now
-
-Again, move the SD card from ZC706 to your target hardware and power on.
-
-**Development and Testing Workflow**
-
-A common development workflow combines both scenarios - testing on
-development hardware, then deploying to production hardware:
-
-.. shell::
-
-   # Development phase: test different projects on ZedBoard
-   $sudo configure-setup.sh ad9361-fmcomms2 zed
-   $sudo reboot
-
-Run development tests, then:
-
-.. shell::
-
-   $sudo configure-setup.sh ad4003 zed
-   $sudo reboot
-
-When ready for production deployment:
-
-.. shell::
-
-   $sudo configure-setup.sh ad9361-fmcomms2 zc706
-   $sudo shutdown -h now
-
-Remove SD card from ZedBoard, insert into ZC706 production hardware, and
+After shutdown, remove the SD card from ZedBoard, insert it into ZC706, then
 power on.
 
-On production hardware, verify configuration:
+**Preparing Multiple SD Cards from PC**
+
+Configure several SD cards for different hardware without booting devices:
 
 .. shell::
 
-   $sudo configure-setup.sh --help
+   # Insert first SD card
+   $sudo configure-setup.sh -b /media/$USER/BOOT ad9361-fmcomms2 zed
+    Successfully prepared boot partition for running project ad9361-fmcomms2 on zed.
 
-Confirm your project shows in the available list.
+   # Eject, insert second SD card
+   $sudo configure-setup.sh -b /media/$USER/BOOT ad4003 zc706
+    Successfully prepared boot partition for running project ad4003 on zc706.
+
+Each SD card is now ready for immediate deployment.
+
+Common Workflows
+~~~~~~~~~~~~~~~~
+
+**Single Hardware Target**
+   Set ``ADI_EVAL_BOARD`` and ``CARRIER`` during build for automatic
+   configuration. Your image boots ready to use.
+
+**Multi-Hardware Development**
+   Build with your primary hardware configured, then use on-device
+   configuration to test other combinations as needed.
+
+**Lab/Evaluation Setup**
+   Build without specifying hardware, then configure each SD card for
+   specific hardware using PC-based configuration.
+
+**Production Deployment**
+   Use PC-based configuration to prepare multiple SD cards efficiently
+   without booting each target device.
 
 Manual Configuration (Advanced)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-While the automated ``configure-setup.sh`` script handles most
-configuration scenarios, manual configuration may be necessary when:
+Manual configuration may be necessary when:
 
 * The automated script fails or reports errors
-* You need custom modifications with specific file versions
-* Your Kuiper system is not functioning and the script is unavailable
-* You're working on a host PC to prepare SD cards before deployment
-* You need to understand the boot process for development or debugging
+* You need custom modifications beyond standard configurations
+* Your Kuiper system isn't functioning and the script is unavailable
+* You're troubleshooting boot issues and need to understand the process
 
 The manual process involves the same file operations that the automated
 script performs, but gives you direct control over each step.
 
-Understanding What configure-setup.sh Does
-++++++++++++++++++++++++++++++++++++++++++
+Understanding the Configuration Process
++++++++++++++++++++++++++++++++++++++++
 
-For manual configuration, it helps to understand the technical process
-that the automated script performs:
+The automated script performs these technical steps:
 
-#. **Project Discovery**: Searches ``/boot`` for JSON files containing
-   metadata about available hardware combinations, matching your
-   specified evaluation board and carrier.
+#. **Searches** the boot partition for configuration metadata about
+   available hardware combinations
 
-#. **File Selection**: Extracts file paths from the JSON metadata,
-   identifying which kernel (Image/uImage/zImage), device tree, and boot
-   files are needed for your specific hardware.
+#. **Identifies** which files are needed for your specific evaluation
+   board and carrier board
 
-#. **Boot Partition Updates**: Copies all required files to ``/boot``,
-   including platform-specific files like BOOT.BIN, device trees, and
-   common files like kernel images and U-Boot configurations.
+#. **Copies** all required files to the boot partition
 
-#. **Platform-Specific Operations**: For Intel platforms, creates
-   extlinux directories and writes preloader files to the dedicated
-   bootloader partition (typically ``/dev/mmcblk0p3``) using low-level
-   disk operations.
+#. **For Intel platforms**, creates directory structures and writes
+   bootloader files to the dedicated bootloader partition using low-level
+   disk operations
 
-#. **Validation**: Verifies each file operation completed successfully
-   and reports any errors that would prevent proper booting.
+#. **Validates** that each file operation completed successfully
 
 Understanding these steps helps when performing manual configuration or
-troubleshooting automated configuration failures.
+troubleshooting failures.
 
 Platform-Specific Manual Steps
 ++++++++++++++++++++++++++++++
@@ -489,7 +512,7 @@ features or configure peripherals. There are two methods to load
 overlays.
 
 Method 1: Persistent Configuration
-++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++
 
 Edit ``/boot/config.txt`` to automatically load overlays on every boot.
 
