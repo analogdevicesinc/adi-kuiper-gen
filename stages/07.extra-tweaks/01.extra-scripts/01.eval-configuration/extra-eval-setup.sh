@@ -29,12 +29,12 @@ sed -i 's/^Before=.*/Before=iiod.service/' /etc/systemd/system/iiod_context_attr
 #step 6 create a service that needs to add a session-id
 #example in 04 config-desk-env
 #step 7 integrate in service
-install -m 644 "${BASH_SOURCE%%/extra-ace-setup.sh}"/ace-config.service /etc/systemd/system/
-install -m 755 "${BASH_SOURCE%%/extra-ace-setup.sh}"/adi-ace-config.sh /usr/bin/
-systemctl enable ace-config
+install -m 644 "${BASH_SOURCE%%/extra-eval-setup.sh}"/eval-config.service /etc/systemd/system/
+install -m 755 "${BASH_SOURCE%%/extra-eval-setup.sh}"/adi-eval-config.sh /usr/bin/
+systemctl enable eval-config
 
 
-install -m 644 "${BASH_SOURCE%%/extra-ace-setup.sh}"/set-usb0-up.service /etc/systemd/system/
+install -m 644 "${BASH_SOURCE%%/extra-eval-setup.sh}"/set-usb0-up.service /etc/systemd/system/
 systemctl enable set-usb0-up
 systemctl enable evb_overlay
 systemctl enable disable-ipv6-usb0
