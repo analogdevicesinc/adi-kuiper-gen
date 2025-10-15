@@ -149,6 +149,12 @@ if [[ ! -z "${ADI_EVAL_BOARD}"  && ! -z "${CARRIER}" ]]; then
 				echo "Something went wrong while copying the preloader. Boot partition can't be configured."
 				exit
 			fi
+
+		# Remove leftover extlinux configuration for other platforms
+		else
+			if [[ -d "${BOOT_PARTITION}/extlinux" ]]; then
+				rm -rfv ${BOOT_PARTITION}/extlinux/
+			fi
 		fi
 		echo "Successfully prepared boot partition for running project ${ADI_EVAL_BOARD} on ${CARRIER}."
 	fi
