@@ -223,7 +223,7 @@ INSTALL_RPI_PACKAGES=n
 # After cloning the repository, the script should be added inside 'adi-kuiper-gen' folder.
 # The path should be relative to 'adi-kuiper-gen' folder.
 # Example: EXTRA_SCRIPT=stages/07.extra-tweaks/01.extra-scripts/examples/extra-script-example.sh
-EXTRA_SCRIPT=stages/07.extra-tweaks/01.extra-scripts/01.ace-configuration/extra-ace-setup.sh
+EXTRA_SCRIPT=stages/07.extra-tweaks/01.extra-scripts/01.eval-configuration/extra-eval-setup.sh
 #
 #
 #
