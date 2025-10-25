@@ -7,54 +7,15 @@
 # Author: Ioan Dragomir <ioan.dragomir@analog.com>
 
 if [ "${CONFIG_AD_R1M}" = y ]; then
+	AD_R1M_ROS2_REPO=https://github.com/adi-innersource/adrd_demo_ros2
+	AD_R1M_ROS2_BRANCH=ftc2025
 
-	# Add udev rules for UART aliases (slcan, CRSF), GPIO permissions
-	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/99-ad-r1m-uarts.rules "${BUILD_DIR}/etc/udev/rules.d/"
-	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/60-com.rules          "${BUILD_DIR}/etc/udev/rules.d/"
+	git clone $AD_R1M_ROS2_REPO -b $AD_R1M_ROS2_BRANCH "${BUILD_DIR}/home/analog/ad_r1m_ros2"
 
-	# Add chrony config allowing EVAL-ADTF3175D ToF camera module to sync its clock to ours
-	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/chrony-allow-aditof.conf "${BUILD_DIR}/etc/chrony/conf.d/"
-
-	# Add ADRD4161 SLCAN firmware image, upload script
-	install -m 755 -d                                            "${BUILD_DIR}/opt/adrd4161-fw"
-	install -m 755 "${BASH_SOURCE%%/run.sh}"/files/adrd4161-fw/* "${BUILD_DIR}/opt/adrd4161-fw"
-
-	# Add ADRD3161 scripts and prepare venv
-	install -m 755 -d                                         "${BUILD_DIR}/opt/adrd3161"
-	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/adrd3161/* "${BUILD_DIR}/opt/adrd3161"
-	chroot "${BUILD_DIR}" /bin/bash -x <<EOF
-		cd /opt/adrd3161
-		python3 -m venv venv
-		source venv/bin/activate
-		pip install -U pip
-		pip install -r requirements.txt
-EOF
-	chmod 755 "${BUILD_DIR}"/opt/adrd3161/*.sh
-
-	# Add custom kernel, modules, bootfiles
-	# Packaged as tar archive with contents of /boot and /lib/modules/...
-	tar -xpf "${BASH_SOURCE%%/run.sh}"/files/bootfiles/ad-r1m-kernel.tar.gz -C "${BUILD_DIR}/" --keep-directory-symlink
-	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/bootfiles/config.txt        "${BUILD_DIR}/boot/firmware/"
-	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/bootfiles/cmdline.txt       "${BUILD_DIR}/boot/firmware/"
-
-	# Change hostname to ad-r1m
-	sed -i s/analog/ad-r1m/g "${BUILD_DIR}/etc/hostname"
-	sed -i s/analog/ad-r1m/g "${BUILD_DIR}/etc/hosts"
-
-	# Add application management scripts
-	ANALOG_UID=$(chroot "${BUILD_DIR}" <<<"id -u analog")
-	ANALOG_GID=$(chroot "${BUILD_DIR}" <<<"id -g analog")
-	install -o $ANALOG_UID -g $ANALOG_GID -m 755 "${BASH_SOURCE%%/run.sh}"/files/user-scripts/* "${BUILD_DIR}/home/analog/"
-
-	# Add systemctl unit to start robot at boot time. At first boot, it will likely fail in the background, but having it on by default is easier for users, I think
-	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/ros_app.service "${BUILD_DIR}/etc/systemd/system/"
-	chroot "${BUILD_DIR}" <<<"systemctl enable ros_app.service"
-
-	# Add morse code LED script and services
-	install -m 755 "${BASH_SOURCE%%/run.sh}"/files/led-morse/led-morse.sh            "${BUILD_DIR}/usr/local/bin/"
-	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/led-morse/led-morse-Linux.service "${BUILD_DIR}/etc/systemd/system/"
-	chroot "${BUILD_DIR}" <<<"systemctl enable led-morse-Linux.service"
+	# Moved all install steps to the ad_r1m_ros2 repo to keep them in sync with relevant higher level software changes
+	chroot "${BUILD_DIR}" /bin/bash -x /home/analog/ad_r1m_ros2/platform/rpi5/host_setup/install.sh
 else
         echo "AD-R1M specific setup won't be done because CONFIG_AD_R1M is set to 'n'. Are you on the right adi-kuiper-gen branch?"
 fi
+
 
