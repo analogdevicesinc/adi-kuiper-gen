@@ -8,7 +8,7 @@
 
     <title>Hardware Configuration &#8212; Kuiper  documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8e8a900e" />
-    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=85dade36" />
+    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=31a9e0ba" />
     <script async="async" src="_static/app.umd.js?v=3a4867e9"></script>
     <link rel="icon" href="_static/icon.png"/>
     <link rel="index" title="Index" href="genindex.html" />
@@ -96,17 +96,18 @@
           <ul>
 <li><a class="reference internal" href="#">Hardware Configuration</a><ul>
 <li><a class="reference internal" href="#adi-evaluation-boards">ADI Evaluation Boards</a><ul>
-<li><a class="reference internal" href="#when-to-configure-hardware">When to Configure Hardware</a></li>
-<li><a class="reference internal" href="#common-workflows">Common Workflows</a></li>
-<li><a class="reference internal" href="#automated-hardware-reconfiguration">Automated Hardware Reconfiguration</a><ul>
+<li><a class="reference internal" href="#configuration-methods">Configuration Methods</a></li>
+<li><a class="reference internal" href="#automated-configuration">Automated Configuration</a><ul>
 <li><a class="reference internal" href="#discovering-available-hardware">Discovering Available Hardware</a></li>
-<li><a class="reference internal" href="#reconfiguration-process">Reconfiguration Process</a></li>
-<li><a class="reference internal" href="#what-happens-during-reconfiguration">What Happens During Reconfiguration</a></li>
+<li><a class="reference internal" href="#on-device-configuration">On-Device Configuration</a></li>
+<li><a class="reference internal" href="#pc-based-configuration">PC-Based Configuration</a></li>
+<li><a class="reference internal" href="#what-happens-during-configuration">What Happens During Configuration</a></li>
 <li><a class="reference internal" href="#configuration-examples">Configuration Examples</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#common-workflows">Common Workflows</a></li>
 <li><a class="reference internal" href="#manual-configuration-advanced">Manual Configuration (Advanced)</a><ul>
-<li><a class="reference internal" href="#understanding-what-configure-setup-sh-does">Understanding What configure-setup.sh Does</a></li>
+<li><a class="reference internal" href="#understanding-the-configuration-process">Understanding the Configuration Process</a></li>
 <li><a class="reference internal" href="#platform-specific-manual-steps">Platform-Specific Manual Steps</a><ul>
 <li><a class="reference internal" href="#amd-xilinx-platforms">AMD/Xilinx Platforms</a></li>
 <li><a class="reference internal" href="#intel-altera-platforms">Intel/Altera Platforms</a></li>
@@ -200,7 +201,7 @@ Content on this topic
 <p>Kuiper supports multiple hardware platforms, each with different setup
 requirements:</p>
 <dl class="simple">
-<dt><strong>ADI Evaluation Boards</strong></dt><dd><p>Require configuration to specify which evaluation board and carrier
+<dt><strong>ADI Evaluation Boards</strong></dt><dd><p>Require configuration to specify which evaluation board and carrier board
 combination you’re using. This can be done during the build process or
 after deployment. Check out the <a class="reference internal" href="#hardware-configuration-adi-eval-boards"><span class="std std-ref">ADI Evaluation Boards</span></a>
 dedicated section.</p>
@@ -215,107 +216,127 @@ out the <a class="reference internal" href="#hardware-configuration-raspberry-pi
 <span id="hardware-configuration-adi-eval-boards"></span><h2>ADI Evaluation Boards<a class="headerlink" href="#adi-evaluation-boards" title="Link to this heading"></a></h2>
 <p>ADI evaluation boards require configuration to work with Kuiper images.
 You must specify both your evaluation board (e.g., AD9361-FMCOMMS2) and
-carrier platform (e.g., ZedBoard, ZC706) so the system can load the
+carrier board (e.g., ZedBoard, ZC706) so the system can load the
 correct boot files.</p>
-<p>Kuiper provides flexible configuration options:</p>
+<section id="configuration-methods">
+<h3>Configuration Methods<a class="headerlink" href="#configuration-methods" title="Link to this heading"></a></h3>
+<p>Kuiper provides three configuration approaches:</p>
 <dl class="simple">
-<dt><strong>Build-Time Configuration (Optional)</strong></dt><dd><p>Set <code class="docutils literal notranslate"><span class="pre">ADI_EVAL_BOARD</span></code> and <code class="docutils literal notranslate"><span class="pre">CARRIER</span></code> parameters in your config file
-before building. Your image will be automatically configured for that
-hardware combination during the build process.</p>
+<dt><strong>Build-Time Configuration</strong></dt><dd><p>Set <code class="docutils literal notranslate"><span class="pre">ADI_EVAL_BOARD</span></code> and <code class="docutils literal notranslate"><span class="pre">CARRIER</span></code> parameters in your config file
+before building. Your image will be pre-configured for that hardware
+combination.</p>
 </dd>
-<dt><strong>Runtime Reconfiguration (Always Available)</strong></dt><dd><p>Use the <code class="docutils literal notranslate"><span class="pre">configure-setup.sh</span></code> script to configure or reconfigure your
-image for different hardware combinations after deployment. This script
-is always installed and available.</p>
+<dt><strong>On-Device Configuration</strong></dt><dd><p>Use the <code class="docutils literal notranslate"><span class="pre">configure-setup.sh</span></code> script on your running Kuiper system
+to configure or switch between different hardware combinations.</p>
 </dd>
-</dl>
-<p><strong>Key Benefits</strong></p>
-<ul class="simple">
-<li><p>Set defaults at build time for your primary hardware target</p></li>
-<li><p>Reconfigure anytime for testing different evaluation boards</p></li>
-<li><p>Use the same image across multiple hardware platforms</p></li>
-<li><p>No rebuilding required when switching hardware configurations</p></li>
-</ul>
-<section id="when-to-configure-hardware">
-<h3>When to Configure Hardware<a class="headerlink" href="#when-to-configure-hardware" title="Link to this heading"></a></h3>
-<p>Hardware configuration is useful when you need to:</p>
-<ul class="simple">
-<li><p>Set up your primary hardware during the build process for immediate use</p></li>
-<li><p>Test multiple evaluation boards with the same Kuiper installation</p></li>
-<li><p>Switch between development and production hardware without rebuilding</p></li>
-<li><p>Explore different ADI evaluation projects on various carrier boards</p></li>
-<li><p>Use a single image across multiple hardware setups</p></li>
-</ul>
-</section>
-<section id="common-workflows">
-<h3>Common Workflows<a class="headerlink" href="#common-workflows" title="Link to this heading"></a></h3>
-<dl class="simple">
-<dt><strong>Single Hardware Target</strong></dt><dd><p>Set <code class="docutils literal notranslate"><span class="pre">ADI_EVAL_BOARD</span></code> and <code class="docutils literal notranslate"><span class="pre">CARRIER</span></code> during build for automatic
-configuration. Your image boots ready to use.</p>
-</dd>
-<dt><strong>Multi-Hardware Development</strong></dt><dd><p>Build with your primary hardware configured, then use runtime
-reconfiguration to test other combinations as needed.</p>
-</dd>
-<dt><strong>Flexible Lab Image</strong></dt><dd><p>Build without specifying hardware (leave <code class="docutils literal notranslate"><span class="pre">ADI_EVAL_BOARD</span></code> and
-<code class="docutils literal notranslate"><span class="pre">CARRIER</span></code> empty), then configure each deployment using the runtime
-script.</p>
+<dt><strong>PC-Based Configuration</strong></dt><dd><p>Use the <code class="docutils literal notranslate"><span class="pre">configure-setup.sh</span></code> script from your PC to prepare SD cards
+before deployment. Ideal for batch preparation or when the target device
+isn’t accessible.</p>
 </dd>
 </dl>
 </section>
-<section id="automated-hardware-reconfiguration">
-<h3>Automated Hardware Reconfiguration<a class="headerlink" href="#automated-hardware-reconfiguration" title="Link to this heading"></a></h3>
-<p>The recommended method for configuring your Kuiper image is the
-<code class="docutils literal notranslate"><span class="pre">configure-setup.sh</span></code> script. This script handles all technical details
-of copying files, updating configurations, and preparing your system for
-different hardware combinations.</p>
+<section id="automated-configuration">
+<h3>Automated Configuration<a class="headerlink" href="#automated-configuration" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">configure-setup.sh</span></code> script is the recommended method for configuring
+your Kuiper image. The script handles all technical details automatically,
+including copying files, updating configurations, and writing bootloaders
+for Intel platforms.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For PC users: The script is located at <code class="docutils literal notranslate"><span class="pre">/usr/local/bin/configure-setup.sh</span></code>
+on your Kuiper image. Access it by mounting the SD card’s rootfs partition,
+or download it from <a class="icon git reference external" href="https://github.com/analogdevicesinc/adi-kuiper-gen/blob/main/stages/08.export-stage/04.export-image/files/configure-setup.sh" target="_blank">here</a>.</p>
+</div>
 <section id="discovering-available-hardware">
 <h4>Discovering Available Hardware<a class="headerlink" href="#discovering-available-hardware" title="Link to this heading"></a></h4>
-<p>Before reconfiguring, you need to know what combinations your Kuiper
-image supports. The configuration script includes a discovery feature.</p>
-<p>To see available hardware combinations:</p>
+<p>Before configuring, check which hardware combinations your Kuiper image
+supports.</p>
+<p>On device:</p>
 <div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
 </pre></div>
 </div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>--help
 </pre></div>
 </div>
-<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Usage:
-  sudo configure-setup.sh [OPTIONS] [ARGUMENTS]
+<div class="clear-left"></div></div></div><p>From PC with mounted SD card:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>--boot-partition<span class="w"> </span>/media/<span class="nv">$USER</span>/BOOT<span class="w"> </span>--help
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>Example output:</p>
+<div class="code-shell"><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Usage:
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span> sudo configure-setup.sh [OPTIONS] &lt;eval-board&gt; &lt;carrier&gt; [bootloader-dev]
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Description:
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span> Script that prepares Kuiper image to boot on a carrier board.
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Arguments:
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span> eval-board            Name of the project
+ carrier               Carrier board name
+ bootloader-dev        Bootloader device (default: /dev/mmcblk0p3)
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Options:
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span> -b, --boot-partition PATH     Path to boot partition (default: /boot)
+ -h, --help                    Show this help message
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Note: Options must be specified before positional arguments.
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Examples:
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span> # Running directly on the board:
+ sudo configure-setup.sh ad4003 zed
+ sudo configure-setup.sh --help
 
-Description:
-  Script that prepares Kuiper image to boot on a carrier board.
-
-Arguments:
-  eval-board        Name of the project
-  carrier   Carrier board name
-
-Options:
-  -h, --help        Show this help message
-
-Example:
-  sudo configure-setup.sh ad4003 zed
-
-
-Available projects in your Kuiper image:
-
-ADI Eval Board    Carrier
-ad9361-fmcomms2   zed
+ # Configuring SD card from PC:
+ sudo configure-setup.sh -b /media/$USER/BOOT ad4003 zed
+ sudo configure-setup.sh -b /media/$USER/BOOT --help
+ sudo configure-setup.sh -b /media/$USER/BOOT &lt;intel-project&gt; &lt;intel-carrier&gt; /dev/sdb3
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Available projects in your Kuiper image:
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>ADI Eval Board    Carrier
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>ad9361-fmcomms2   zed
 ad9361-fmcomms2   zc706
 ad4003            zed
 adrv9009-zu11eg   adrv9009-zu11eg-revb
 </pre></div>
 </div>
-<div class="clear-left"></div></div></div><p>This output shows all evaluation board and carrier combinations that your
-specific Kuiper image supports.</p>
+<div class="clear-left"></div></div></div><p>This output shows all evaluation board and carrier board combinations that
+your specific Kuiper image supports.</p>
 </section>
-<section id="reconfiguration-process">
-<h4>Reconfiguration Process<a class="headerlink" href="#reconfiguration-process" title="Link to this heading"></a></h4>
-<p>Hardware reconfiguration requires root access (the <code class="docutils literal notranslate"><span class="pre">analog</span></code> user has
-sudo privileges) and that your system runs from an SD card or storage
-device. The process varies depending on whether you’re switching to
-different physical hardware or reconfiguring for the same hardware.</p>
+<section id="on-device-configuration">
+<h4>On-Device Configuration<a class="headerlink" href="#on-device-configuration" title="Link to this heading"></a></h4>
+<p>Configure your hardware directly on a running Kuiper system. The <code class="docutils literal notranslate"><span class="pre">analog</span></code>
+user has sudo privileges.</p>
 <p>Follow these steps:</p>
 <ol class="arabic">
-<li><p><strong>Log into your current Kuiper system</strong> via console, SSH, or VNC.</p></li>
+<li><p><strong>Log into your Kuiper system</strong> via console, SSH, or VNC.</p></li>
 <li><p><strong>Check available configurations</strong> (if you haven’t already):</p>
 <div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
 </pre></div>
@@ -324,8 +345,7 @@ different physical hardware or reconfiguring for the same hardware.</p>
 </pre></div>
 </div>
 <div class="clear-left"></div></div></div></li>
-<li><p><strong>Run the configuration command</strong> with your desired hardware
-combination:</p>
+<li><p><strong>Run the configuration command</strong>:</p>
 <div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
 </pre></div>
 </div>
@@ -339,77 +359,130 @@ combination:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>ad9361-fmcomms2<span class="w"> </span>zed
 </pre></div>
 </div>
-<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Successfully prepared boot partition for running project ad9361-fmcomms2 on zedboard.
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Successfully prepared boot partition for running project ad9361-fmcomms2 on zed.
 </pre></div>
 </div>
 <div class="clear-left"></div></div></div></li>
-<li><p><strong>Shutdown your system</strong> (for hardware changes) or <strong>reboot</strong> (for
-same hardware):</p>
-<p>For different hardware platforms:</p>
-<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
-</pre></div>
-</div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>shutdown<span class="w"> </span>-h<span class="w"> </span>now
-</pre></div>
-</div>
-<div class="clear-left"></div></div></div><p>For same hardware reconfiguration:</p>
+<li><p><strong>Reboot or shutdown</strong>:</p>
+<p><strong>If staying on the same carrier board</strong> (just switching evaluation boards):</p>
 <div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
 </pre></div>
 </div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>reboot
 </pre></div>
 </div>
-<div class="clear-left"></div></div></div></li>
-<li><p><strong>Move the SD card</strong> (only if switching to different hardware):</p>
-<ul class="simple">
-<li><p>Remove the SD card from your current hardware</p></li>
-<li><p>Insert it into your target hardware platform</p></li>
-<li><p>Skip this step if reconfiguring for the same hardware</p></li>
-</ul>
-</li>
-<li><p><strong>Boot your target system</strong>:</p>
-<ul class="simple">
-<li><p>Power on the target hardware</p></li>
-<li><p>The system will boot with the new configuration</p></li>
-</ul>
+<div class="clear-left"></div></div></div><p><strong>If moving SD card to a different carrier board</strong>:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>shutdown<span class="w"> </span>-h<span class="w"> </span>now
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>Then remove the SD card, insert it into the new carrier board, and power on.</p>
 </li>
 </ol>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
+<p><strong>Why different shutdown procedures?</strong></p>
 <ul class="simple">
-<li><p>Configuration changes take effect only after a complete boot cycle.</p></li>
-<li><p>When switching between different carrier boards (e.g., ZedBoard to
-ZC706), physically move the SD card to the new hardware.</p></li>
-<li><p>For same-hardware reconfigurations, use <code class="docutils literal notranslate"><span class="pre">reboot</span></code> instead of the
-full shutdown/move/boot process.</p></li>
-<li><p>Always use <code class="docutils literal notranslate"><span class="pre">shutdown</span> <span class="pre">-h</span> <span class="pre">now</span></code> when moving to different physical
-hardware to ensure proper system state.</p></li>
+<li><p><strong>Reboot</strong> is safe and fast when the SD card stays in the same hardware</p></li>
+<li><p><strong>Shutdown</strong> ensures all pending writes complete before physically moving
+the card between devices, preventing potential corruption</p></li>
+<li><p>Configuration changes take effect only after a complete boot cycle</p></li>
 </ul>
 </div>
 </section>
-<section id="what-happens-during-reconfiguration">
-<h4>What Happens During Reconfiguration<a class="headerlink" href="#what-happens-during-reconfiguration" title="Link to this heading"></a></h4>
-<p>When you run the configuration script, it automatically handles all
-technical details:</p>
-<dl class="simple">
-<dt><strong>File Management</strong></dt><dd><p>The script identifies and copies all required files for your specific
-hardware combination, including kernels, device trees, and boot
-configurations.</p>
-</dd>
-<dt><strong>Platform Adaptation</strong></dt><dd><p>Different hardware platforms require different boot procedures. The
-script handles these variations automatically, including special
-requirements for Intel-based systems.</p>
-</dd>
-<dt><strong>Verification and Feedback</strong></dt><dd><p>The script reports success or failure for each operation, allowing you
-to confirm configuration completed properly before rebooting.</p>
-</dd>
-</dl>
+<section id="pc-based-configuration">
+<h4>PC-Based Configuration<a class="headerlink" href="#pc-based-configuration" title="Link to this heading"></a></h4>
+<p>Configure SD cards from your PC before deploying to hardware.</p>
+<ol class="arabic">
+<li><p><strong>Insert SD card into your PC</strong> and identify the boot partition mount
+point (typically <code class="docutils literal notranslate"><span class="pre">/media/$USER/BOOT</span></code>).</p></li>
+<li><p><strong>Check available configurations</strong>:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>--boot-partition<span class="w"> </span>/media/<span class="nv">$USER</span>/BOOT<span class="w"> </span>--help
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div></li>
+<li><p><strong>Configure for your target hardware</strong>:</p>
+<p>For AMD/Xilinx platforms (Zynq, ZynqMP, Versal):</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>--boot-partition<span class="w"> </span>/media/<span class="nv">$USER</span>/BOOT<span class="w"> </span>&lt;eval-board&gt;<span class="w"> </span>&lt;carrier&gt;
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>Example:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>-b<span class="w"> </span>/media/<span class="nv">$USER</span>/BOOT<span class="w"> </span>ad9361-fmcomms2<span class="w"> </span>zed
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Successfully prepared boot partition for running project ad9361-fmcomms2 on zed.
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>For Intel platforms (Arria10, Cyclone5) - you must specify the bootloader device:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>-b<span class="w"> </span>/media/<span class="nv">$USER</span>/BOOT<span class="w"> </span>&lt;eval-board&gt;<span class="w"> </span>&lt;carrier&gt;<span class="w"> </span>/dev/sdb3
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>Example:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>-b<span class="w"> </span>/media/<span class="nv">$USER</span>/BOOT<span class="w"> </span>de10-nano<span class="w"> </span>socdk<span class="w"> </span>/dev/sdb3
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Successfully prepared boot partition for running project de10-nano on socdk.
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Intel platforms require writing a preloader to a dedicated bootloader
+partition. When configuring from a PC, identify the correct device:</p>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">lsblk</span></code> to find your SD card (typically <code class="docutils literal notranslate"><span class="pre">/dev/sdb</span></code> or <code class="docutils literal notranslate"><span class="pre">/dev/sdc</span></code>)</p></li>
+<li><p>The bootloader partition is the small 4MB partition (e.g., <code class="docutils literal notranslate"><span class="pre">/dev/sdb3</span></code>)</p></li>
+<li><p>On the device itself, this is always <code class="docutils literal notranslate"><span class="pre">/dev/mmcblk0p3</span></code> (the default)</p></li>
+<li><p>AMD/Xilinx platforms don’t need this parameter</p></li>
+</ul>
+</div>
+</li>
+<li><p><strong>Safely eject the SD card</strong> from your PC.</p></li>
+<li><p><strong>Insert into target hardware</strong> and power on.</p></li>
+</ol>
+</section>
+<section id="what-happens-during-configuration">
+<h4>What Happens During Configuration<a class="headerlink" href="#what-happens-during-configuration" title="Link to this heading"></a></h4>
+<p>When you run the configuration script, it performs these operations:</p>
+<ol class="arabic simple">
+<li><p><strong>Identifies required files</strong> for your specific evaluation board and
+carrier board combination</p></li>
+<li><p><strong>Copies boot files</strong> to the boot partition, including:</p>
+<ul class="simple">
+<li><p>Kernel image (Image, uImage, or zImage depending on platform)</p></li>
+<li><p>Device tree files</p></li>
+<li><p>Platform-specific files (BOOT.BIN, boot.scr, U-Boot configurations)</p></li>
+</ul>
+</li>
+<li><p><strong>For Intel platforms only</strong>, performs additional steps:</p>
+<ul class="simple">
+<li><p>Creates the <code class="docutils literal notranslate"><span class="pre">extlinux/</span></code> directory structure</p></li>
+<li><p>Writes the preloader to the bootloader partition</p></li>
+</ul>
+</li>
+<li><p><strong>Verifies each operation</strong> and reports success or failure</p></li>
+</ol>
 </section>
 <section id="configuration-examples">
 <h4>Configuration Examples<a class="headerlink" href="#configuration-examples" title="Link to this heading"></a></h4>
-<p><strong>Same Hardware Reconfiguration</strong></p>
-<p>When testing different evaluation board projects on the same carrier
-board, use the simple reboot workflow since no physical hardware changes:</p>
+<p><strong>Switching Evaluation Boards on Same Carrier</strong></p>
+<p>Testing different evaluation boards on the same carrier board:</p>
 <div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
 </pre></div>
 </div>
@@ -425,14 +498,14 @@ board, use the simple reboot workflow since no physical hardware changes:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>reboot
 </pre></div>
 </div>
-<div class="clear-left"></div></div></div><p>Later, switch to a different project:</p>
+<div class="clear-left"></div></div></div><p>Later, switch to a different evaluation board:</p>
 <div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
 </pre></div>
 </div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>ad9361-fmcomms2<span class="w"> </span>zed
 </pre></div>
 </div>
-<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Successfully prepared boot partition for running project ad9361-fmcomms2 on zedboard.
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Successfully prepared boot partition for running project ad9361-fmcomms2 on zed.
 </pre></div>
 </div>
 <div class="clear-left"></div></div><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
@@ -441,16 +514,15 @@ board, use the simple reboot workflow since no physical hardware changes:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>reboot
 </pre></div>
 </div>
-<div class="clear-left"></div></div></div><p><strong>Different Hardware Platforms</strong></p>
-<p>When switching between different carrier boards, follow the complete
-shutdown/move/boot workflow:</p>
+<div class="clear-left"></div></div></div><p><strong>Moving Between Different Carrier Boards</strong></p>
+<p>When switching to a different carrier board:</p>
 <div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
 </pre></div>
 </div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>ad9361-fmcomms2<span class="w"> </span>zed
 </pre></div>
 </div>
-<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Successfully prepared boot partition for running project ad9361-fmcomms2 on zedboard.
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Successfully prepared boot partition for running project ad9361-fmcomms2 on zed.
 </pre></div>
 </div>
 <div class="clear-left"></div></div><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
@@ -459,120 +531,87 @@ shutdown/move/boot workflow:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>shutdown<span class="w"> </span>-h<span class="w"> </span>now
 </pre></div>
 </div>
-<div class="clear-left"></div></div></div><p>After shutdown, remove the SD card from the ZedBoard and insert it into
-your ZC706 carrier board, then power on the ZC706.</p>
-<p>Later, reconfigure for the same project on ZC706:</p>
-<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
-</pre></div>
-</div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>ad9361-fmcomms2<span class="w"> </span>zc706
-</pre></div>
-</div>
-<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Successfully prepared boot partition for running project ad9361-fmcomms2 on zc706.
-</pre></div>
-</div>
-<div class="clear-left"></div></div><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
-</pre></div>
-</div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>shutdown<span class="w"> </span>-h<span class="w"> </span>now
-</pre></div>
-</div>
-<div class="clear-left"></div></div></div><p>Again, move the SD card from ZC706 to your target hardware and power on.</p>
-<p><strong>Development and Testing Workflow</strong></p>
-<p>A common development workflow combines both scenarios - testing on
-development hardware, then deploying to production hardware:</p>
-<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
-</pre></div>
-</div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Development phase: test different projects on ZedBoard</span>
-</pre></div>
-</div>
-<div class="clear-left"></div></div><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
-</pre></div>
-</div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>ad9361-fmcomms2<span class="w"> </span>zed
-</pre></div>
-</div>
-<div class="clear-left"></div></div><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
-</pre></div>
-</div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>reboot
-</pre></div>
-</div>
-<div class="clear-left"></div></div></div><p>Run development tests, then:</p>
-<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
-</pre></div>
-</div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>ad4003<span class="w"> </span>zed
-</pre></div>
-</div>
-<div class="clear-left"></div></div><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
-</pre></div>
-</div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>reboot
-</pre></div>
-</div>
-<div class="clear-left"></div></div></div><p>When ready for production deployment:</p>
-<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
-</pre></div>
-</div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>ad9361-fmcomms2<span class="w"> </span>zc706
-</pre></div>
-</div>
-<div class="clear-left"></div></div><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
-</pre></div>
-</div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>shutdown<span class="w"> </span>-h<span class="w"> </span>now
-</pre></div>
-</div>
-<div class="clear-left"></div></div></div><p>Remove SD card from ZedBoard, insert into ZC706 production hardware, and
+<div class="clear-left"></div></div></div><p>After shutdown, remove the SD card from ZedBoard, insert it into ZC706, then
 power on.</p>
-<p>On production hardware, verify configuration:</p>
+<p><strong>Preparing Multiple SD Cards from PC</strong></p>
+<p>Configure several SD cards for different hardware without booting devices:</p>
 <div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
 </pre></div>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>--help
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Insert first SD card</span>
 </pre></div>
 </div>
-<div class="clear-left"></div></div></div><p>Confirm your project shows in the available list.</p>
+<div class="clear-left"></div></div><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>-b<span class="w"> </span>/media/<span class="nv">$USER</span>/BOOT<span class="w"> </span>ad9361-fmcomms2<span class="w"> </span>zed
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Successfully prepared boot partition for running project ad9361-fmcomms2 on zed.
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Eject, insert second SD card</span>
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>configure-setup.sh<span class="w"> </span>-b<span class="w"> </span>/media/<span class="nv">$USER</span>/BOOT<span class="w"> </span>ad4003<span class="w"> </span>zc706
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>Successfully prepared boot partition for running project ad4003 on zc706.
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>Each SD card is now ready for immediate deployment.</p>
 </section>
+</section>
+<section id="common-workflows">
+<h3>Common Workflows<a class="headerlink" href="#common-workflows" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><strong>Single Hardware Target</strong></dt><dd><p>Set <code class="docutils literal notranslate"><span class="pre">ADI_EVAL_BOARD</span></code> and <code class="docutils literal notranslate"><span class="pre">CARRIER</span></code> during build for automatic
+configuration. Your image boots ready to use.</p>
+</dd>
+<dt><strong>Multi-Hardware Development</strong></dt><dd><p>Build with your primary hardware configured, then use on-device
+configuration to test other combinations as needed.</p>
+</dd>
+<dt><strong>Lab/Evaluation Setup</strong></dt><dd><p>Build without specifying hardware, then configure each SD card for
+specific hardware using PC-based configuration.</p>
+</dd>
+<dt><strong>Production Deployment</strong></dt><dd><p>Use PC-based configuration to prepare multiple SD cards efficiently
+without booting each target device.</p>
+</dd>
+</dl>
 </section>
 <section id="manual-configuration-advanced">
 <h3>Manual Configuration (Advanced)<a class="headerlink" href="#manual-configuration-advanced" title="Link to this heading"></a></h3>
-<p>While the automated <code class="docutils literal notranslate"><span class="pre">configure-setup.sh</span></code> script handles most
-configuration scenarios, manual configuration may be necessary when:</p>
+<p>Manual configuration may be necessary when:</p>
 <ul class="simple">
 <li><p>The automated script fails or reports errors</p></li>
-<li><p>You need custom modifications with specific file versions</p></li>
-<li><p>Your Kuiper system is not functioning and the script is unavailable</p></li>
-<li><p>You’re working on a host PC to prepare SD cards before deployment</p></li>
-<li><p>You need to understand the boot process for development or debugging</p></li>
+<li><p>You need custom modifications beyond standard configurations</p></li>
+<li><p>Your Kuiper system isn’t functioning and the script is unavailable</p></li>
+<li><p>You’re troubleshooting boot issues and need to understand the process</p></li>
 </ul>
 <p>The manual process involves the same file operations that the automated
 script performs, but gives you direct control over each step.</p>
-<section id="understanding-what-configure-setup-sh-does">
-<h4>Understanding What configure-setup.sh Does<a class="headerlink" href="#understanding-what-configure-setup-sh-does" title="Link to this heading"></a></h4>
-<p>For manual configuration, it helps to understand the technical process
-that the automated script performs:</p>
+<section id="understanding-the-configuration-process">
+<h4>Understanding the Configuration Process<a class="headerlink" href="#understanding-the-configuration-process" title="Link to this heading"></a></h4>
+<p>The automated script performs these technical steps:</p>
 <ol class="arabic simple">
-<li><p><strong>Project Discovery</strong>: Searches <code class="docutils literal notranslate"><span class="pre">/boot</span></code> for JSON files containing
-metadata about available hardware combinations, matching your
-specified evaluation board and carrier.</p></li>
-<li><p><strong>File Selection</strong>: Extracts file paths from the JSON metadata,
-identifying which kernel (Image/uImage/zImage), device tree, and boot
-files are needed for your specific hardware.</p></li>
-<li><p><strong>Boot Partition Updates</strong>: Copies all required files to <code class="docutils literal notranslate"><span class="pre">/boot</span></code>,
-including platform-specific files like BOOT.BIN, device trees, and
-common files like kernel images and U-Boot configurations.</p></li>
-<li><p><strong>Platform-Specific Operations</strong>: For Intel platforms, creates
-extlinux directories and writes preloader files to the dedicated
-bootloader partition (typically <code class="docutils literal notranslate"><span class="pre">/dev/mmcblk0p3</span></code>) using low-level
-disk operations.</p></li>
-<li><p><strong>Validation</strong>: Verifies each file operation completed successfully
-and reports any errors that would prevent proper booting.</p></li>
+<li><p><strong>Searches</strong> the boot partition for configuration metadata about
+available hardware combinations</p></li>
+<li><p><strong>Identifies</strong> which files are needed for your specific evaluation
+board and carrier board</p></li>
+<li><p><strong>Copies</strong> all required files to the boot partition</p></li>
+<li><p><strong>For Intel platforms</strong>, creates directory structures and writes
+bootloader files to the dedicated bootloader partition using low-level
+disk operations</p></li>
+<li><p><strong>Validates</strong> that each file operation completed successfully</p></li>
 </ol>
 <p>Understanding these steps helps when performing manual configuration or
-troubleshooting automated configuration failures.</p>
+troubleshooting failures.</p>
 </section>
 <section id="platform-specific-manual-steps">
 <h4>Platform-Specific Manual Steps<a class="headerlink" href="#platform-specific-manual-steps" title="Link to this heading"></a></h4>
