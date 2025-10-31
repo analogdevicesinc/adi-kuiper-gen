@@ -20,7 +20,7 @@ PRESERVE_CONTAINER=n
 #
 # [DESKTOP ENVIRONMENT]
 # Contains XFCE4 desktop environment and X11VNC server.
-CONFIG_DESKTOP=y
+CONFIG_DESKTOP=n
 #
 #
 #
