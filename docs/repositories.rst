@@ -9,6 +9,8 @@ stage.
 
 ----
 
+.. _repositories adi:
+
 ADI Repository
 --------------
 
@@ -68,6 +70,8 @@ To see detailed information about a specific package:
 
 ----
 
+.. _repositories rpi:
+
 Raspberry Pi Repository
 -----------------------
 
@@ -86,8 +90,8 @@ VideoCore tools, and other hardware-specific packages.
 
 ----
 
-Installing Packages
--------------------
+Install Packages
+----------------
 
 To install packages from either repository on your running Kuiper system:
 
@@ -109,3 +113,4 @@ To upgrade to a newer version when available:
 
    sudo apt update
    sudo apt upgrade adi-zynq-boot
+
