@@ -262,8 +262,8 @@ Or just look-up the IP address:
 
 .. shell::
 
-   avahi-resolve-host-name -4 analog.local
-   analog.local      192.168.1.100
+   $avahi-resolve-host-name -4 analog.local
+    analog.local      192.168.1.100
 
 Or scan the network looking for the device:
 
