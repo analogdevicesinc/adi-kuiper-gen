@@ -252,6 +252,28 @@ First, find your device's IP address. If you have console access:
     2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP
         inet 192.168.1.100/24 brd 192.168.1.255 scope global eth0
 
+If you do not, you can try the default hostname:
+
+.. shell::
+
+   $ssh analog@analog.local
+
+Or just look-up the IP address:
+
+.. shell::
+
+   $avahi-resolve-host-name -4 analog.local
+    analog.local      192.168.1.100
+
+Or scan the network looking for the device:
+
+.. shell::
+
+   $sudo nmap -sn 192.168.1.0/24
+    Nmap scan report for 192.168.1.100
+    Host is up (0.00097s latency).
+    MAC Address: A6:7C:7E:F2:C5:0D (Xilinx)
+
 In this example, the device IP address is ``192.168.1.100``.
 
 Then connect from another computer:
@@ -328,3 +350,22 @@ see device information.
    The exact output will vary depending on your build configuration,
    hardware platform, and installed packages. The examples above show
    typical successful outputs.
+
+----
+
+Change the hostname and MAC address
+-----------------------------------
+
+By default, the hostname is ``analog`` for every Kuiper install. If you have
+multiple devices in the same network with the same hostname, mDNS/Avahi won't
+work properly. Set-up a new, unique hostname, with:
+
+.. shell::
+
+   $hostnamectl set-hostname analog-my-device
+   $systemctl restart avahi-daemon
+
+To persistently change the MAC address will depend on your carrier, you may be
+able through ``/boot/uEnv.txt`` by adding ``ethaddr=<new-mac-address>``, or
+through Linux through manipulating ``/etc/network/interfaces``. Check the
+carrier vendor documentation for full instructions.

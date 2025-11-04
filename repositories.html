@@ -97,7 +97,7 @@
 <li><a class="reference internal" href="#">Repositories</a><ul>
 <li><a class="reference internal" href="#adi-repository">ADI Repository</a></li>
 <li><a class="reference internal" href="#raspberry-pi-repository">Raspberry Pi Repository</a></li>
-<li><a class="reference internal" href="#installing-packages">Installing Packages</a></li>
+<li><a class="reference internal" href="#install-packages">Install Packages</a></li>
 </ul>
 </li>
 </ul>
@@ -172,7 +172,7 @@ These repositories are configured during the build process in the bootstrap
 stage.</p>
 <hr class="docutils" />
 <section id="adi-repository">
-<h2>ADI Repository<a class="headerlink" href="#adi-repository" title="Link to this heading"></a></h2>
+<span id="repositories-adi"></span><h2>ADI Repository<a class="headerlink" href="#adi-repository" title="Link to this heading"></a></h2>
 <p>The ADI APT repository is a collection of Debian package files that
 facilitates the distribution and installation of Analog Devices software
 packages. The repository contains .deb packages with boot files for carriers
@@ -229,10 +229,10 @@ operations.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt<span class="w"> </span>show<span class="w"> </span>adi-zynq-boot
 </pre></div>
 </div>
-</section>
 <hr class="docutils" />
+</section>
 <section id="raspberry-pi-repository">
-<h2>Raspberry Pi Repository<a class="headerlink" href="#raspberry-pi-repository" title="Link to this heading"></a></h2>
+<span id="repositories-rpi"></span><h2>Raspberry Pi Repository<a class="headerlink" href="#raspberry-pi-repository" title="Link to this heading"></a></h2>
 <p>By default, the Kuiper image includes the official Raspberry Pi package
 repository in <code class="docutils literal notranslate"><span class="pre">/etc/apt/sources.list.d/raspi.list</span></code>. This repository
 provides access to Pi-specific packages and optimizations.</p>
@@ -246,8 +246,8 @@ provides access to Pi-specific packages and optimizations.</p>
 VideoCore tools, and other hardware-specific packages.</p>
 </section>
 <hr class="docutils" />
-<section id="installing-packages">
-<h2>Installing Packages<a class="headerlink" href="#installing-packages" title="Link to this heading"></a></h2>
+<section id="install-packages">
+<h2>Install Packages<a class="headerlink" href="#install-packages" title="Link to this heading"></a></h2>
 <p>To install packages from either repository on your running Kuiper system:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update
 sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>&lt;package-name&gt;

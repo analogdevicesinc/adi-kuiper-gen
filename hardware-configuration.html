@@ -125,6 +125,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#available-overlays">Available Overlays</a></li>
+<li><a class="reference internal" href="#device-tree-manipulation-utility">Device tree manipulation utility</a></li>
 <li><a class="reference internal" href="#common-overlay-use-cases">Common Overlay Use Cases</a></li>
 <li><a class="reference internal" href="#removing-overlays">Removing Overlays</a></li>
 </ul>
@@ -781,9 +782,9 @@ overlays.</p>
 </section>
 <section id="method-2-dynamic-loading">
 <h4>Method 2: Dynamic Loading<a class="headerlink" href="#method-2-dynamic-loading" title="Link to this heading"></a></h4>
-<p>Load overlays at runtime without rebooting or modifying configuration
-files. Raspberry Pi package <code class="docutils literal notranslate"><span class="pre">libraspberrypi-bin</span></code> needs to be installed for
-this method.</p>
+<p>Load overlays at runtime without rebooting or modifying configuration files.
+Raspberry Pi package <code class="docutils literal notranslate"><span class="pre">raspi-utils-dt</span></code> needs to be installed for this method,
+see <a class="reference internal" href="#hardware-configuration-dtoverlay"><span class="std std-ref">Device tree manipulation utility</span></a>.</p>
 <div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
 </pre></div>
 </div>
@@ -830,6 +831,24 @@ rpi-ad7293.dtbo
 use <code class="docutils literal notranslate"><span class="pre">dtoverlay=my-overlay</span></code> not
 <code class="docutils literal notranslate"><span class="pre">dtoverlay=/boot/overlays/my-overlay.dtbo</span></code>.</p>
 </div>
+</section>
+<section id="device-tree-manipulation-utility">
+<span id="hardware-configuration-dtoverlay"></span><h3>Device tree manipulation utility<a class="headerlink" href="#device-tree-manipulation-utility" title="Link to this heading"></a></h3>
+<p>To manage the Device Tree using the <code class="docutils literal notranslate"><span class="pre">dtoverlay</span></code> command-line tool, first
+enable the <a class="reference internal" href="repositories.html#repositories-rpi"><span class="std std-ref">Raspberry Pi Repository</span></a>, then install the <code class="docutils literal notranslate"><span class="pre">raspi-utils-dt</span></code>
+package:</p>
+<div class="code-shell"><div><div class="no-select float-left highlight-default notranslate"><div class="highlight"><pre><span></span>~$
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>raspi-utils-dt
+</pre></div>
+</div>
+<div class="clear-left"></div></div><div><div class="no-select highlight-text notranslate"><div class="highlight"><pre><span></span>The following NEW packages will be installed:
+ libdtovl0 raspi-utils-dt
+</pre></div>
+</div>
+<div class="clear-left"></div></div></div><p>The <code class="docutils literal notranslate"><span class="pre">raspi-utils-dt</span></code> package provides the <code class="docutils literal notranslate"><span class="pre">dtoverlay</span></code> command-line utility,
+which uses the <code class="docutils literal notranslate"><span class="pre">libdtovl0</span></code> library to manipulate Device Tree overlays.</p>
 </section>
 <section id="common-overlay-use-cases">
 <h3>Common Overlay Use Cases<a class="headerlink" href="#common-overlay-use-cases" title="Link to this heading"></a></h3>

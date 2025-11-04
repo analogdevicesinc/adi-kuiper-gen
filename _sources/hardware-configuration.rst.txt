@@ -539,9 +539,9 @@ Changes take effect after reboot.
 Method 2: Dynamic Loading
 +++++++++++++++++++++++++
 
-Load overlays at runtime without rebooting or modifying configuration
-files. Raspberry Pi package ``libraspberrypi-bin`` needs to be installed for
-this method.
+Load overlays at runtime without rebooting or modifying configuration files.
+Raspberry Pi package ``raspi-utils-dt`` needs to be installed for this method,
+see :ref:`hardware-configuration-dtoverlay`.
 
 .. shell::
 
@@ -582,6 +582,24 @@ To list available overlays:
    Specify only the overlay name without extension or path. For example,
    use ``dtoverlay=my-overlay`` not
    ``dtoverlay=/boot/overlays/my-overlay.dtbo``.
+
+.. _hardware-configuration-dtoverlay:
+
+Device tree manipulation utility
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To manage the Device Tree using the ``dtoverlay`` command-line tool, first
+enable the :ref:`repositories rpi`, then install the ``raspi-utils-dt``
+package:
+
+.. shell::
+
+   $sudo apt install raspi-utils-dt
+    The following NEW packages will be installed:
+     libdtovl0 raspi-utils-dt
+
+The ``raspi-utils-dt`` package provides the ``dtoverlay`` command-line utility,
+which uses the ``libdtovl0`` library to manipulate Device Tree overlays.
 
 Common Overlay Use Cases
 ~~~~~~~~~~~~~~~~~~~~~~~~
