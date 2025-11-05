@@ -1,0 +1,12 @@
+[Unit]
+Description=Cora Shutdown Service
+DefaultDependencies=no
+Before=poweroff.target halt.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/rm -f /home/analog/ftc25-cora/Makefile /home/analog/ftc25-cora/adxl355_spi.ko /boot/uImage /boot/BOOT.BIN /boot/devicetree.dtb /boot/uEnv.txt
+RemainAfterExit=yes
+
+[Install]
+WantedBy=halt.target poweroff.target

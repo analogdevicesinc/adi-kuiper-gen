@@ -10,5 +10,9 @@ mkdir -p /home/analog
 
 cp -r stages/07.extra-tweaks/01.extra-scripts/ftc25-jupiter /home/analog
 
+# Copy shutdown service
+mv home/analog/ftc25-jupiter/shutdown-jupiter.service /etc/systemd/system/
+systemctl enable shutdown-jupiter.service
+
 sed -i 's/analog/ftc25-jupiter/g' /etc/hostname
 sed -i 's/analog/ftc25-jupiter/g' /etc/hosts

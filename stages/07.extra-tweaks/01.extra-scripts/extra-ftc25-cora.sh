@@ -34,5 +34,10 @@ rm -r linux-headers-6.1.0
 cp stages/07.extra-tweaks/01.extra-scripts/ftc25-cora/adxl355.h /home/analog/ftc25-cora
 cp stages/07.extra-tweaks/01.extra-scripts/ftc25-cora/adxl355_spi.c /home/analog/ftc25-cora
 
+# Copy shutdown service
+cp stages/07.extra-tweaks/01.extra-scripts/ftc25-cora/shutdown-cora.service /etc/systemd/system/
+systemctl enable shutdown-cora.service
+
+
 sed -i 's/analog/ftc25-cora/g' /etc/hostname
 sed -i 's/analog/ftc25-cora/g' /etc/hosts

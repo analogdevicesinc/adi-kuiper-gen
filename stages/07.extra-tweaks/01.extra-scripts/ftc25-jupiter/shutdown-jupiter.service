@@ -1,0 +1,12 @@
+[Unit]
+Description=Jupiter Shutdown Service
+DefaultDependencies=no
+Before=poweroff.target halt.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/rm -f /boot/Image /boot/boot.scr /boot/system.dtb /boot/uEnv.txt
+RemainAfterExit=yes
+
+[Install]
+WantedBy=halt.target poweroff.target

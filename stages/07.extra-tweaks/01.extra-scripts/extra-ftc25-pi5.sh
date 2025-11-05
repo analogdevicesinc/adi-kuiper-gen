@@ -13,6 +13,10 @@ apt install -y picocom mosquitto-clients evince
 
 # Copy custom files for multiple exercises
 cp -r stages/07.extra-tweaks/01.extra-scripts/ftc25-pi5 /home/analog
+mv /home/analog/ftc25-pi5/booklet.pdf /home/analog
+mv /home/analog/ftc25-pi5/powerpoint.pdf /home/analog
+
+chown -R analog:analog /home/analog/ftc25-pi5
 
 # Install Visual Studio Code
 wget -O vscode.deb "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-arm64"
@@ -37,7 +41,7 @@ EOF
 
 apt-get update
 
-apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 sed -i 's/analog/ftc25-pi5/g' /etc/hostname
 sed -i 's/analog/ftc25-pi5/g' /etc/hosts

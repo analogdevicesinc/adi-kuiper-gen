@@ -1,0 +1,12 @@
+[Unit]
+Description=Raspberry Pi 4 Shutdown Service
+DefaultDependencies=no
+Before=poweroff.target halt.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/rm -f /home/analog/stress.py
+RemainAfterExit=yes
+
+[Install]
+WantedBy=halt.target poweroff.target
