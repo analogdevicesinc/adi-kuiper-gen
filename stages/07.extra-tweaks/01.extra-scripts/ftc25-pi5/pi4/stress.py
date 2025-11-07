@@ -25,7 +25,7 @@ def get_temperature(ctx, device_name="cpu_thermal"):
         raw = int(temp_channel.attrs["input"].value)
         return raw / 1000.0
     except Exception as e:
-        print(f"❌ Error reading temperature: {e}")
+        print(f"Error reading temperature: {e}")
         sys.exit(1)
 
 
@@ -34,15 +34,15 @@ def main():
     try:
         ctx = iio.Context()
     except Exception as e:
-        print(f"❌ Failed to initialize IIO: {e}")
+        print(f"Failed to initialize IIO: {e}")
         sys.exit(1)
 
     start_temp = get_temperature(ctx)
 
-    print(f"🔥 RPi5 Safe Stress Test")
-    print(f"   Starting temperature: {start_temp:.1f}°C")
-    print(f"   Safety limit: {MAX_SAFE_TEMP:.1f}°C")
-    print(f"   Running... (Press CTRL+C to stop manually)\n")
+    print(f"RPi5 Safe Stress Test")
+    print(f"Starting temperature: {start_temp:.1f}°C")
+    print(f"Safety limit: {MAX_SAFE_TEMP:.1f}°C")
+    print(f"Running... (Press CTRL+C to stop manually)\n")
 
     cpu_count = multiprocessing.cpu_count()
     workers = []
@@ -56,14 +56,14 @@ def main():
             temp = get_temperature(ctx)
 
             if temp >= MAX_SAFE_TEMP:
-                print(f"🛑 Safety limit reached: {temp:.1f}°C")
-                print(f"   Stopping stress test to protect hardware.")
+                print(f"Safety limit reached: {temp:.1f}°C")
+                print(f"Stopping stress test to protect hardware.")
                 break
 
             time.sleep(0.5)
 
     except KeyboardInterrupt:
-        print(f"\n⚠️  Stopped by user")
+        print(f"\nStopped by user")
 
     finally:
         for p in workers:
@@ -73,9 +73,9 @@ def main():
         final_temp = get_temperature(ctx)
         temp_rise = final_temp - start_temp
 
-        print(f"\n✅ Stress test completed")
-        print(f"   Final temperature: {final_temp:.1f}°C")
-        print(f"   Temperature rise: {temp_rise:.1f}°C")
+        print(f"\nStress test completed")
+        print(f"Final temperature: {final_temp:.1f}°C")
+        print(f"Temperature rise: {temp_rise:.1f}°C")
 
 
 if __name__ == "__main__":

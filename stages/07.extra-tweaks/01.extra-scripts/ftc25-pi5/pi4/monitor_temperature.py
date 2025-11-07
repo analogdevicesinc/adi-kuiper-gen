@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🌡️ IIO Temperature Monitor - Network Transparent
+🌡️ IIO Temperature Monitor
 Monitors local or remote temperature with automatic mode detection
 """
 import iio
@@ -213,11 +213,11 @@ class Thermometer:
     def get_header_text(self):
         """Generate dynamic header based on mode"""
         if self.is_local:
-            return "🌡️  IIO Temperature Monitor - Local System"
+            return "IIO Temperature Monitor - Local System"
         elif self.is_remote:
-            return f"🌐 Remote IIO Temperature Monitor - {self.remote_ip}"
+            return f"Remote IIO Temperature Monitor - {self.remote_ip}"
         else:
-            return f"🌡️  IIO Temperature Monitor - {self.backend_uri}"
+            return f"IIO Temperature Monitor - {self.backend_uri}"
 
     def display(self):
         """Main display loop with all visualizations"""
@@ -245,16 +245,16 @@ class Thermometer:
 
                     print(f"{Colors.HEADER}{Colors.BOLD}╔{'═' * header_width}╗")
                     print(
-                        f"║{' ' * padding}{header_text}{' ' * (header_width - padding - len(header_text) + 10)}║"
+                        f"║{' ' * padding}{header_text}{' ' * (header_width - padding - len(header_text))}║"
                     )
                     print(f"╚{'═' * header_width}╝{Colors.RESET}\n")
 
                     if self.is_remote:
-                        print(f"{Colors.NETWORK}📡 Network Connection:{Colors.RESET}")
+                        print(f"{Colors.NETWORK}Network Connection:{Colors.RESET}")
                         print(
                             f"  Target IP: {Colors.BOLD}{self.remote_ip}{Colors.RESET}"
                         )
-                        print(f"  Status: {Colors.NORMAL}✅ Connected{Colors.RESET}")
+                        print(f"  Status: {Colors.NORMAL}Connected{Colors.RESET}")
                         print(
                             f"  Remote Kernel: {Colors.DIM}{self.backend_desc}{Colors.RESET}\n"
                         )
@@ -271,7 +271,7 @@ class Thermometer:
 
                     print(f"{Colors.BOLD}Gauge View:{Colors.RESET}")
                     gauge = self.draw_gauge(temp, width=50)
-                    print(f"  {gauge}\n")
+                    print(f"{gauge}\n")
 
                     print(f"{Colors.BOLD}Statistics:{Colors.RESET}")
                     print(
@@ -310,28 +310,28 @@ class Thermometer:
                 time.sleep(0.5)
 
         except KeyboardInterrupt:
-            print(f"\n\n{Colors.BOLD}✅ Monitoring stopped.{Colors.RESET}")
+            print(f"\n\n{Colors.BOLD}Monitoring stopped.{Colors.RESET}")
 
             print(f"\n{Colors.BOLD}Session Statistics:{Colors.RESET}")
             if self.is_remote:
                 print(
-                    f"  Mode: {Colors.NETWORK}Remote (monitored {self.remote_ip}){Colors.RESET}"
+                    f"Mode: {Colors.NETWORK}Remote (monitored {self.remote_ip}){Colors.RESET}"
                 )
             else:
                 print(
-                    f"  Mode: {Colors.NORMAL}Local (monitored this system){Colors.RESET}"
+                    f"Mode: {Colors.NORMAL}Local (monitored this system){Colors.RESET}"
                 )
 
-            print(f"  Duration: {len(self.history) * 0.5:.1f} seconds")
-            print(f"  Min temperature: {self.min_temp:.2f}°C")
-            print(f"  Max temperature: {self.max_temp:.2f}°C")
+            print(f"Duration: {len(self.history) * 0.5:.1f} seconds")
+            print(f"Min temperature: {self.min_temp:.2f}°C")
+            print(f"Max temperature: {self.max_temp:.2f}°C")
 
             if len(self.history) > 0:
-                print(f"  Avg temperature: {sum(self.history)/len(self.history):.2f}°C")
-                print(f"  Temperature range: {self.max_temp - self.min_temp:.2f}°C")
+                print(f"Avg temperature: {sum(self.history)/len(self.history):.2f}°C")
+                print(f"Temperature range: {self.max_temp - self.min_temp:.2f}°C")
 
             if self.read_errors > 0:
-                print(f"  Read errors: {self.read_errors}")
+                print(f"Read errors: {self.read_errors}")
             print()
 
 
@@ -341,7 +341,7 @@ def main():
         monitor = Thermometer(history_size=60)
         monitor.display()
     except Exception as e:
-        print(f"{Colors.HOT}❌ Fatal error: {e}{Colors.RESET}")
+        print(f"{Colors.HOT}Fatal error: {e}{Colors.RESET}")
         sys.exit(1)
 
 
