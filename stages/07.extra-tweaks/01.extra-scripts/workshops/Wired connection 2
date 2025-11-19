@@ -1,0 +1,18 @@
+[connection]
+id=Wired connection 2
+type=ethernet
+autoconnect=yes
+ 
+[ethernet]
+ 
+[ipv4]
+addresses=192.168.97.30/24
+method=manual
+gateway=192.168.97.1
+never-default=true
+ 
+[ipv6]
+addr-gen-mode=default
+method=disabled
+ 
+[proxy]

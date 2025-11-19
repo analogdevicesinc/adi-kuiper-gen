@@ -1,0 +1,1268 @@
+{
+  "version": "0.1.0",
+  "platforms": [
+    {
+      "platform": "intel",
+      "architectures": [
+        {
+          "architecture": "arria10",
+          "boards": [
+            {
+              "board" : "socdk"
+            }
+          ]
+        },
+        {
+          "architecture": "cyclone5",
+          "boards": [
+            {
+              "board" : "de10nano"
+            },
+            {
+              "board" : "sockit"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "platform": "xilinx",
+      "architectures": [
+        {
+          "architecture": "zynq",
+          "boards": [
+            {
+              "board" : "coraz7s"
+            },
+            {
+              "board" : "zc702"
+            },
+            {
+              "board" : "zc706"
+            },
+            {
+              "board" : "zed"
+            },
+            {
+              "board" : "ccbob"
+            },
+            {
+              "board" : "ccfmc"
+            }
+          ]
+        },
+        {
+          "architecture": "zynqmp",
+          "boards": [
+            {
+              "board" : "zcu102"
+            },
+            {
+              "board" : "adrv9009zu11eg_adrv2crr"
+            }
+          ]
+        },
+        {
+          "architecture": "versal",
+          "boards": [
+            {
+              "board" : "vck190"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "platform": "rpi",
+      "architectures": [
+        {
+          "architecture": "arm64",
+          "boards": [
+            {
+              "board": "rpi3"
+            },
+            {
+              "board": "rpi3b"
+            },
+            {
+              "board": "rpi4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "projects": [
+    {
+      "name": "ad6676evb",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-ad6676-fmc/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-ad6676-fmc/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "ad9081",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-ad9081/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-ad9081/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "ad9082",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-ad9082/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-ad9082/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "ad9081_np12",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-ad9081/np12/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-ad9081/np12/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "ad9434-fmc",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-ad9434-fmc-500ebz/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-ad9434-fmc-500ebz/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adrv9002",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-adrv9002/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-adrv9002/zynq-zc706-adv7511-adrv9002/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adrv9002_rx2tx2",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-adrv9002/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-adrv9002/zynq-zc706-adv7511-adrv9002-rx2tx2/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adrv9009",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-adrv9009/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-adrv9009/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adrv9008-1",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-adrv9008-1-2/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-adrv9008-1-2/zynq-zc706-adv7511-adrv9008-1/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adrv9008-2",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-adrv9008-1-2/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-adrv9008-1-2/zynq-zc706-adv7511-adrv9008-2/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adrv9371",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-adrv937x/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-adrv937x/zynq-zc706-adv7511-adrv9371/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adrv9375",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-adrv937x/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-adrv937x/zynq-zc706-adv7511-adrv9375/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "cn0506_mii",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-cn0506-mii/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-cn0506-mii/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "cn0506_rgmii",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-cn0506-rgmii/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-cn0506-rgmii/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "cn0506_rmii",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-cn0506-rmii/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-cn0506-rmii/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "ad9172_fmc",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-ad9172-fmc-ebz/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-ad9172-fmc-ebz/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "daq3",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-fmcdaq3-revC/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-fmcdaq3-revC/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "fmcjesdadc1",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-fmcjesdadc1/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-fmcjesdadc1/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "fmcomms11",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-fmcomms11/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-fmcomms11/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "fmcomms2",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-ad936x-fmcomms2-3-4/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-ad936x-fmcomms2-3-4/zynq-zc706-adv7511-ad9361-fmcomms2-3/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "fmcomms3",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-ad936x-fmcomms2-3-4/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-ad936x-fmcomms2-3-4/zynq-zc706-adv7511-ad9361-fmcomms2-3/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "fmcomms4",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-ad936x-fmcomms2-3-4/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-ad936x-fmcomms2-3-4/zynq-zc706-adv7511-ad9364-fmcomms4/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "fmcomms5",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-ad9361-fmcomms5/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-ad9361-fmcomms5/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "fmcomms5-ext-lo-adf5355",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511-ad9361-fmcomms5-ext-lo-adf5355/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511-ad9361-fmcomms5-ext-lo-adf5355/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adv7511",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc706",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc706-adv7511/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc706-adv7511/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adv7511",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc702",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc702-adv7511/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc702-adv7511/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "fmcomms2",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc702",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc702-adv7511-ad936x-fmcomms2-3-4/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc702-adv7511-ad936x-fmcomms2-3-4/zynq-zc702-adv7511-ad9361-fmcomms2-3/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "fmcomms3",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc702",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc702-adv7511-ad936x-fmcomms2-3-4/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc702-adv7511-ad936x-fmcomms2-3-4/zynq-zc702-adv7511-ad9361-fmcomms2-3/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "fmcomms4",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc702",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc702-adv7511-ad936x-fmcomms2-3-4/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc702-adv7511-ad936x-fmcomms2-3-4/zynq-zc702-adv7511-ad9364-fmcomms4/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "fmcomms5",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zc702",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zc702-adv7511-ad9361-fmcomms5/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zc702-adv7511-ad9361-fmcomms5/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adrv9361z7035_cmos",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "ccbob",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-adrv9361-z7035-bob/cmos/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-adrv9361-z7035-bob/cmos/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adrv9361z7035_lvds",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "ccbob",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-adrv9361-z7035-bob/lvds/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-adrv9361-z7035-bob/lvds/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adrv9364z7020_cmos",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "ccbob",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-adrv9364-z7020-bob/cmos/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-adrv9364-z7020-bob/cmos/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adrv9364z7020_lvds",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "ccbob",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-adrv9364-z7020-bob/lvds/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-adrv9364-z7020-bob/lvds/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adrv9361z7035_lvds",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "ccfmc",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-adrv9361-z7035-fmc/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-adrv9361-z7035-fmc/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adaq4003",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "coraz7s",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-coraz7s-adaq4003/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-coraz7s-adaq4003/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "cn0579",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "coraz7s",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-coraz7s-cn0579_i2c/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-coraz7s-cn0579_i2c/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "cn0540",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "coraz7s",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-coraz7s-cn0540/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-coraz7s-cn0540/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adxl355",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "coraz7s",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-coraz7s-adxl355/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-coraz7s-adxl355/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "ad4003",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/pulsar_adc_zed/zynq-zed-adv7511-ad4003/BOOT.BIN"
+        },
+        {
+          "path": "/boot/pulsar_adc_zed/zynq-zed-adv7511-ad4003/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "ad4020",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/pulsar_adc_zed/zynq-zed-adv7511-ad4020/BOOT.BIN"
+        },
+        {
+          "path": "/boot/pulsar_adc_zed/zynq-zed-adv7511-ad4020/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "ad4630_fmc",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-adv7511-ad4630-24/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-adv7511-ad4630-24/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adaq4003",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/pulsar_adc_zed/zynq-zed-adv7511-adaq4003/BOOT.BIN"
+        },
+        {
+          "path": "/boot/pulsar_adc_zed/zynq-zed-adv7511-adaq4003/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adaq4224-24",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-adv7511-ad4630-24/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-adv7511-ad4630-24/zynq-zed-adv7511-adaq4224-24/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "ad403x",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-adv7511-ad4630-24/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-adv7511-ad4630-24/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "ad77681_evb",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-adv7511-ad7768-1-evb/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-adv7511-ad7768-1-evb/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "ad7768",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-adv7511-ad7768-axi-adc/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-adv7511-ad7768-axi-adc/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "ad7768-4",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-adv7511-ad7768-4-axi-adc/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-adv7511-ad7768-4-axi-adc/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "ad9265-fmc-125ebz",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-adv7511-ad9265-fmc-125ebz/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-adv7511-ad9265-fmc-125ebz/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "ad9434-fmc",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-adv7511-ad9434-fmc-500ebz/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-adv7511-ad9434-fmc-500ebz/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "ad9467-fmc",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-adv7511-ad9467-fmc-250ebz/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-adv7511-ad9467-fmc-250ebz/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adaq8092",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-adv7511-adaq8092/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-adv7511-adaq8092/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adrv9002",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-adv7511-adrv9002/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-adv7511-adrv9002/zynq-zed-adv7511-adrv9002/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adrv9002_rx2tx2",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-adv7511-adrv9002/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-adv7511-adrv9002/zynq-zed-adv7511-adrv9002-rx2tx2/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "cn0363",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-adv7511-cn0363/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-adv7511-cn0363/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "cn0506_mii",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-adv7511-cn0506-mii/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-adv7511-cn0506-mii/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "cn0506_rgmii",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-adv7511-cn0506-rgmii/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-adv7511-cn0506-rgmii/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "cn0506_rmii",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-adv7511-cn0506-rmii/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-adv7511-cn0506-rmii/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "cn0577",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-adv7511-cn0577/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-adv7511-cn0577/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "fmcomms2",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-adv7511-ad936x-fmcomms2-3-4/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-adv7511-ad936x-fmcomms2-3-4/zynq-zed-adv7511-ad9361-fmcomms2-3/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "fmcomms3",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-adv7511-ad936x-fmcomms2-3-4/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-adv7511-ad936x-fmcomms2-3-4/zynq-zed-adv7511-ad9361-fmcomms2-3/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "fmcomms4",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-adv7511-ad936x-fmcomms2-3-4/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-adv7511-ad936x-fmcomms2-3-4/zynq-zed-adv7511-ad9364-fmcomms4/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adv7511",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-adv7511/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-adv7511/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "adv7511_without_bitstream",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-otg/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-otg/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    },
+    {
+      "name": "ad4134_fmc",
+      "platform": "xilinx",
+      "architecture": "zynq",
+      "board": "zed",
+      "kernel": "/boot/zynq-common/uImage",
+      "files": [
+        {
+          "path": "/boot/zynq-zed-adv7511-ad4134/BOOT.BIN"
+        },
+        {
+          "path": "/boot/zynq-zed-adv7511-ad4134/devicetree.dtb"
+        },
+        {
+          "path": "/boot/zynq-common/uEnv.txt"
+        }
+      ]
+    }
+  ]
+}
