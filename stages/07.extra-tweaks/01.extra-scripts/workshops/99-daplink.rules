@@ -1,0 +1,5 @@
+# DAPLink/CMSIS-DAP - USB interface
+SUBSYSTEM=="usb", ATTR{idVendor}=="0d28", ATTR{idProduct}=="0204", MODE="0666"
+
+# DAPLink/CMSIS-DAP - HID interface  
+KERNEL=="hidraw*", ATTRS{idVendor}=="0d28", ATTRS{idProduct}=="0204", MODE="0666"
