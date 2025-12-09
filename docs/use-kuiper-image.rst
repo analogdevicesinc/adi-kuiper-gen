@@ -122,6 +122,9 @@ support, you can also use these alternatives:
 
 * Raspberry Pi Imager (works with any .img file, not just Pi images)
 
+.. youtube:: TS2IdS2j3v0
+
+   Video tutorial: Writing Kuiper Linux to SD card using Raspberry Pi Imager
 ----
 
 .. _use-kuiper-image-before-boot:
