@@ -6,8 +6,10 @@
 # Copyright (c) 2024 Analog Devices, Inc.
 # Author: Larisa Radu <larisa.radu@analog.com>
 
+
 if [ "${CONFIG_IIO_OSCILLOSCOPE}" = y ]; then
 	if [[ "${CONFIG_LIBIIO}" = y && "${CONFIG_LIBAD9361_IIO}" = y && "${CONFIG_LIBAD9166_IIO}" = y ]]; then
+		install_packages "${BASH_SOURCE%/run.sh}"
 
 chroot "${BUILD_DIR}" << EOF
 		cd /usr/local/src

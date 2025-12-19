@@ -8,10 +8,9 @@
 
 if [ "${CONFIG_DESKTOP}" = y ]; then
 
-mkdir "${BUILD_DIR}/usr/share/adi-wallpaper"
-install -m 644 "${BASH_SOURCE%%/run.sh}"/files/wallpaper.png "${BUILD_DIR}/usr/share/adi-wallpaper"
+install -D -m 644 "${BASH_SOURCE%/run.sh}"/files/wallpaper.png "${BUILD_DIR}/usr/share/adi-wallpaper/wallpaper.png"
 rm "${BUILD_DIR}/usr/share/icons/hicolor/16x16/apps/org.xfce.panel.applicationsmenu.png"
-install -m 644 "${BASH_SOURCE%%/run.sh}"/files/org.xfce.panel.applicationsmenu.png "${BUILD_DIR}/usr/share/icons/hicolor/16x16/apps"
+install -m 644 "${BASH_SOURCE%/run.sh}"/files/org.xfce.panel.applicationsmenu.png "${BUILD_DIR}/usr/share/icons/hicolor/16x16/apps"
 
 chroot "${BUILD_DIR}" << EOF
 	# Set theme to dark

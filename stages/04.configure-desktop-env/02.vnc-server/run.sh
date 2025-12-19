@@ -6,16 +6,19 @@
 # Copyright (c) 2024 Analog Devices, Inc.
 # Author: Larisa Radu <larisa.radu@analog.com>
 
+
 if [ "${CONFIG_DESKTOP}" = y ]; then
 
+install_packages "${BASH_SOURCE%/run.sh}"
+
 # Add x11vnc service
-install -m 644 "${BASH_SOURCE%%/run.sh}"/files/x11vnc.service "${BUILD_DIR}/lib/systemd/system/"
+install -m 644 "${BASH_SOURCE%/run.sh}"/files/x11vnc.service "${BUILD_DIR}/lib/systemd/system/"
 
 # Add xserver service
-install -m 644 "${BASH_SOURCE%%/run.sh}"/files/xserver.service "${BUILD_DIR}/lib/systemd/system/"
+install -m 644 "${BASH_SOURCE%/run.sh}"/files/xserver.service "${BUILD_DIR}/lib/systemd/system/"
 
 # Add xserver script
-install -m 755 "${BASH_SOURCE%%/run.sh}"/files/adi-xserver.sh	 "${BUILD_DIR}/usr/bin/"
+install -m 755 "${BASH_SOURCE%/run.sh}"/files/adi-xserver.sh "${BUILD_DIR}/usr/bin/"
 
 install -d "${BUILD_DIR}/home/analog/.vnc"
 

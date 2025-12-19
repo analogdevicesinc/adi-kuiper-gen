@@ -9,10 +9,8 @@
 if [ "${INSTALL_RPI_PACKAGES}" = y ]; then
 	
 	# Copy application launcher and icon for sense_emu
-	install -d 								"${BUILD_DIR}/usr/local/share/sense"
-	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/sense_emu_gui.svg 	"${BUILD_DIR}/usr/local/share/sense/"
-	install -d 								"${BUILD_DIR}/usr/local/share/applications/"
-	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/sense_emu_gui.desktop 	"${BUILD_DIR}/usr/local/share/applications/"
+	install -D -m 644 "${BASH_SOURCE%/run.sh}"/files/sense_emu_gui.svg "${BUILD_DIR}/usr/local/share/sense/sense_emu_gui.svg"
+	install -D -m 644 "${BASH_SOURCE%/run.sh}"/files/sense_emu_gui.desktop "${BUILD_DIR}/usr/local/share/applications/sense_emu_gui.desktop"
 
 	
 chroot "${BUILD_DIR}" << EOF

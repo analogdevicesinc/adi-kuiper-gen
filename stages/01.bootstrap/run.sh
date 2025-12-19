@@ -21,7 +21,7 @@ if [[ "$(uname -m)" != "aarch64" && "$(uname -m)" != "arm*" ]]; then
 fi
 
 # Add adi-repo.list to sources.list
-install -m 644 "${BASH_SOURCE%%/run.sh}"/files/adi-repo.list "${BUILD_DIR}/etc/apt/sources.list.d/adi-repo.list"
+install -m 644 "${BASH_SOURCE%/run.sh}"/files/adi-repo.list "${BUILD_DIR}/etc/apt/sources.list.d/adi-repo.list"
 
 # Add adi-repo.gpg key to use adi-repo.list
 wget https://swdownloads.analog.com/cse/adi-repo/adi-repo-key.public
@@ -30,7 +30,7 @@ rm adi-repo-key.public
 
 if [ "${CONFIG_RPI_BOOT_FILES}" = y ]; then
 	# Add raspi.list to sources.list
-	install -m 644 "${BASH_SOURCE%%/run.sh}"/files/raspi.list "${BUILD_DIR}/etc/apt/sources.list.d/raspi.list"
+	install -m 644 "${BASH_SOURCE%/run.sh}"/files/raspi.list "${BUILD_DIR}/etc/apt/sources.list.d/raspi.list"
 
 	# Add raspberrypi.gpg key to use raspi.list
 	wget -O raspberrypi.gpg.key https://archive.raspberrypi.org/debian/raspberrypi.gpg.key
