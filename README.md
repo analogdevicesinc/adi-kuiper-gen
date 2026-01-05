@@ -10,7 +10,7 @@ Whether you're prototyping with an ADI evaluation board, developing embedded app
 
 1. **Check prerequisites** ([see details](https://analogdevicesinc.github.io/adi-kuiper-gen/prerequisites.html)): Ubuntu 22.04 + Docker
 2. **Get Kuiper image**:
-   - **Quick option**: Download pre-built from [GitHub Actions](https://github.com/analogdevicesinc/adi-kuiper-gen/actions/workflows/kuiper2_0-build.yml)
+   - **Quick option**: Download pre-built from [GitHub Actions](https://github.com/analogdevicesinc/adi-kuiper-gen/actions/workflows/kuiper2_0-build.yml?query=branch:main)
    - **Custom option**: Clone and build your own
 
    ```bash
