@@ -1,6 +1,12 @@
 ADI Kuiper Linux
 ================
 
+.. description::
+
+   ADI Kuiper Linux - A specialized Debian distribution for Analog Devices 
+   hardware with pre-configured libraries, tools, and applications for 
+   seamless development
+
 Kuiper is a specialized Debian-based Linux distribution designed specifically 
 for Analog Devices hardware and evaluation boards. It provides a complete, 
 ready-to-use environment with ADI libraries, tools, and applications 
@@ -10,12 +16,6 @@ Whether you're prototyping with an ADI evaluation board, developing embedded
 applications, or building software-defined radio solutions, Kuiper gives you 
 a solid foundation to start immediately without the complexity of manual 
 system configuration.
-
-.. description::
-
-   ADI Kuiper Linux - A specialized Debian distribution for Analog Devices 
-   hardware with pre-configured libraries, tools, and applications for 
-   seamless development
 
 ----
 
