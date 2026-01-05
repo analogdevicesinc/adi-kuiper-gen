@@ -29,7 +29,7 @@ Get up and running with Kuiper:
 #. Get Kuiper image:
 
    - **Quick option**: Download pre-built from :git-adi-kuiper-gen:`GitHub 
-     Actions <actions/workflows/kuiper2_0-build.yml+>`
+     Actions <actions/workflows/kuiper2_0-build.yml?query=branch:main+>`
    - **Custom option**: Clone repository and build your own
 
    .. code-block:: bash
@@ -94,8 +94,8 @@ Basic Image (Default)
 resource-constrained environments
 
 **Get it:** Download pre-built from :git-adi-kuiper-gen:`GitHub Actions 
-<actions/workflows/kuiper2_0-build.yml+>` or build using the default config 
-file.
+<actions/workflows/kuiper2_0-build.yml?query=branch:main+>` or build using the
+default config file.
 
 Full Image
 ~~~~~~~~~~
@@ -112,8 +112,8 @@ Full Image
 learning ADI ecosystem
 
 **Get it:** Download pre-built from :git-adi-kuiper-gen:`GitHub Actions 
-<actions/workflows/kuiper2_0-build.yml+>` or enable all options in the config 
-file.
+<actions/workflows/kuiper2_0-build.yml?query=branch:main+>` or enable all
+options in the config file.
 
 Custom Image
 ~~~~~~~~~~~~

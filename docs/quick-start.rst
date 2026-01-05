@@ -15,7 +15,7 @@ Choose Your Path
    Get a ready-to-use basic Kuiper image immediately:
 
    - Download the latest build from :git-adi-kuiper-gen:`GitHub Actions 
-     <actions/workflows/kuiper2_0-build.yml+>`
+     <actions/workflows/kuiper2_0-build.yml?query=branch:main+>`
    - Skip to :doc:`Using Kuiper Images <use-kuiper-image>` to write it to an 
      SD card
 
