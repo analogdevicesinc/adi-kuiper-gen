@@ -183,7 +183,7 @@ These options control which ADI applications are included in the image:
      - *(see config file)*
      - CMake build arguments for IIO Oscilloscope
    * - ``BRANCH_IIO_OSCILLOSCOPE``
-     - ``main``
+     - ``v0.18-main``
      - Git branch to use for IIO Oscilloscope
    * - ``CONFIG_IIO_FM_RADIO``
      - ``n``
