@@ -32,7 +32,7 @@ jobs:
             os: [self-hosted, kuiper32_full]
           - arch: 64
             build_type: full
-            os: ubuntu-latest
+            os: [self-hosted, kuiper64_full]
       fail-fast: false
     steps:
       - uses: actions/checkout@v3
