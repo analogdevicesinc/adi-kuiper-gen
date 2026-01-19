@@ -35,6 +35,11 @@ jobs:
             os: [self-hosted, kuiper64_full]
       fail-fast: false
     steps:
+      - name: Cleanup Workspace
+        run: |
+          rm -rf ./* || true
+          rm -rf ./.??* || true
+
       - uses: actions/checkout@v3
       - name: Set env variabiles
         run: |
