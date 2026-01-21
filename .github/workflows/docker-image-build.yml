@@ -3,7 +3,7 @@ on: workflow_dispatch
 
 jobs:
   Build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     permissions:
       packages: write
       contents: read
