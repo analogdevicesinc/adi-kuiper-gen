@@ -23,16 +23,16 @@ jobs:
         include:
           - arch: 32
             build_type: basic
-            os: ubuntu-latest
+            os: ubuntu-24.04-arm
           - arch: 64
             build_type: basic
-            os: ubuntu-latest
+            os: ubuntu-24.04-arm
           - arch: 32
             build_type: full
             os: [self-hosted, kuiper32_full]
           - arch: 64
             build_type: full
-            os: ubuntu-latest
+            os: ubuntu-24.04-arm
       fail-fast: false
     steps:
       - uses: actions/checkout@v3
@@ -49,7 +49,7 @@ jobs:
           echo BRANCH_NAME="$branch_name"_"$type"_"${{ matrix.arch }}" >> $GITHUB_ENV
       - name: Build image
         run: |
-          if [ "${{ matrix.os }}" == "ubuntu-latest" ]; then
+          if [[ "$(uname -m)" != "aarch64" ]]; then
             sudo apt-get update
             sudo apt-get install -y qemu-user-static
           fi
