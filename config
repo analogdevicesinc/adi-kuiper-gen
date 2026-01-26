@@ -5,7 +5,7 @@
 # This image can be customized by adding one or more of the following libraries and tools.
 #
 # Set the architecture for Kuiper. Options: armhf (for 32 bits), arm64 (for 64 bits).
-TARGET_ARCHITECTURE=armhf
+TARGET_ARCHITECTURE=arm64
 #
 # Set the Debian version for Kuiper. Options: bullseye, bookworm.
 DEBIAN_VERSION=bookworm
@@ -192,13 +192,13 @@ CONFIG_RPI_BOOT_FILES=y
 # Contains boot files for Intel and Xilinx.
 #
 # For armhf:
-CONFIG_ARCH_ZYNQ=y
-CONFIG_ARCH_ARRIA10=y
-CONFIG_ARCH_CYCLONE5=y
+CONFIG_ARCH_ZYNQ=n
+CONFIG_ARCH_ARRIA10=n
+CONFIG_ARCH_CYCLONE5=n
 #
 # For arm64:
-CONFIG_ARCH_ZYNQMP=n
-CONFIG_ARCH_VERSAL=n
+CONFIG_ARCH_ZYNQMP=y
+CONFIG_ARCH_VERSAL=y
 #
 #
 #
