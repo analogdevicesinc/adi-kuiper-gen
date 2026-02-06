@@ -8,7 +8,7 @@
 TARGET_ARCHITECTURE=armhf
 #
 # Set the Debian version for Kuiper. Options: bullseye, bookworm.
-DEBIAN_VERSION=bookworm
+DEBIAN_VERSION=trixie
 #
 # Preserve the Docker container.
 PRESERVE_CONTAINER=n

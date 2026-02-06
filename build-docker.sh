@@ -29,10 +29,10 @@ if [ "$(id -u)" != "0" ] ; then
 fi
 
 # Check if Debian version is supported
-if [[ ! ${DEBIAN_VERSION} = bookworm && ! ${DEBIAN_VERSION} = bullseye ]]; then
-	echo "Unsupported Debian version ${DEBIAN_VERSION}"
-	exit 1
-fi
+#if [[ ! ${DEBIAN_VERSION} = bookworm && ! ${DEBIAN_VERSION} = bullseye ]]; then
+#	echo "Unsupported Debian version ${DEBIAN_VERSION}"
+#	exit 1
+#fi
 
 # Build docker image
 docker build --build-arg BASE_IMAGE="${BASE_IMAGE}" -t ${IMAGE_NAME} .
