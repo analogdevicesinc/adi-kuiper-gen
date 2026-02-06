@@ -76,6 +76,37 @@ jobs:
             ${{ github.workspace }}/kuiper-volume
             !${{ github.workspace }}/kuiper-volume/*.zip
 
+  Build_with_qemu:
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        arch: [32, 64]
+        build_type: [basic]
+        include:
+          - arch: 32
+            build_type: basic
+            os: ubuntu-latest
+          - arch: 64
+            build_type: basic
+            os: ubuntu-latest
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set env variabiles
+        run: |
+          BRANCH=$GITHUB_BASE_REF
+          branch_name=$(echo $BRANCH | tr 'a-z' 'A-Z' | sed 's/[^[:alnum:]]/_/g')
+          type=$( echo ${{ matrix.build_type }} | tr 'a-z' 'A-Z')
+          echo BRANCH_NAME="$branch_name"_"$type"_"${{ matrix.arch }}" >> $GITHUB_ENV
+      - name: Build image
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-user-static
+          ci/modify_config.sh ./config "${{ vars[format('{0}', env.BRANCH_NAME )] }}"
+          sudo bash build-docker.sh
+          ls kuiper-volume/*.zip >/dev/null 2>&1 && exit 0 || exit 2
+
   Trigger_workflow:
     needs: Build
     runs-on: ubuntu-latest
