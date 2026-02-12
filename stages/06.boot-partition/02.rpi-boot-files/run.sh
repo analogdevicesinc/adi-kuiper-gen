@@ -93,16 +93,18 @@ EOF
 	
 	# Install Raspberry Pi boot files: start*.elf, fixup*.dat, bootcode.bin and LICENCE.broadcom. 
 	# These files are downloaded as a package from the Raspberry Pi apt repository.
-	sed -i 's/deb /#deb /' "${BUILD_DIR}/etc/apt/sources.list"
 	sed -i 's/#deb /deb /' "${BUILD_DIR}/etc/apt/sources.list.d/raspi.list"
+
+	mv ${BUILD_DIR}/usr/bin/ischroot ${BUILD_DIR}/usr/bin/ischroot.original
+	ln -s /usr/bin/true ${BUILD_DIR}/usr/bin/ischroot
 
 chroot "${BUILD_DIR}" << EOF
 	 apt-get update
-	 apt-get install -y raspberrypi-bootloader --no-install-recommends
+	 apt-get install -y raspi-firmware --no-install-recommends
 EOF
 
+	mv "${BUILD_DIR}"/usr/bin/ischroot.original "${BUILD_DIR}"/usr/bin/ischroot
 	sed -i 's/deb /#deb /' "${BUILD_DIR}/etc/apt/sources.list.d/raspi.list"
-	sed -i 's/#deb /deb /' "${BUILD_DIR}/etc/apt/sources.list"
 
 chroot "${BUILD_DIR}" << EOF
 	 apt-get update
