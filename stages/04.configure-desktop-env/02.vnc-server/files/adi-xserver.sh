@@ -15,7 +15,7 @@ else
 	enable_dummy_display.sh
 	
 	# Start an X server as user 'analog'
-	sudo -u analog startx -- :0
+	su - analog -c "startxfce4 -- :0"
 	
 	# Export the display port
 	export DISPLAY=:0
