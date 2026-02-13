@@ -1,3 +1,4 @@
+name: Clean up GitHub Pages
 on:
   pull_request:
     types: [closed]
