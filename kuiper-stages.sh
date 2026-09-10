@@ -19,10 +19,21 @@ export GITHUB_ANALOG_DEVICES="https://github.com/analogdevicesinc"
 export ADI_REPOS="ADI_repos_git_info.txt"
 export TARGET_ARCHITECTURE=${TARGET_ARCHITECTURE:-armhf}
 export BUILD_DIR=${TARGET_ARCHITECTURE}_rootfs
-export IMG_FILE="image_"$(date +%Y-%m-%d)"-ADI-Kuiper-Linux-$TARGET_ARCHITECTURE.img"
+# Capture the build date once (UTC) so the .img, the .zip and the identity
+# manifest all agree, even for a build that crosses midnight.
+export BUILD_DATE=${BUILD_DATE:-$(date -u +%Y-%m-%d)}
+export IMG_FILE="image_${BUILD_DATE}-ADI-Kuiper-Linux-${TARGET_ARCHITECTURE}.img"
 export NUM_JOBS=${NUM_JOBS:-$(nproc)}
 export HOSTNAME=${HOSTNAME:-analog}
 export DEBIAN_SNAPSHOT=${DEBIAN_SNAPSHOT:-""}
+export DEBIAN_VERSION=${DEBIAN_VERSION:-trixie}
+
+# Kuiper image identity, written into the manifest and os-release by
+# 08.export-stage/00.image-identity. Version and commit are threaded in from the
+# host by build-docker.sh, because git is unavailable inside the container.
+export KUIPER_VERSION=${KUIPER_VERSION:-unknown}
+export KUIPER_COMMIT=${KUIPER_COMMIT:-unknown}
+export KUIPER_VARIANT=${KUIPER_VARIANT:-custom}
 
 export CONFIG_DESKTOP=${CONFIG_DESKTOP:-n}
 export CONFIG_LIBIIO=${CONFIG_LIBIIO:-n}

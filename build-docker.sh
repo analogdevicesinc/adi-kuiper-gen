@@ -14,6 +14,13 @@ IMAGE_NAME="debian_${DEBIAN_VERSION}_rootfs"
 CONTAINER_NAME=${CONTAINER_NAME:-"${IMAGE_NAME}_container"}
 PRESERVE_CONTAINER=${PRESERVE_CONTAINER:-n}
 
+# Capture the Kuiper repository identity on the host and thread it into the
+# build: git is unavailable inside the container (.dockerignore drops the git
+# objects). safe.directory='*' avoids "dubious ownership" when run under sudo.
+KUIPER_VERSION=${KUIPER_VERSION:-$(git -c safe.directory='*' describe --tags --always --dirty 2>/dev/null || echo unknown)}
+KUIPER_COMMIT=${KUIPER_COMMIT:-$(git -c safe.directory='*' rev-parse --short HEAD 2>/dev/null || echo unknown)}
+KUIPER_VARIANT=${KUIPER_VARIANT:-custom}
+
 cleanup() {
 	docker rm -fv ${CONTAINER_NAME}
 	exit 1
@@ -52,6 +59,9 @@ docker run -t --privileged \
 			-v /lib/modules:/lib/modules \
 			-v ./kuiper-volume:/kuiper-volume \
 			-e "DEBIAN_VERSION="${DEBIAN_VERSION}"" \
+			-e "KUIPER_VERSION=${KUIPER_VERSION}" \
+			-e "KUIPER_COMMIT=${KUIPER_COMMIT}" \
+			-e "KUIPER_VARIANT=${KUIPER_VARIANT}" \
 			--name ${CONTAINER_NAME} ${IMAGE_NAME} \
 			/bin/bash -o pipefail -c "bash kuiper-stages.sh"
 
@@ -71,6 +81,6 @@ done
 
 # Save info about kuiper repository in log file
 echo -e "\nADI Kuiper Linux:" >> "kuiper-volume/ADI_repos_git_info.txt"
-echo "Repo   : $(git remote get-url origin)" >> "kuiper-volume/ADI_repos_git_info.txt"
-echo "Branch : $(git branch | cut -d' ' -f2)" >> "kuiper-volume/ADI_repos_git_info.txt"
-echo -e "Git_sha: $(git rev-parse --short HEAD)\n\n" >> "kuiper-volume/ADI_repos_git_info.txt"
+echo "Repo   : $(git -c safe.directory='*' remote get-url origin)" >> "kuiper-volume/ADI_repos_git_info.txt"
+echo "Branch : $(git -c safe.directory='*' branch | cut -d' ' -f2)" >> "kuiper-volume/ADI_repos_git_info.txt"
+echo -e "Git_sha: ${KUIPER_COMMIT}\n\n" >> "kuiper-volume/ADI_repos_git_info.txt"
