@@ -87,6 +87,47 @@ When you are done, unmount the partition:
 
    $sudo umount /mnt/rootfs
 
+The Image Identity Manifest
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``/config`` file above is a convenient *manual* check, but it lives on the
+ext4 root filesystem, which Windows and macOS cannot read without extra drivers.
+So every Kuiper 2 image also carries a small machine-readable manifest,
+``kuiper-release.json``, on the **BOOT** (FAT32) partition — readable on every
+operating system and parseable straight out of an ``.img`` file. This is what
+tooling such as Kuiper Imager uses to recognize an image and the build it came
+from:
+
+.. code-block:: json
+
+   {
+     "schema_version": 1,
+     "kuiper_generation": 2,
+     "version": "v2.0.0-96-g538aa18",
+     "build_date": "2026-08-26",
+     "commit": "538aa18",
+     "arch": "arm64",
+     "variant": "full",
+     "debian_version": "trixie",
+     "debian_snapshot": "20260701"
+   }
+
+``schema_version`` is bumped only on a breaking change to this format, so a
+consumer reads it first and can reject a manifest newer than it understands;
+new fields are added without bumping it. ``kuiper_generation`` is the
+Kuiper-1-vs-2 discriminator, ``version`` is the ``git describe`` of the Kuiper
+repository the image was built from, and ``build_date`` gives a temporal
+ordering for images that have no release tag.
+
+The same facts are also written on the root filesystem in os-release format at
+``/etc/kuiper-release`` (source it from a script with ``. /etc/kuiper-release``),
+and appended to ``/etc/os-release`` as ``KUIPER_*`` vendor keys, for on-device
+detection:
+
+.. shell::
+
+   $. /etc/kuiper-release && echo "$KUIPER_VERSION ($KUIPER_ARCH/$KUIPER_VARIANT)"
+
 If You Have Kuiper 1
 ~~~~~~~~~~~~~~~~~~~~~
 
